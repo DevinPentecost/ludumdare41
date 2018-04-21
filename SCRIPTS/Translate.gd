@@ -32,6 +32,7 @@ func _fixed_process(delta):
 	   
 	#remove waypoint once we get close
 	if ((waypoints.size() != 0) && (__closeEnough(get_pos(), waypoints[0]))):
+		print("hit waypoint " + waypoints[0])
 		waypoints.remove(0)
 		#yell if we are done
 		if (waypoints.size() == 0):
@@ -44,7 +45,7 @@ func _fixed_process(delta):
 			var angle = current2d.get_angle_to(target2d)
 			velocity.x = speed*sin(angle)
 			velocity.z = speed*cos(angle)
-			velocity.y = waypoints[waypoints.size() - 1].y - get_transform().y
+			velocity.y = (waypoints[waypoints.size() - 1].y - get_transform().y) / 5.0
 			
 
 func __closeEnough(vectorA, vectorB):

@@ -1,4 +1,4 @@
-extends CollisionShape
+extends Area
 
 # class member variables go here, for example:
 # var a = 2
@@ -13,3 +13,8 @@ func _ready():
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.
 #	pass
+
+
+func area_shape_entered ( area_id, area, area_shape, self_shape ):
+	print("bullt hit area " + area_id)
+	pass
