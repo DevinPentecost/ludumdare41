@@ -7,7 +7,9 @@ extends Node
 signal TranslationFinishedSignal(sender) 
 
 export var speed = 4.0
+#how tight the pather handles corners. value between 0 and 1
 export var accl = 0.3
+
 export(NodePath) var spatialToMove = NodePath("../")
 var  __spatialNode = null
 
@@ -32,6 +34,9 @@ func _process(delta):
 	if (waypoints.size() != 0):
 		#move towards target destination
 		__spatialNode.global_translate(velocity*delta)
+		# look at new direction
+		__spatialNode.look_at(velocity + __spatialNode.global_transform.origin, Vector3(0,1,0))
+		
 		#remove waypoint once we get close
 		var targetCoord = waypoints[0]
 		if (targetCoord.get("global_transform")):
