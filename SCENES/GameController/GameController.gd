@@ -27,13 +27,13 @@ var kDelayBetweenLevelsSeconds = -1 #-30 # Negative to require a count-up to the
 var timeSinceLastSpawnSeconds = 0
 
 # Debug stuff
-var baddiePath2D = null
+var baddiePath2D = []
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	var gameGrid = get_node(gameGridPath)
-	gameGrid.connect("new_path_ready", self, "_handleNewPath")
+	gameGrid.connect("new_paths_ready", self, "_handleNewPaths")
 	pass
 
 func _process(deltaSeconds):
@@ -102,8 +102,9 @@ func spawnNext(spawnGridLocation):
 		baddieList.append(newBaddie)
 		add_child(newBaddie)
 		var follower = newBaddie.get_node("WaypointFollower")
-		for step in baddiePath2D:
-			follower.AppendWaypoint(step)
+		for path in baddiePath2D:
+			for step in path:
+				follower.AppendWaypoint(step)
 	pass
 	
 func _baddieDied(theBaddie):
@@ -114,6 +115,7 @@ func _baddieDied(theBaddie):
 	# Emit an event?
 	pass
 
-func _handleNewPath(newGrid):
-	baddiePath2D = newGrid
+func _handleNewPaths(pathList):
+	for path in pathList:
+		baddiePath2D.append(path)
 	pass

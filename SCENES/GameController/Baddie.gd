@@ -13,6 +13,7 @@ signal got_hit(damage)
 signal just_died
 
 var currentHealth = 1
+var nextCheckpointIndex = 0 # Which checkpoint is this guy trying to walk to?
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -46,3 +47,6 @@ func checkIfDead():
 	if currentHealth <= 0:
 		# Dead!
 		emit_signal("just_died")
+
+func _on_WaypointFollower_TranslationFinishedSignal(sender):
+	pass # replace with function body
