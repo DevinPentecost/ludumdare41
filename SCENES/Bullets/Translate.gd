@@ -1,4 +1,4 @@
-extends Spatial
+extends Node
 
 # class member variables go here, for example:
 # var a = 2
@@ -7,46 +7,49 @@ extends Spatial
 signal TranslationFinishedSignal(sender) 
 
 export var speed = 4.0
+export(NodePath) var spatialToMove = NodePath("../")
+var  __spatialNode = null
+
 var velocity = Vector3(0.0, 0.0, 0.0)
 
-var waypoints = PoolVector3Array()
+var waypoints = []
 
+# insert a global vector3 or a spatial to follow
 func AppendWaypoint(vector3):
-	if (waypoints.size() > 0):
-		if (!__closeEnough(waypoints[waypoints.size() - 1], vector3)):
-			waypoints.append(vector3)
+	print("going to " + str(vector3))
+	waypoints.append(vector3)
 
 func ClearWaypoints():
 	waypoints.clear()
 	emit_signal("TranslationFinishedSignal", self)
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+	self.__spatialNode = self.get_node(spatialToMove)
 
-func _fixed_process(delta):
-	#move towards target destination
-	
-	global_translate(velocity*delta)
-	   
-	#remove waypoint once we get close
-	if ((waypoints.size() != 0) && (__closeEnough(get_pos(), waypoints[0]))):
-		print("hit waypoint " + waypoints[0])
-		waypoints.remove(0)
-		#yell if we are done
-		if (waypoints.size() == 0):
-			emit_signal("TranslationFinishedSignal", self)
-		#start going to next waypoint if there is one
-		else:
-			var current2d = Vector2(get_transform().x,get_transform().z)
-			var target2d = Vector2(waypoints[waypoints.size() - 1].x,waypoints[waypoints.size() - 1].z)
+func _process(delta):
+	#print("" + self.get_path() + " has " + str(waypoints.size()) + " points to go to" )
+	if (waypoints.size() != 0):
+		#move towards target destination
+		__spatialNode.global_translate(velocity*delta)
+		#remove waypoint once we get close
+		var targetCoord = waypoints[0]
+		if (targetCoord.get("global_transform")):
+			targetCoord = targetCoord.global_transform.origin
+		#print(str(self.get_path()) + " at ("+str(__spatialNode.global_transform.origin) + ") ->  ("+str(targetCoord)+")" )
+		
+		if (__closeEnough(__spatialNode.global_transform.origin, targetCoord)):
+			print("hit waypoint " + str(targetCoord))
+			waypoints.remove(0)
+			#yell if we are done
+		if (waypoints.size() != 0):
+			#start going to next waypoint if there is one
+			velocity.z = targetCoord.z - __spatialNode.global_transform.origin.z
+			velocity.x = targetCoord.x - __spatialNode.global_transform.origin.x
+			velocity.y = targetCoord.y - __spatialNode.global_transform.origin.y
+			velocity = velocity.normalized() * speed
 			
-			var angle = current2d.get_angle_to(target2d)
-			velocity.x = speed*sin(angle)
-			velocity.z = speed*cos(angle)
-			velocity.y = (waypoints[waypoints.size() - 1].y - get_transform().y) / 5.0
-			
+	else:
+		emit_signal("TranslationFinishedSignal", self)		
 
 func __closeEnough(vectorA, vectorB):
-	return (vectorA.distance_to(vectorB) <= 1)
+	return (vectorA.distance_to(vectorB) <= .05)
