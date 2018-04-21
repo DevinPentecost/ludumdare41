@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/terrain/terrain_meshlibrary.tres" type="MeshLibrary" id=1]
+[ext_resource path="res://scenes/terrain/terrain.gd" type="Script" id=2]
+
+[node name="GridMap" type="GridMap" index="0"]
+
+theme = ExtResource( 1 )
+cell_size = Vector3( 2, 2, 2 )
+cell_octant_size = 8
+cell_center_x = true
+cell_center_y = true
+cell_center_z = true
+cell_scale = 1.0
+collision_layer = 1
+collision_mask = 1
+data = {
+"cells": PoolIntArray( 0, 0, 2 )
+}
+script = ExtResource( 2 )
+_sections_unfolded = [ "Cell", "Collision" ]
+__meta__ = {
+"_editor_clip_": 0,
+"_editor_floor_": Vector3( 0, 0, 0 )
+}
+invalid_cells = [ -1, 1 ]
+checkpoint_cell = 2
+checkpoints = [ [ 0, 0 ] ]
+
+
