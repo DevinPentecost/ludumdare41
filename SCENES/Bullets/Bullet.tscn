@@ -1,7 +1,9 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://SCRIPTS/Translate.gd" type="Script" id=1]
-[ext_resource path="res://SCRIPTS/BulletCollision.gd" type="Script" id=2]
+[ext_resource path="res://SCENES/Bullets/Translate.gd" type="Script" id=1]
+[ext_resource path="res://SCENES/Bullets/BulletCollision.gd" type="Script" id=2]
+
+
 
 [sub_resource type="Gradient" id=7]
 
