@@ -1,45 +1,45 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://SCRIPTS/Translate.gd" type="Script" id=1]
-[ext_resource path="res://SCRIPTS/BulletCollision.gd" type="Script" id=2]
-
-[sub_resource type="Gradient" id=7]
-
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.824219, 0.0772705, 0.0772705, 1 )
-
-[sub_resource type="GradientTexture" id=8]
-
-flags = 4
-gradient = SubResource( 7 )
-width = 2048
-
-[sub_resource type="Curve" id=9]
-
-min_value = 0.0
-max_value = 1.0
-bake_resolution = 100
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.997652, 0.124023 ), -4.88778, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=10]
-
-flags = 4
-width = 2048
-curve = SubResource( 9 )
+[ext_resource path="res://SCENES/Bullets/BulletCollision.gd" type="Script" id=1]
+[ext_resource path="res://SCENES/Bullets/WaypointFollower.tscn" type="PackedScene" id=2]
 
 [sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.824219, 0.0772705, 0.0772705, 1 )
 
 [sub_resource type="GradientTexture" id=2]
 
 flags = 4
 gradient = SubResource( 1 )
 width = 2048
-_sections_unfolded = [ "Resource" ]
 
 [sub_resource type="Curve" id=3]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.997652, 0.124023 ), -4.88778, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+
+flags = 4
+width = 2048
+curve = SubResource( 3 )
+
+[sub_resource type="Gradient" id=5]
+
+offsets = PoolRealArray( 0, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+
+flags = 4
+gradient = SubResource( 5 )
+width = 2048
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="Curve" id=7]
 
 min_value = 0.0
 max_value = 1.0
@@ -47,19 +47,19 @@ bake_resolution = 100
 _data = [ Vector2( 0.0388683, 0.328125 ), 0.0, 6.57466, 0, 0, Vector2( 0.716807, 0.585938 ), 0.0, 0.0, 0, 0 ]
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="CurveTexture" id=4]
+[sub_resource type="CurveTexture" id=8]
 
 flags = 4
 width = 2048
-curve = SubResource( 3 )
+curve = SubResource( 7 )
 _sections_unfolded = [ "Resource" ]
 
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=9]
 
 render_priority = 0
 trail_divisor = 1
-trail_size_modifier = SubResource( 4 )
-trail_color_modifier = SubResource( 2 )
+trail_size_modifier = SubResource( 8 )
+trail_color_modifier = SubResource( 6 )
 emission_shape = 0
 flag_align_y = true
 flag_rotate_y = false
@@ -83,8 +83,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 10 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.6
 hue_variation_random = 0.15
 anim_speed = 0.0
@@ -94,7 +94,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angular Velocity", "Animation", "Color", "Emission Shape", "Flags", "Gravity", "Hue Variation", "Initial Velocity", "Linear Accel", "Radial Accel", "Resource", "Scale", "Spread", "Tangential Accel", "Trail" ]
 
-[sub_resource type="PrismMesh" id=6]
+[sub_resource type="PrismMesh" id=10]
 
 left_to_right = 0.5
 size = Vector3( 2, 2, 2 )
@@ -106,12 +106,10 @@ subdivide_depth = 0
 
 radius = 1.0
 
-[node name="Bullet" type="Spatial" index="0"]
+[node name="Bullet" type="Spatial"]
 
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
-speed = 4.0
 
 [node name="Area" type="Area" parent="." index="0"]
 
@@ -135,7 +133,7 @@ reverb_bus_enable = false
 reverb_bus_name = "Master"
 reverb_bus_amount = 0.0
 reverb_bus_uniformity = 0.0
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 _sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="Particles" type="Particles" parent="Area" index="0"]
@@ -162,9 +160,9 @@ fract_delta = true
 visibility_aabb = AABB( -4, -4, -4, 8, 8, 8 )
 local_coords = true
 draw_order = 0
-process_material = SubResource( 5 )
+process_material = SubResource( 9 )
 draw_passes = 1
-draw_pass_1 = SubResource( 6 )
+draw_pass_1 = SubResource( 10 )
 _sections_unfolded = [ "Draw Passes", "Drawing", "Geometry", "LOD", "Process Material", "Time" ]
 
 [node name="CollisionShape" type="CollisionShape" parent="Area" index="1"]
@@ -172,5 +170,7 @@ _sections_unfolded = [ "Draw Passes", "Drawing", "Geometry", "LOD", "Process Mat
 shape = SubResource( 11 )
 disabled = false
 _sections_unfolded = [ "Transform" ]
+
+[node name="WaypointFollower" parent="." index="1" instance=ExtResource( 2 )]
 
 
