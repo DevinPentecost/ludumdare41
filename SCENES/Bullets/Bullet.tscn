@@ -173,4 +173,6 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="WaypointFollower" parent="." index="1" instance=ExtResource( 2 )]
 
+accl = 0.3
+
 
