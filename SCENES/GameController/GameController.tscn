@@ -4,7 +4,7 @@
 [ext_resource path="res://SCENES/GameController/Spawner.gd" type="Script" id=2]
 [ext_resource path="res://SCENES/GameController/GameLevel.tscn" type="PackedScene" id=3]
 
-[node name="GameController" type="Node"]
+[node name="GameController" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -16,8 +16,32 @@ script = ExtResource( 2 )
 
 [node name="Level1" parent="Levels" index="0" instance=ExtResource( 3 )]
 
+baddieHealth = 10
+baddieSpeed = 1
+baddiePowerDrain = 0
+
 [node name="Level2" parent="Levels" index="1" instance=ExtResource( 3 )]
 
 numBaddies = 15
+baddieHealth = 10
+baddieSpeed = 2
+baddiePowerDrain = 0
+
+[node name="Camera" type="Camera" parent="." index="2"]
+
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 10 )
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = false
+fov = 70.0
+size = 1.0
+near = 0.05
+far = 100.0
+_sections_unfolded = [ "Transform" ]
 
 

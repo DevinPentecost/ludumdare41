@@ -4,13 +4,23 @@ extends Node
 # var a = 2
 # var b = "textvar"
 
-onready var baddieScene = load("res://SCENES/GameController/BaddieType.tscn")
+enum ExtraEffects{
+	eExtraEffects_faster
+	eExtraEffects_tough
+	eExtraEffects_powerDrain
+}
+
+onready var baddieScene = load("res://SCENES/GameController/Baddie.tscn")
 
 export var numBaddies = 1
 export var baddieSpawnDelayMs = 3000 # Milliseconds between spawns
-export var baddieStatsMultiplier = 1
 export var baddieHealth = 100 # Weakest
-export var baddieSpeed = 100 # Slowest
+export var baddieSpeed = 1 # Slowest
+export var baddiePowerDrain = 0 # No drain effect
+
+var kMinimumMultiplierValue = 1
+var baddieStatsMultiplier = kMinimumMultiplierValue
+var extraEffectsList = []
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -24,6 +34,21 @@ func _ready():
 
 func createBaddieInstance(gridLocation):
 	var newBaddie = baddieScene.instance()
-	newBaddie.baddieHealth = baddieHealth * baddieStatsMultiplier
+	print("New Baddie!")
+	newBaddie.baddieHealth = baddieHealth
 	newBaddie.baddieSpeed = baddieSpeed
+	
+	# Apply any special effects
+	for extraEffect in extraEffectsList:
+		if (extraEffect == eExtraEffects_faster):
+			newBaddie.baddieSpeed += 50
+		if (extraEffect == eExtraEffects_tough):
+			newBaddie.baddieHealth += 50
+		if (extraEffect == eExtraEffects_powerDrain):
+			newBaddie.powerDrain += 1
+	
+	# Apply the multiplier once we are done
+	newBaddie.baddieHealth *= baddieStatsMultiplier
+	newBaddie.baddieSpeed *= max(kMinimumMultiplierValue, baddieStatsMultiplier / 10)
+	newBaddie.powerDrain *= max(kMinimumMultiplierValue, baddieStatsMultiplier / 10)
 	return newBaddie
