@@ -6,6 +6,7 @@
 
 script = ExtResource( 1 )
 speed = 4.0
+accl = 0.3
 spatialToMove = NodePath("..")
 
 

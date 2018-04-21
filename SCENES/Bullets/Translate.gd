@@ -7,6 +7,7 @@ extends Node
 signal TranslationFinishedSignal(sender) 
 
 export var speed = 4.0
+export var accl = 0.3
 export(NodePath) var spatialToMove = NodePath("../")
 var  __spatialNode = null
 
@@ -43,10 +44,9 @@ func _process(delta):
 			#yell if we are done
 		if (waypoints.size() != 0):
 			#start going to next waypoint if there is one
-			velocity.z = targetCoord.z - __spatialNode.global_transform.origin.z
-			velocity.x = targetCoord.x - __spatialNode.global_transform.origin.x
-			velocity.y = targetCoord.y - __spatialNode.global_transform.origin.y
-			velocity = velocity.normalized() * speed
+			var newDirection = Vector3(targetCoord - __spatialNode.global_transform.origin).normalized()
+			
+			velocity = ((newDirection * accl) + (velocity * (1 - accl))).normalized() * speed
 			
 	else:
 		emit_signal("TranslationFinishedSignal", self)		
