@@ -11,7 +11,7 @@ region = Rect2( 0, 0, 0, 0 )
 margin = Rect2( 0, 0, 0, 0 )
 filter_clip = false
 
-[node name="UiOverlay" type="Node" index="0"]
+[node name="UiOverlay" type="Node"]
 
 [node name="Container" type="Container" parent="." index="0"]
 
@@ -73,7 +73,5 @@ alignment = 0
 _sections_unfolded = [ "Margin", "Rect", "Size Flags" ]
 
 [node name="TowerButton" parent="Container/NinePatchRect/HBoxContainer" index="0" instance=ExtResource( 2 )]
-
-margin_right = 12.0
 
 
