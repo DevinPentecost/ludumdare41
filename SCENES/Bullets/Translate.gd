@@ -35,13 +35,15 @@ func _process(delta):
 		#move towards target destination
 		__spatialNode.global_translate(velocity*delta)
 		# look at new direction
-		__spatialNode.look_at(velocity + __spatialNode.global_transform.origin, Vector3(0,1,0))
+		__spatialNode.look_at(velocity + __spatialNode.global_transform.origin, Vector3(1,0,0))
 		
 		#remove waypoint once we get close
 		var targetCoord = waypoints[0]
-		if (targetCoord.get("global_transform")):
-			targetCoord = targetCoord.global_transform.origin
-		#print(str(self.get_path()) + " at ("+str(__spatialNode.global_transform.origin) + ") ->  ("+str(targetCoord)+")" )
+		# Is this a spatial?
+		if typeof(targetCoord) != TYPE_VECTOR3:
+			if (targetCoord.get("global_transform")):
+				targetCoord = targetCoord.global_transform.origin
+			#print(str(self.get_path()) + " at ("+str(__spatialNode.global_transform.origin) + ") ->  ("+str(targetCoord)+")" )
 		
 		if (__closeEnough(__spatialNode.global_transform.origin, targetCoord)):
 			print("hit waypoint " + str(targetCoord))
