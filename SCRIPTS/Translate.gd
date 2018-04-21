@@ -6,6 +6,9 @@ extends Spatial
 
 signal TranslationFinishedSignal(sender) 
 
+export var speed = 4.0
+var velocity = Vector3(0.0, 0.0, 0.0)
+
 var waypoints = PoolVector3Array()
 
 func AppendWaypoint(vector3):
@@ -24,7 +27,8 @@ func _ready():
 
 func _fixed_process(delta):
 	#move towards target destination
-	move(velocity*delta)
+	
+	global_translate(velocity*delta)
 	   
 	#remove waypoint once we get close
 	if ((waypoints.size() != 0) && (__closeEnough(get_pos(), waypoints[0]))):
@@ -34,9 +38,13 @@ func _fixed_process(delta):
 			emit_signal("TranslationFinishedSignal", self)
 		#start going to next waypoint if there is one
 		else:
-			var angle = get_angle_to(target)
+			var current2d = Vector2(get_transform().x,get_transform().z)
+			var target2d = Vector2(waypoints[waypoints.size() - 1].x,waypoints[waypoints.size() - 1].z)
+			
+			var angle = current2d.get_angle_to(target2d)
 			velocity.x = speed*sin(angle)
-			velocity.y = speed*cos(angle)
+			velocity.z = speed*cos(angle)
+			velocity.y = 0
 
 func __closeEnough(vectorA, vectorB):
 	return (vectorA.distance_to(vectorB) <= 1)
