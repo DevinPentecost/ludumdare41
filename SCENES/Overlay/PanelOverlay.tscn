@@ -74,4 +74,6 @@ _sections_unfolded = [ "Margin", "Rect", "Size Flags" ]
 
 [node name="TowerButton" parent="Container/NinePatchRect/HBoxContainer" index="0" instance=ExtResource( 2 )]
 
+bgHover = null
+
 

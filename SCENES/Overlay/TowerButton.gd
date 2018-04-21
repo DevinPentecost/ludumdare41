@@ -1,4 +1,4 @@
-extends BaseButton
+extends Container
 
 # class member variables go here, for example:
 # var a = 2
@@ -9,12 +9,19 @@ export(String) var towerText = "hello"
 
 export(StreamTexture) var bgUp = null
 export(StreamTexture) var bgDown = null
+export(StreamTexture) var bgHover = null
 
 func _ready():
-	self.icon = self.towerIcon
 	self.get_node("./NinePatchRect/VBoxContainer/TowerIcon").texture = self.towerIcon
 	self.get_node("./NinePatchRect/VBoxContainer/TowerLabel").text = self.towerText
 	self.get_node("./NinePatchRect").texture = bgUp
+
+func __down():
+	self.get_node("./NinePatchRect").texture = bgDown
+func __up():
+	self.get_node("./NinePatchRect").texture = bgUp
+func __hover():
+	self.get_node("./NinePatchRect").texture = bgHover
 
 
 func get_drag_data(pos):
@@ -23,22 +30,24 @@ func get_drag_data(pos):
 	set_drag_preview(drag)
 	return self.towerText
 
-func button_down ( ):
-	print("down")
-	self.get_node("./NinePatchRect").texture = bgDown
-
-func button_up ( ):
-	print("up")
-	self.get_node("./NinePatchRect").texture = bgUp
-
-func mouse_exited ( ):
-	print("exit")
-	self.get_node("./NinePatchRect").texture = bgUp
-
-
 func can_drop_data(pos, data):
 	return false
 
 func drop_data(pos, data):
 	print("dropping tower data")
 	towerText=data
+
+func _on_TowerButton_mouse_entered():
+	__hover()
+
+func _on_TowerButton_mouse_exited():
+	__up()
+
+func _on_TowerButton_gui_input(ev):
+	var type = ev.get_class()
+	if type == "InputEventMouseButton":
+		if ev.button_index == BUTTON_LEFT:
+			if ev.pressed:
+				__down()
+			else:
+				__hover()
