@@ -4,7 +4,7 @@
 [ext_resource path="res://SCENES/GameController/Spawner.gd" type="Script" id=2]
 [ext_resource path="res://SCENES/GameController/GameLevel.tscn" type="PackedScene" id=3]
 
-[node name="GameController" type="Node" index="0"]
+[node name="GameController" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -16,13 +16,8 @@ script = ExtResource( 2 )
 
 [node name="Level1" parent="Levels" index="0" instance=ExtResource( 3 )]
 
-baddieHealth = 100
-baddieSpeed = 100
-
 [node name="Level2" parent="Levels" index="1" instance=ExtResource( 3 )]
 
 numBaddies = 15
-baddieHealth = 100
-baddieSpeed = 100
 
 
