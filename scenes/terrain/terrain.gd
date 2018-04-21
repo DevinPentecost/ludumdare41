@@ -14,6 +14,8 @@ var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
 var map_size = Vector2(10, 10)
 
+signal new_path_ready(newPathSteps)
+
 var _towers = []
 var _checkmarks = null
 var _paths = []
@@ -37,8 +39,7 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	_refresh_all()
-	pass
-	
+
 func _refresh_grid(enum_value):
 	refresh_grid = enum_value
 	
@@ -93,9 +94,14 @@ func refresh_pathfinding():
 			
 			#Show the path
 			show_path(path)
+			_paths.append(path)
 		
 		#Set this spot as the previous
 		prev_checkpoint = checkpoint
+	
+	#Emit that we have a new path
+	emit_signal("new_paths_ready", _paths)
+	
 
 func show_path(steps):
 	#Go through each step in the path

@@ -1,6 +1,6 @@
 [gd_resource type="MeshLibrary" load_steps=10 format=2]
 
-[sub_resource type="PlaneMesh" id=10]
+[sub_resource type="PlaneMesh" id=1]
 
 size = Vector2( 2, 2 )
 subdivide_width = 0

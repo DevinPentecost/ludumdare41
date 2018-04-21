@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/terrain/terrain.tscn" type="PackedScene" id=1]
 
-[node name="DevTest" type="Node" index="0"]
+[node name="DevTest" type="Node"]
 
 [node name="terrain" parent="." index="0" instance=ExtResource( 1 )]
 

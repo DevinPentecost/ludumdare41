@@ -1,24 +1,39 @@
 extends Node
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+# Signals
+signal level_started(levelNum)
+signal level_finished(levelNum)
+signal baddie_spawned()
+signal damage_taken()
+signal game_over()
 
+export(NodePath) var gameGridPath
+
+# Nodes of interest
 onready var spawner = get_node("Spawner")
+onready var gridScene = null
+onready var towerScene = null
+
+# Complicated objects + lists
 var currentLevel = null
-
 var baddieList = []
+var towerList = []
 
+# Simple Variables
 var lastLevel = 0
 var currentLevelIndex = 0
 var suddenDeathMultiplier = 0
-
 var kDelayBetweenLevelsSeconds = -1 #-30 # Negative to require a count-up to the next spawn
 var timeSinceLastSpawnSeconds = 0
+
+# Debug stuff
+var baddiePath2D = null
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
+	var gameGrid = get_node(gameGridPath)
+	gameGrid.connect("new_path_ready", self, "_handleNewPath")
 	pass
 
 func _process(deltaSeconds):
@@ -27,7 +42,7 @@ func _process(deltaSeconds):
 	
 	# Is the level finished?
 	var levelFinished = isLevelFinished()
-	if levelFinished:
+	if levelFinished == true:
 		# Increment and start the level
 		currentLevelIndex = currentLevelIndex + 1
 		startLevel(currentLevelIndex)
@@ -55,8 +70,8 @@ func isLevelFinished():
 		return false
 	
 	# Are there any baddies left alive?
-	#if aliveBaddies.count == 0:
-		#return false
+	if baddieList.size() != 0:
+		return false
 	
 	# Nothing told us that we aren't done!
 	return true
@@ -83,6 +98,22 @@ func spawnNext(spawnGridLocation):
 	var newBaddie = spawner.giveMeABaddie(spawnGridLocation)
 	if newBaddie != null:
 		# We need to track this baddie
+		newBaddie.connect("just_died", self, "_baddieDied", [newBaddie])
 		baddieList.append(newBaddie)
 		add_child(newBaddie)
+		var follower = newBaddie.get_node("WaypointFollower")
+		for step in baddiePath2D:
+			follower.AppendWaypoint(step)
+	pass
+	
+func _baddieDied(theBaddie):
+	# Remove from the list
+	baddieList.erase(theBaddie)
+	remove_child(theBaddie)
+	theBaddie.queue_free()
+	# Emit an event?
+	pass
+
+func _handleNewPath(newGrid):
+	baddiePath2D = newGrid
 	pass
