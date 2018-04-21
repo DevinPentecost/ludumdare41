@@ -7,6 +7,8 @@ signal baddie_spawned()
 signal damage_taken()
 signal game_over()
 
+export(NodePath) var gameGridPath
+
 # Nodes of interest
 onready var spawner = get_node("Spawner")
 onready var gridScene = null
@@ -14,7 +16,6 @@ onready var towerScene = null
 
 # Complicated objects + lists
 var currentLevel = null
-var gameGrid = null
 var baddieList = []
 var towerList = []
 
@@ -26,14 +27,13 @@ var kDelayBetweenLevelsSeconds = -1 #-30 # Negative to require a count-up to the
 var timeSinceLastSpawnSeconds = 0
 
 # Debug stuff
-var testVector1 = Vector3(3, 0, 3)
-var testVector2 = Vector3(3, 0, -3)
-var testVector3 = Vector3(-3, 0, 3)
-var testVector4 = Vector3(-3, 0, -3)
+var baddiePath2D = null
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
+	var gameGrid = get_node(gameGridPath)
+	gameGrid.connect("new_path_ready", self, "_handleNewPath")
 	pass
 
 func _process(deltaSeconds):
@@ -102,10 +102,8 @@ func spawnNext(spawnGridLocation):
 		baddieList.append(newBaddie)
 		add_child(newBaddie)
 		var follower = newBaddie.get_node("WaypointFollower")
-		follower.AppendWaypoint(testVector1)
-		follower.AppendWaypoint(testVector2)
-		follower.AppendWaypoint(testVector3)
-		follower.AppendWaypoint(testVector4)
+		for step in baddiePath2D:
+			follower.AppendWaypoint(step)
 	pass
 	
 func _baddieDied(theBaddie):
@@ -114,4 +112,8 @@ func _baddieDied(theBaddie):
 	remove_child(theBaddie)
 	theBaddie.queue_free()
 	# Emit an event?
+	pass
+
+func _handleNewPath(newGrid):
+	baddiePath2D = newGrid
 	pass

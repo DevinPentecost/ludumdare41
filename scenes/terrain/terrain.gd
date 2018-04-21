@@ -8,6 +8,8 @@ onready var path_scene = load("res://scenes/terrain/Path.tscn")
 export var invalid_cells = [-1, 1]
 export(int) var checkpoint_cell = 2
 
+signal new_path_ready(newPathSteps)
+
 var _towers = []
 var _checkmarks = null
 var _paths = []
@@ -20,7 +22,9 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	show_open_tiles()
-	show_path(find_path(Vector2(-1, 2), Vector2(4, 2)))
+	var newPath = find_path(Vector2(-1, 2), Vector2(4, 2))
+	emit_signal("new_path_ready", newPath)
+	show_path(newPath)
 	pass
 
 func show_path(steps):
