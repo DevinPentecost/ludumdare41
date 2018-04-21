@@ -44,7 +44,8 @@ func _fixed_process(delta):
 			var angle = current2d.get_angle_to(target2d)
 			velocity.x = speed*sin(angle)
 			velocity.z = speed*cos(angle)
-			velocity.y = 0
+			velocity.y = waypoints[waypoints.size() - 1].y - get_transform().y
+			
 
 func __closeEnough(vectorA, vectorB):
 	return (vectorA.distance_to(vectorB) <= 1)
