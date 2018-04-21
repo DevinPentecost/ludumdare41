@@ -6,15 +6,15 @@ var path_scene = preload("res://scenes/terrain/Path.tscn")
 
 #Cell indicies. This MUST match what is used in the meshlibrary!
 enum tile_types {
-	OPEN = 0,
-	BLOCKED = 1,
-	CHECKPOINT = 2,
+	OPEN = 2,
+	BLOCKED = 0,
+	CHECKPOINT = 1,
 }
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
 var map_size = Vector2(10, 10)
 
-signal new_path_ready(newPathSteps)
+signal new_paths_ready(newPathsSteps)
 
 var _towers = []
 var _checkmarks = null
@@ -58,7 +58,6 @@ func _refresh_all():
 	#Also show open tiles and stuff
 	_show_checkpoints()
 	_rebuild_map()
-	show_buildable_tiles()
 	
 	#And pathfinding
 	refresh_pathfinding()
@@ -81,6 +80,7 @@ func _rebuild_map():
 func refresh_pathfinding():
 	#For each checkpoint
 	var prev_checkpoint = null
+	var paths = []
 	for checkpoint in checkpoints:
 		#Did we have a previous?
 		if prev_checkpoint != null:
@@ -94,13 +94,13 @@ func refresh_pathfinding():
 			
 			#Show the path
 			show_path(path)
-			_paths.append(path)
+			paths.append(path)
 		
 		#Set this spot as the previous
 		prev_checkpoint = checkpoint
 	
 	#Emit that we have a new path
-	emit_signal("new_paths_ready", _paths)
+	emit_signal("new_paths_ready", paths)
 	
 
 func show_path(steps):
