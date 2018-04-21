@@ -1,27 +1,101 @@
 extends GridMap
 tool
 
-onready var checkmark_scene = load("res://scenes/terrain/Checkmark.tscn")
-onready var path_scene = load("res://scenes/terrain/Path.tscn")
+var checkmark_scene = preload("res://scenes/terrain/Checkmark.tscn")
+var path_scene = preload("res://scenes/terrain/Path.tscn")
 
-#Cell indicies
-export var invalid_cells = [-1, 1]
-export(int) var checkpoint_cell = 2
+#Cell indicies. This MUST match what is used in the meshlibrary!
+enum tile_types {
+	OPEN = 0,
+	BLOCKED = 1,
+	CHECKPOINT = 2,
+}
+var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
+var buildable_cells = [tile_types.OPEN]
+var map_size = Vector2(10, 10)
 
 var _towers = []
 var _checkmarks = null
 var _paths = []
 
+enum refresh {
+	REFRESH,
+	ALSO_REFRESH,
+	CLEAR_MAP_CAREFUL,
+}
+export(refresh) var refresh_grid setget _refresh_grid
+
 
 #A list of checkpoints by X and Y. First is spawn, last is end
-export var checkpoints = [[0, 0]] setget _set_checkpoints
+export var checkpoints = [
+							Vector2(0, 0),
+							Vector2(5, 5),
+							Vector2(7, 5),
+						] setget _set_checkpoints
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	show_open_tiles()
-	show_path(find_path(Vector2(-1, 2), Vector2(4, 2)))
+	_refresh_all()
 	pass
+	
+func _refresh_grid(enum_value):
+	refresh_grid = enum_value
+	
+	#Ignore the enum unless it's the clear
+	if enum_value == refresh.CLEAR_MAP_CAREFUL:
+		#Delete all the tiles
+		clear()
+	
+	_refresh_all()
+
+func _refresh_all():
+	#We want to make a grid, but leave everything down already
+	clear_paths()
+	_clear_checkpoints()
+	
+	#Also show open tiles and stuff
+	_show_checkpoints()
+	_rebuild_map()
+	show_buildable_tiles()
+	
+	#And pathfinding
+	refresh_pathfinding()
+	
+func _rebuild_map():
+	#Get the current tiles
+	var used_cells = get_used_cells()
+	
+	#Go through each possible tile
+	for x in range(map_size.x):
+		for y in range(map_size.y):
+			#Does this tile already have something?
+			if (Vector3(x, 0, y) in used_cells):
+				continue
+			
+			if get_cell_item(x, 0, y) == INVALID_CELL_ITEM:
+				#We can set it to the ground
+				set_cell_item(x, 0, y, tile_types.OPEN)
+	
+func refresh_pathfinding():
+	#For each checkpoint
+	var prev_checkpoint = null
+	for checkpoint in checkpoints:
+		#Did we have a previous?
+		if prev_checkpoint != null:
+			#We can make a path
+			var path = find_path(prev_checkpoint, checkpoint)
+			
+			#Could we find one?
+			if not path:
+				print("PATH IS BLOCKED! PANIC!")
+				continue
+			
+			#Show the path
+			show_path(path)
+		
+		#Set this spot as the previous
+		prev_checkpoint = checkpoint
 
 func show_path(steps):
 	#Go through each step in the path
@@ -47,7 +121,7 @@ func clear_paths():
 	#Clear the list
 	_paths = []
 
-func show_open_tiles():
+func show_buildable_tiles():
 	
 	#Get all open tiles if we aren't already showing
 	if _checkmarks:
@@ -55,7 +129,7 @@ func show_open_tiles():
 	
 	#Make a bunch
 	_checkmarks = []
-	for tile in get_open_tiles():
+	for tile in get_buildable_tiles():
 		#We need to get the position we want the checkmark at
 		var t = map_to_world(tile.x, tile.y, tile.z)
 		
@@ -73,14 +147,14 @@ func clear_open_tiles():
 	#And stop paying attention to them
 	_checkmarks = null
 
-func get_open_tiles():
+func get_buildable_tiles():
 	#Get a list of all 'good' tiles by X and Y
 	var open_tiles = []
 	
 	#Go through each cell
 	for cell_position in get_used_cells():
 		#Could we add a tower here?
-		if tile_is_open(cell_position.x, cell_position.z):
+		if tile_is_buildable(cell_position.x, cell_position.z):
 			#Add it to our list
 			open_tiles.append(cell_position)
 			
@@ -93,17 +167,32 @@ func tile_is_open(x, y):
 	#Do we have something blocking that spot?
 	var item_index = get_cell_item(x, 0, y)
 	
-	#Is it an empty or invalid cell
-	if item_index in invalid_cells:
-		#We can't do this spot
-		return false
+	#Is it an empty cell
+	if item_index in walkable_cells:
+		#What about towers, was there one there already?
+		if _get_tower_at_location(x, y):
+			return false
+		#We can do this spot
+		return true
 		
-	#What about towers, was there one there already?
-	if _get_tower_at_location(x, y):
-		return false
+	#We are not on a good tile
+	return false
+	
+func tile_is_buildable(x, y):
+	#Check to see if we can build on it
+	var item_index = get_cell_item(x, 0, y)
+	
+	#Is it empty?
+	if item_index in buildable_cells:
+		#No other towers there?
+		if _get_tower_at_location(x, y):
+			return false
 		
-	#We are on a good tile and nothing else is occupying it
-	return true
+		#We can build here
+		return true
+		
+	#Can't build here
+	return false
 	
 func add_tower(x, y, tower):
 	#Add a tower if possible
@@ -140,17 +229,24 @@ func _set_checkpoints(new_checkpoints):
 	#First clear out all the old checkpoints
 	_clear_checkpoints()
 	
+	#Set the checkpoints
+	checkpoints = new_checkpoints
+	
+	#Make the checkpoints
+	_show_checkpoints()
+
+func _show_checkpoints():
 	#Now set the new checkpoints
-	for checkpoint in new_checkpoints:
-		set_cell_item(checkpoint[0], 0, checkpoint[1], checkpoint_cell)
+	for checkpoint in checkpoints:
+		set_cell_item(checkpoint[0], 0, checkpoint[1], tile_types.CHECKPOINT)
 	
 func _clear_checkpoints():
 	#Go through each tile
 	for tile in get_used_cells():
 		#Is it a checkpoint?
-		if get_cell_item(tile.x, tile.y, tile.z) == checkpoint_cell:
+		if get_cell_item(tile.x, tile.y, tile.z) == tile_types.CHECKPOINT:
 			#Clear it 
-			set_cell_item(tile.x, tile.y, tile.z, -1)
+			set_cell_item(tile.x, tile.y, tile.z, INVALID_CELL_ITEM)
 
 func find_path(start_position, end_position):
 	
@@ -160,11 +256,14 @@ func find_path(start_position, end_position):
 	var closed = []
 	
 	#While we haven't run out of tiles...
+	var previous_tile = null
+	var step_count = 0
 	while open:
-		
+		step_count = step_count+1
 		#Find the smallest score and remove it
-		var index = _smallest_f(open)
+		var index = _smallest_f(open, previous_tile)
 		var next_step = open[index]
+		previous_tile = next_step
 		open.remove(index)
 		closed.append(next_step)
 		
@@ -180,6 +279,7 @@ func find_path(start_position, end_position):
 				path.append(map_to_world(next_step.pt.x, 0, next_step.pt.y))
 			
 			#Return the path
+			print("Pathfinding step count: ", step_count)
 			return path
 		
 		#Check adjacent tiles
@@ -201,7 +301,8 @@ func find_path(start_position, end_position):
 				open.append(new_tile)
 	
 	#Couldn't find a path
-	return
+	print("Failed to find a path after steps: ", step_count)
+	return null
 	
 func _search_in_tiles(position, tiles):
 	#Check each index
@@ -219,12 +320,12 @@ func _search_in_cells(position):
 		if cell == position:
 			return get_cell_item(cell.x, cell.y)
 
-func _smallest_f(tiles):
+func _smallest_f(tiles, previous_tile):
 	#Find the shortest index
 	var index = 0
 	for i in range(tiles.size()):
 		#Is it shorter?
-		if tiles[i].f < tiles[index].f:
+		if tiles[i].f < tiles[index].f or (tiles[i].f <= tiles[index].f and tiles[i].parent == previous_tile):
 			#Use this one
 			index = i
 	return index

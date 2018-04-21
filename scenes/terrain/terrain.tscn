@@ -15,7 +15,7 @@ cell_scale = 1.0
 collision_layer = 1
 collision_mask = 1
 data = {
-"cells": PoolIntArray( 0, 0, 2 )
+"cells": PoolIntArray( 0, 0, 2, 5, 5, 2, 7, 5, 2 )
 }
 script = ExtResource( 2 )
 _sections_unfolded = [ "Cell", "Collision" ]
@@ -23,8 +23,7 @@ __meta__ = {
 "_editor_clip_": 0,
 "_editor_floor_": Vector3( 0, 0, 0 )
 }
-invalid_cells = [ -1, 1 ]
-checkpoint_cell = 2
-checkpoints = [ [ 0, 0 ] ]
+refresh_grid = null
+checkpoints = [ Vector2( 0, 0 ), Vector2( 5, 5 ), Vector2( 7, 5 ) ]
 
 
