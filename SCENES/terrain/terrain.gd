@@ -14,9 +14,9 @@ enum tile_types {
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
 
-#Map dimensions
-var kSizeWide = 50
-var kSizeHigh = 50
+var kSizeWide = 10
+var kSizeHigh = 10
+
 var kNumTiles = kSizeWide * kSizeHigh
 var map_size = Vector2(kSizeWide, kSizeHigh)
 
@@ -35,26 +35,57 @@ enum refresh {
 }
 export(refresh) var refresh_grid setget _refresh_grid
 
+export(String, FILE) var initialMapStateJSONFile = null
 
 #A list of checkpoints by X and Y. First is spawn, last is end
-export var checkpoints = [
-							Vector2(0,0),
-							Vector2(1,1),
-							#Vector2(5, 5),
+var checkpoints = [
+							#Vector2(0,0),
+							#Vector2(1,1),
 							
-							#Vector2(40, 40),
-							#Vector2(15, 40),
-							#Vector2(25, 25),
-							#Vector2(35, 20),
-							#Vector2(20, 35),
-							#Vector2(40, 15),
+							Vector2(10, 10),
 							
-							#Vector2(10, 10),
+							Vector2(40, 40),
+							Vector2(15, 40),
+							Vector2(25, 25),
+							Vector2(35, 20),
+							Vector2(20, 35),
+							Vector2(40, 15),
+							
+							Vector2(5, 5),
 						] setget _set_checkpoints
+
+func setup_map_from_json(jsonFilePath):
+	var file = File.new()
+	file.open(jsonFilePath, file.READ)
+	var text = file.get_as_text()
+	var jsonParseResult = JSON.parse(text)
+	if jsonParseResult.error != OK:
+		return null
+	
+	var jsonObject = jsonParseResult.result
+	
+	# How many rows are there?
+	kSizeHigh = jsonObject.size()
+	# How many columns?
+	kSizeWide = jsonObject[0].size()
+	kNumTiles = kSizeWide * kSizeHigh
+	map_size = Vector2(kSizeWide, kSizeHigh)
+	for row in range (0, jsonObject.size()):
+		for col in range (0, jsonObject[row].size()):
+			set_cell_item(col, 0, row, jsonObject[row][col], 0)
+	
+	# Done!
+	pass
+	
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
+	
+	# did the user select a pre-made map?
+	if initialMapStateJSONFile != null:
+		setup_map_from_json(initialMapStateJSONFile)
+	
 	_refresh_all()
 	pass
 
@@ -79,7 +110,7 @@ func _refresh_all():
 	refresh_selector()
 	
 	#And pathfinding
-	refresh_pathfinding()
+	#refresh_pathfinding()
 	
 func _rebuild_map():
 	#Get the current tiles
@@ -112,9 +143,11 @@ func refresh_pathfinding():
 	var prev_checkpoint = null
 	var paths = []
 	for checkpoint in checkpoints:
+		
 		#Did we have a previous?
 		if prev_checkpoint != null:
 			#We can make a path
+			print("Pathing: " + String(prev_checkpoint) + " to :" + String(checkpoint))
 			var path = find_path(prev_checkpoint, checkpoint)
 			
 			

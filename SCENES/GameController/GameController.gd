@@ -11,7 +11,7 @@ export(NodePath) var gameGridPath
 
 # Nodes of interest
 onready var spawner = get_node("Spawner")
-onready var gridScene = null
+onready var gameGrid = get_node(gameGridPath)
 onready var towerScene = null
 
 # Complicated objects + lists
@@ -32,7 +32,6 @@ var baddiePath2D = []
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	var gameGrid = get_node(gameGridPath)
 	gameGrid.connect("new_paths_ready", self, "_handleNewPaths")
 	pass
 
@@ -63,6 +62,8 @@ func isLevelFinished():
 	# Have we started any levels?
 	if currentLevelIndex == 0:
 		# Game starts in a "finished level" state
+		# Always do pathing at the start of the game
+		gameGrid.refresh_pathfinding()
 		return true
 	
 	# Are there any baddies left to spawn?
@@ -77,6 +78,7 @@ func isLevelFinished():
 	return true
 
 func startLevel(levelNum):
+	
 	var level = get_node("Levels/Level" + String(levelNum))
 	if level == null:
 		# No level present! Make it harder and start over
