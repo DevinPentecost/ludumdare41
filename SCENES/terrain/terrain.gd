@@ -14,6 +14,7 @@ enum tile_types {
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
 
+#Map dimensions
 var kSizeWide = 50
 var kSizeHigh = 50
 var kNumTiles = kSizeWide * kSizeHigh
@@ -24,7 +25,7 @@ signal new_paths_ready(newPathsSteps)
 var _towers = []
 var _checkmarks = null
 var _paths = []
-var _tile_selectors = []
+var _tile_selector = null
 var highlighted_tile_position = null
 
 enum refresh {
@@ -55,6 +56,7 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	_refresh_all()
+	pass
 
 func _refresh_grid(enum_value):
 	refresh_grid = enum_value
@@ -74,7 +76,7 @@ func _refresh_all():
 	#Also show open tiles and stuff
 	_show_checkpoints()
 	_rebuild_map()
-	rebuild_selectors()
+	refresh_selector()
 	
 	#And pathfinding
 	refresh_pathfinding()
@@ -96,27 +98,16 @@ func _rebuild_map():
 				#We can set it to the ground
 				set_cell_item(x, 0, y, tile_types.OPEN)
 
-func rebuild_selectors():
-	#Clear the old ones
-	for selector in _tile_selectors:
-		selector.queue_free()
+func refresh_selector():
+	#We know our size, so we know where to move it
+	var position = map_size/2 * 2
+	$Selector.transform.origin = Vector3(position.x, 0, position.y)
 	
-	#Make them
-	for position in get_used_cells():
-		#Create a new scene
-		var tile_selector = selector_scene.instance()
-		tile_selector.translate(map_to_world(position.x, position.y, position.z))
-		tile_selector.connect("tile_highlighted", self, "_on_tile_highlighted")
-		add_child(tile_selector)
-		
-
-func _on_tile_highlighted(tile):
-	#Just store it for now
-	tile = tile[0]
-	highlighted_tile_position = world_to_map(tile.to_global(tile.transform.origin))
-	#TODO: Highlight red if we can't build there for any reason, including pathfinding
+	#Set the shape size
+	$Selector/CollisionShape.shape.extents = Vector3(position.x, 0.5, position.y)
 
 func refresh_pathfinding():
+	print("Refreshing Pathfinding")
 	#For each checkpoint
 	var prev_checkpoint = null
 	var paths = []
@@ -126,18 +117,22 @@ func refresh_pathfinding():
 			#We can make a path
 			var path = find_path(prev_checkpoint, checkpoint)
 			
+			
+			
 			#Could we find one?
 			if not path:
 				print("PATH IS BLOCKED! PANIC!")
-				continue
+			else:
 			
-			path.invert()
-			#Show the path
-			show_path(path)
-			paths.append(path)
-		
+				path.invert()
+				#Show the path
+				show_path(path)
+				paths.append(path)
+				
 		#Set this spot as the previous
 		prev_checkpoint = checkpoint
+		
+		
 	
 	#Emit that we have a new path
 	emit_signal("new_paths_ready", paths)
@@ -297,7 +292,6 @@ func _clear_checkpoints():
 func find_path(start_position, end_position):
 	
 	#Open and closed tiles
-	var current_position = start_position
 	var open = [{'g': 0, 'f': 0, 'pt': start_position, 'parent':null}]
 	var closed = []
 	
@@ -379,3 +373,22 @@ func _smallest_f(tiles, previous_tile):
 			#Use this one
 			index = i
 	return index
+
+func _on_Selector_input_event(camera, event, click_position, click_normal, shape_idx):
+	
+	#Was something hovered?
+	if event is InputEventMouseMotion:
+		
+		#Get the tile under the mouse
+		var position = world_to_map(click_position)
+		position = Vector3(position.x, 0,  position.z)*2 + Vector3(1, 1, 1)
+		
+		#Make a selector mesh
+		if not _tile_selector:
+			_tile_selector = selector_scene.instance()
+			add_child(_tile_selector)
+		
+		#Move it
+		_tile_selector.transform.origin = position
+	
+	pass
