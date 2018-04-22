@@ -214,6 +214,8 @@ script = SubResource( 2 )
 
 [node name="UiOverlay" parent="CanvasLayer" index="1" instance=ExtResource( 1 )]
 
+currentTower = null
+
 [node name="Baddie" parent="." index="2" instance=ExtResource( 2 )]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16.8758 )

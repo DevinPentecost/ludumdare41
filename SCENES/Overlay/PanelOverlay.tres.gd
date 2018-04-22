@@ -4,21 +4,40 @@ extends Node
 # var a = 2
 # var b = "textvar"
 
+signal TowerPicked(tower)
+
+#don't set this
+export(String) var currentTower = null
+
 func __isDragging():
 	return self.get_node("DragReceiver").visible
 
 func __dropped(dropPos, dropTower):
-	print("I dropped a " + str(dropTower) + " tower at " + str(dropPos))
+	if (dropTower != null):
+		print("I dropped a " + str(dropTower) + " tower at " + str(dropPos))
 
 func __pressed(a):
-	print("press encountered: "+str(a))
-	self.get_node("DragReceiver").visible = true
-	
+	#print("press encountered: "+str(a))
+	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
+		if (N.towerText != a):
+			N.toggledOn = false
+	self.emit_signal("TowerPicked", a)
+	print(str(self) + " emits TowerPicked: "+str(a))
+	self.currentTower = a
+
+func __unpressed(a):
+	#print("unpress encountered: "+str(a))
+	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
+		if N.toggledOn:
+			return
+	self.currentTower = null
+	self.emit_signal("TowerPicked", self.currentTower)
+	print(str(self) + " emits TowerPicked: (unpressed) "+str(self.currentTower))
 
 func _ready():
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
 		N.connect("TowerButtonPressed", self, "__pressed")
-	self.get_node("./DragReceiver").connect("DroppedTowerAt", self, "__dropped")
+		N.connect("TowerButtonUnpressed", self, "__unpressed")
 
 func setAvailable(towerString, enabled):
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
