@@ -74,6 +74,7 @@ func __move(delta):
 			velocity = ((newDirection * accl) + (velocity * (1 - accl))).normalized() * speed
 			rotVelocity = ((newDirection * rotAccl) + (velocity * (1 - rotAccl))).normalized()
 	else:
+		__leftoverSpeed = 0.0
 		emit_signal("TranslationFinishedSignal", self)
 
 func _process(delta):
