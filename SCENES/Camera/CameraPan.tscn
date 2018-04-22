@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://SCENES/Bullets/WaypointFollower.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+export(NodePath) var attachedCamera = NodePath(\"..\")
+
+
+var  __attachedCamera = null
+var __wayFinder = null
+var __donePanning = true
+
+export var speed = 4.0
+
+func panTo(location):
+	self.__wayFinder.AppendWaypoint(location)
+
+func _ready():
+	self.__attachedCamera = self.get_node(attachedCamera)
+	self.__wayFinder = self.get_node(\"WaypointFollower\")
+	self.__wayFinder.speed = speed
+	self.__wayFinder.connect(\"TranslationFinishedSignal\", self, \"__donePanning\")
+
+func _process(delta):
+	# don't move if not current
+	if (!__attachedCamera.current):
+		return
+	# if we are panning, ignore keys and stuff. cinematic vomit mode or something
+	if (!self.__donePanning):
+		return
+	
+	# create direction vector for camera movement
+	var dir = Vector3(0,0,0)
+	if(Input.is_key_pressed(KEY_UP) || Input.is_key_pressed(KEY_W)):
+		dir = dir + Vector3(0,0,-1)
+	if(Input.is_key_pressed(KEY_DOWN) || Input.is_key_pressed(KEY_S)):
+		dir = dir + Vector3(0,0,1)
+	if(Input.is_key_pressed(KEY_RIGHT) || Input.is_key_pressed(KEY_D)):
+		dir = dir + Vector3(1,0,0)
+	if(Input.is_key_pressed(KEY_LEFT) || Input.is_key_pressed(KEY_A)):
+		dir = dir + Vector3(-1,0,0)
+	if(Input.is_key_pressed(KEY_PAGEUP) || Input.is_key_pressed(KEY_EQUAL)):
+		dir = dir + Vector3(0,1,0)
+	if(Input.is_key_pressed(KEY_PAGEUP) || Input.is_key_pressed(KEY_MINUS)):
+		dir = dir + Vector3(0,-1,0)
+
+	dir = dir.normalized() * delta * speed
+	
+	__attachedCamera.global_translate(dir)
+
+func __donePanning(wf):
+	__donePanning = true"
+
+[node name="CameraPan" type="Node"]
+
+script = SubResource( 1 )
+attachedCamera = NodePath("..")
+speed = 4.0
+
+[node name="WaypointFollower" parent="." index="0" instance=ExtResource( 1 )]
+
+
