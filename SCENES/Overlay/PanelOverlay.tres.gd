@@ -4,11 +4,16 @@ extends Node
 # var a = 2
 # var b = "textvar"
 
+signal dropHappened(towerString, dropPos)
+
 func __isDragging():
 	return self.get_node("DragReceiver").visible
 
 func __dropped(dropPos, dropTower):
+	if (dropTower == null):
+		return
 	print("I dropped a " + str(dropTower) + " tower at " + str(dropPos))
+	emit_signal("dropHappened", dropTower, dropPos)
 
 func __pressed(a):
 	print("press encountered: "+str(a))

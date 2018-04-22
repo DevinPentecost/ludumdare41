@@ -7,6 +7,8 @@ extends Node
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
+	var overlay = get_node("2D_UI/UiOverlay")
+	overlay.setAvailable("Kisser", true)
 	pass
 
 #func _process(delta):

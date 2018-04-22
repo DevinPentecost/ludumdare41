@@ -84,7 +84,7 @@ func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx
 radius = 1.0
 height = 1.0
 
-[node name="UITestScene" type="Node" index="0"]
+[node name="UITestScene" type="Node"]
 
 [node name="Camera" type="Camera" parent="." index="0"]
 
@@ -104,7 +104,6 @@ far = 100.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="1"]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -113,6 +112,7 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="Control" type="Control" parent="CanvasLayer" index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -220,6 +220,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16.8758 )
 
 [node name="Spatial" type="Spatial" parent="." index="3"]
 
+editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.21808, 0, -5.16763 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Spatial" index="0"]
