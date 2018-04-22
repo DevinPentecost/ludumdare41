@@ -8,16 +8,15 @@ signal TranslationFinishedSignal(sender)
 
 export var speed = 4.0
 #how tight the pather handles corners. value between 0 and 1
-export var accl = 0.52
-export var rotAccl = 0.002
+export var accl = 0.2
 
 export(NodePath) var spatialToMove = NodePath("../")
 var  __spatialNode = null
 
-var __leftoverSpeed = 0.0
+var __availSpeed = 0.0
+var __prevVelocity = Vector3(0.0, 0.0, 0.0)
 
-var velocity = Vector3(0.0, 0.0, 0.0)
-var rotVelocity = Vector3(0.0, 0.0, 0.0)
+var __delayedTurn = Vector3(0.0, 0.0, 0.0)
 
 var waypoints = []
 
@@ -34,51 +33,53 @@ func _ready():
 	self.__spatialNode = self.get_node(spatialToMove)
 
 
-func __move(delta):
-	#print("" + self.get_path() + " has " + str(waypoints.size()) + " points to go to" )
-	if (waypoints.size() != 0):
-		# Do we need to translate from spatial to vector3?
-		# Is this a spatial?
-		var targetCoord = waypoints[0]
-		if typeof(targetCoord) != TYPE_VECTOR3:
-			if (targetCoord.get("global_transform")):
-				targetCoord = targetCoord.global_transform.origin
-			#print(str(self.get_path()) + " at ("+str(__spatialNode.global_transform.origin) + ") ->  ("+str(targetCoord)+")" )
-		
-		#move towards target destination
-		var projectedVelocity = velocity * delta
-		var direction = projectedVelocity.normalized()
-		var projectedDistance = projectedVelocity.length()
-		var maxDistance = targetCoord.distance_to(__spatialNode.global_transform.origin)
-		var maxSpeed = min(projectedDistance, maxDistance)
-		if (maxDistance < projectedDistance):
-			velocity = direction * maxSpeed
-			__leftoverSpeed = projectedDistance - maxDistance
-		else:
-			velocity = projectedVelocity
-			__leftoverSpeed = 0.0
-		
-		__spatialNode.global_translate(projectedVelocity)
+func __move():
+	# Store next waypoint as a Vector3 into targetCoord.
+	# This might require casting from Spatial.
+	var targetCoord = waypoints[0]
+	if typeof(targetCoord) != TYPE_VECTOR3:
+		if (targetCoord.get("global_transform")):
+			targetCoord = targetCoord.global_transform.origin
+			
+	if (__closeEnough(__spatialNode.global_transform.origin, targetCoord)):
+		waypoints.remove(0)
+		return
+	
+	var distanceToTargetCoord = targetCoord.distance_to(__spatialNode.global_transform.origin)
+	var desiredBearing = Vector3(targetCoord - __spatialNode.global_transform.origin).normalized()
+	var desiredMove = desiredBearing * __availSpeed
+	
+	var projectedVelocity = (desiredMove * accl) + (__prevVelocity * (1 - accl))
+	var projectedDistanceMoved = projectedVelocity.length()
 
-		# look at new direction
-		__spatialNode.look_at((rotVelocity * delta) + __spatialNode.global_transform.origin, Vector3(0, 1, 0))
-		
-		#remove waypoint once we get close
-		if (__closeEnough(__spatialNode.global_transform.origin, targetCoord)):
-			#print("hit waypoint " + str(targetCoord))
-			waypoints.remove(0)
-			#yell if we are done
-		if (waypoints.size() != 0):
-			#start going to next waypoint if there is one
-			var newDirection = Vector3(targetCoord - __spatialNode.global_transform.origin).normalized()
-			velocity = ((newDirection * accl) + (velocity * (1 - accl))).normalized() * speed
-			rotVelocity = ((newDirection * rotAccl) + (velocity * (1 - rotAccl))).normalized()
-	else:
-		__leftoverSpeed = 0.0
-		emit_signal("TranslationFinishedSignal", self)
+	#don't move past the next target
+	
+	if (projectedDistanceMoved >= distanceToTargetCoord):
+		waypoints.remove(0)
+		__availSpeed = min(0.0, __availSpeed - projectedDistanceMoved)
 
+	__spatialNode.global_translate(projectedVelocity)
+	
+	
+	__delayedTurn = ((__delayedTurn * 10) + projectedVelocity.normalized()).normalized()
+	
+	__spatialNode.look_at(__delayedTurn + __spatialNode.global_transform.origin, Vector3(0, 1, 0))
+	
+	__prevVelocity = projectedVelocity
+	
+	__availSpeed = __availSpeed - projectedVelocity.length()
+	
 func _process(delta):
-	__move(delta)
+	__availSpeed = speed * delta
+	while (true):
+		if (waypoints.size() == 0):
+			emit_signal("TranslationFinishedSignal", self)
+			break
+		elif (__availSpeed >= 0.0002):
+			__move()
+		else:
+			__availSpeed = 0.0
+			break
 
 func __closeEnough(vectorA, vectorB):
 	var distance = vectorA.distance_to(vectorB)
