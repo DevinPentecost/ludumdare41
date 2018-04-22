@@ -92,6 +92,7 @@ func refresh_pathfinding():
 				print("PATH IS BLOCKED! PANIC!")
 				continue
 			
+			path.invert()
 			#Show the path
 			show_path(path)
 			paths.append(path)

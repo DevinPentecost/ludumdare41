@@ -17,15 +17,15 @@ script = ExtResource( 2 )
 
 [node name="Level1" parent="Levels" index="0" instance=ExtResource( 3 )]
 
-baddieHealth = 10
-baddieSpeed = 1
+baddieHealth = 1
+baddieSpeed = 2
 baddiePowerDrain = 0
 
 [node name="Level2" parent="Levels" index="1" instance=ExtResource( 3 )]
 
 numBaddies = 15
-baddieHealth = 10
-baddieSpeed = 2
+baddieHealth = 1
+baddieSpeed = 3
 baddiePowerDrain = 0
 
 
