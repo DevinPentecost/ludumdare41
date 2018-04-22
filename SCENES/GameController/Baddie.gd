@@ -9,7 +9,7 @@ export var baddieHealth = 100 # Weakest HP
 export var baddieSpeed = 1 # Slowest move speed
 export var powerDrain = 0 # No drain when hit
 
-signal got_hit(damage)
+signal baddieClicked(baddie)
 signal just_died
 signal escaped
 
@@ -40,7 +40,8 @@ func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx
 			currentHealth = currentHealth - 1
 			print("Life Left " + String(currentHealth))
 			# do something
-			checkIfDead()
+			if !checkIfDead():
+				self.emit_signal("baddieClicked",self)
 			pass
 	pass # replace with function body
 
@@ -48,6 +49,9 @@ func checkIfDead():
 	if currentHealth <= 0:
 		# Dead!
 		emit_signal("just_died")
+		return true
+	else:
+		return false
 
 func _on_WaypointFollower_TranslationFinishedSignal(sender):
 	emit_signal("escaped")

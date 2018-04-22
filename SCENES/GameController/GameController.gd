@@ -114,6 +114,7 @@ func spawnNext(spawnGridLocation):
 		for path in baddiePath2D:
 			for step in path:
 				follower.AppendWaypoint(step)
+		newBaddie.connect("baddieClicked", self, "__handleBaddieClick")
 	pass
 	
 func _baddieDied(theBaddie):
@@ -153,39 +154,40 @@ func __handleUiPick(towerString):
 	print("display tooltip for " + str(towerString))
 	pass
 
-func __handleTileClick(pos):
-	if (uiOverlay.currentTower != null):
-		print("please put a "+uiOverlay.currentTower+" tower at " + str(pos))
-		uiOverlay.unselectAll()
+func __handleBaddieClick(baddie):
+	for T in self.towerList:
+		T.get_node("./Tower").shootAt(baddie)
 
-func __handleUiDrop(towerString, dropPos):
-	#var from = primaryCamera.project_ray_origin(dropPos)
-	var from = primaryCamera.global_transform.origin
-	var normal = primaryCamera.project_ray_normal(dropPos)
-	var to = from + (normal * 1000)
-	#var selectedTile = gameGrid.select_tile_at_world_position(to)
+func __handleTileClick(pos):
+	if (uiOverlay.currentTower == null):
+		return
 	
-	var cast = get_node("../RayCast")
-	cast.global_transform.origin = primaryCamera.global_transform.origin
-	cast.cast_to = to
-	cast.force_raycast_update()
-	var point = cast.get_collision_point()
-	var selectedTile = gameGrid.select_tile_at_world_position(point)
+	# put a tower at the location
+	print("please put a "+uiOverlay.currentTower+" tower at grid: " + str(pos.tile_position) + " world: " + str(pos.transform.origin) )
+	__createTower(uiOverlay.currentTower, pos)
 	
-	# Is this a valid tile for a tower?
-	# We need to create a tower instance and the like
+	uiOverlay.unselectAll()
 	
 	# Finally, tell the game grid that a tower is present -- it doesn't care what flavor
 	var towerTile = {}
-	towerTile.x = selectedTile.tile_position.x
-	towerTile.y = selectedTile.tile_position.z
-	gameGrid.add_tower(selectedTile.tile_position.x, selectedTile.tile_position.z, towerTile)
+	towerTile.x = pos.tile_position.x
+	towerTile.y = pos.tile_position.z
+	gameGrid.add_tower(pos.tile_position.x, pos.tile_position.z, towerTile)
 	
 	# Re-do pathing
 	gameGrid.clear_paths()
 	gameGrid.refresh_pathfinding()
+
+func __createTower(towerType, pos):
+	#var towerFolder = "res://SCENES/Towers/*"
+	#TODO: create instance of tower based on the string type?
 	
-	pass
+	var towerScene = load("res://SCENES/Towers/KisserTower.tscn")
+	var nTower = towerScene.instance()
+	# todo: this should be global position based on grid pos
+	nTower.transform.origin = pos.transform.origin
 	
+	towerList.append(nTower)
+	return nTower
 
 # End of file

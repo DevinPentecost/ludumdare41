@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://SCENES/Towers/Tower.tscn" type="PackedScene" id=1]
+
+[sub_resource type="CylinderMesh" id=1]
+
+top_radius = 1.0
+bottom_radius = 1.0
+height = 2.0
+radial_segments = 64
+rings = 4
+
+[node name="KisserTower" type="Spatial"]
+
+[node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
+
+towerType = "Kisser"
+
+[node name="MeshInstance" type="MeshInstance" parent="." index="1"]
+
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 1 )
+skeleton = NodePath("..")
+material/0 = null
+
+

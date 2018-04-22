@@ -427,7 +427,7 @@ func _on_Selector_input_event(camera, event, click_position, click_normal, shape
 		if event.button_index == BUTTON_LEFT and event.pressed:
 			var pos = select_tile_at_world_position(click_position)
 			print(str(self) + " emitting " + "tileClicked" +  str(pos.tile_position))
-			self.emit_signal("tileClicked", pos.tile_position)
+			self.emit_signal("tileClicked", pos)
 	pass
 
 func select_tile_at_world_position(target_position):

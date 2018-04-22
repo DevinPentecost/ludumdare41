@@ -50,6 +50,7 @@ func createBaddieInstance(gridLocation):
 	
 	# Apply the multiplier once we are done
 	newBaddie.baddieHealth *= baddieStatsMultiplier
+	newBaddie.baddieHealth = max(newBaddie.baddieHealth, 2)
 	newBaddie.baddieSpeed *= max(kMinimumMultiplierValue, baddieStatsMultiplier / 10)
 	newBaddie.powerDrain *= max(kMinimumMultiplierValue, baddieStatsMultiplier / 10)
 	return newBaddie

@@ -7,8 +7,8 @@
 script = ExtResource( 1 )
 numBaddies = 1
 baddieSpawnDelayMs = 3000
-baddieStatsMultiplier = 1
 baddieHealth = 100
 baddieSpeed = 100
+baddiePowerDrain = 0
 
 
