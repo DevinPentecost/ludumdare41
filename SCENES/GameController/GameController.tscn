@@ -8,6 +8,8 @@
 
 script = ExtResource( 1 )
 gameGridPath = null
+uiOverlayPath = null
+primaryCameraPath = null
 
 [node name="Spawner" type="Node" parent="." index="0"]
 

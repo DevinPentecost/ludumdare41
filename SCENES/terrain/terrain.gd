@@ -22,6 +22,8 @@ var map_size = Vector2(kSizeWide, kSizeHigh)
 
 signal new_paths_ready(newPathsSteps)
 
+signal tileClicked(coord)
+
 var _towers = []
 var _checkmarks = null
 var _paths = []
@@ -147,7 +149,7 @@ func refresh_pathfinding():
 		#Did we have a previous?
 		if prev_checkpoint != null:
 			#We can make a path
-			print("Pathing: " + String(prev_checkpoint) + " to :" + String(checkpoint))
+			#print("Pathing: " + String(prev_checkpoint) + " to :" + String(checkpoint))
 			var path = find_path(prev_checkpoint, checkpoint)
 			
 			
@@ -277,6 +279,8 @@ func add_tower(x, y, tower):
 		
 	#Add the tower
 	_towers.append(tower)
+	set_cell_item(x, 0, y, tile_types.BLOCKED, 0)
+	_refresh_all()
 	
 func remove_tower(x, y):
 	#Remove a tower, return the to-be-destroyed tower
@@ -360,7 +364,7 @@ func find_path(start_position, end_position):
 			return path
 		
 		#Check adjacent tiles
-		for pos in [[-1, 0], [1, 0], [0, -1], [0, 1]]:
+		for pos in __crappyPathRandom():
 			#Are we ignoring this tile?
 			var adjacent_tile = next_step.pt + Vector2(pos[0], pos[1])
 			
@@ -380,7 +384,13 @@ func find_path(start_position, end_position):
 	#Couldn't find a path
 	print("Failed to find a path after steps: ", step_count)
 	return null
-	
+
+var posList = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+func __crappyPathRandom():
+	var popped = posList.pop_front()
+	posList.append(popped)
+	return posList
+
 func _search_in_tiles(position, tiles):
 	#Check each index
 	for index in range(tiles.size()):
@@ -408,25 +418,35 @@ func _smallest_f(tiles, previous_tile):
 	return index
 
 func _on_Selector_input_event(camera, event, click_position, click_normal, shape_idx):
-	
+
 	#Was something hovered?
 	if event is InputEventMouseMotion:
-		
 		#Select it
 		select_tile_at_world_position(click_position)
-	
+	elif event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			var pos = select_tile_at_world_position(click_position)
+			print(str(self) + " emitting " + "tileClicked" +  str(pos.tile_position))
+			self.emit_signal("tileClicked", pos.tile_position)
 	pass
 
 func select_tile_at_world_position(target_position):
 	#Get the tile under the mouse
-		var position = world_to_map(target_position)
-		position = Vector3(position.x, 0,  position.z)*2 + Vector3(1, 1, 1)
-		
-		#Make a selector mesh
-		if not _tile_selector:
-			_tile_selector = selector_scene.instance()
-			add_child(_tile_selector)
-		
-		#Move it
-		_tile_selector.transform.origin = position
-		_tile_selector.tile_position = position
+	#print("target_position" + String(target_position))
+	var logicalPos = world_to_map(target_position)
+	#print("logicalPos" + String(logicalPos))
+	var absolutePosition = Vector3(logicalPos.x, 0,  logicalPos.z)*2 + Vector3(1, 1, 1)
+	#print("absolutePosition" + String(absolutePosition))
+	#Make a selector mesh
+	if not _tile_selector:
+		_tile_selector = selector_scene.instance()
+		add_child(_tile_selector)
+	
+	# Move it
+	_tile_selector.transform.origin = absolutePosition
+	_tile_selector.tile_position = logicalPos
+	return _tile_selector
+	
+
+# End of file
+

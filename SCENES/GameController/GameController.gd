@@ -8,10 +8,14 @@ signal damage_taken()
 signal game_over()
 
 export(NodePath) var gameGridPath
+export(NodePath) var uiOverlayPath
+export(NodePath) var primaryCameraPath
 
 # Nodes of interest
 onready var spawner = get_node("Spawner")
 onready var gameGrid = get_node(gameGridPath)
+onready var uiOverlay = get_node(uiOverlayPath)
+onready var primaryCamera = get_node(primaryCameraPath)
 onready var towerScene = null
 
 # Complicated objects + lists
@@ -33,6 +37,8 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	gameGrid.connect("new_paths_ready", self, "_handleNewPaths")
+	gameGrid.connect("tileClicked", self, "__handleTileClick")
+	uiOverlay.connect("TowerPicked", self, "__handleUiPick")
 	pass
 
 func _process(deltaSeconds):
@@ -128,6 +134,58 @@ func _baddieEscaped(theBaddie):
 	pass
 
 func _handleNewPaths(pathList):
+	if baddiePath2D != null:
+		baddiePath2D.clear()
+	
 	for path in pathList:
 		baddiePath2D.append(path)
 	pass
+	
+func _input(event):
+   # Mouse in viewport coordinates
+   #if event is InputEventMouseButton:
+   #    print("Mouse Click/Unclick at: ", event.position)
+   #elif event is InputEventMouseMotion:
+   #    print("Mouse Motion at: ", event.position)
+	pass
+
+func __handleUiPick(towerString):
+	print("display tooltip for " + str(towerString))
+	pass
+
+func __handleTileClick(pos):
+	if (uiOverlay.currentTower != null):
+		print("please put a "+uiOverlay.currentTower+" tower at " + str(pos))
+		uiOverlay.unselectAll()
+
+func __handleUiDrop(towerString, dropPos):
+	#var from = primaryCamera.project_ray_origin(dropPos)
+	var from = primaryCamera.global_transform.origin
+	var normal = primaryCamera.project_ray_normal(dropPos)
+	var to = from + (normal * 1000)
+	#var selectedTile = gameGrid.select_tile_at_world_position(to)
+	
+	var cast = get_node("../RayCast")
+	cast.global_transform.origin = primaryCamera.global_transform.origin
+	cast.cast_to = to
+	cast.force_raycast_update()
+	var point = cast.get_collision_point()
+	var selectedTile = gameGrid.select_tile_at_world_position(point)
+	
+	# Is this a valid tile for a tower?
+	# We need to create a tower instance and the like
+	
+	# Finally, tell the game grid that a tower is present -- it doesn't care what flavor
+	var towerTile = {}
+	towerTile.x = selectedTile.tile_position.x
+	towerTile.y = selectedTile.tile_position.z
+	gameGrid.add_tower(selectedTile.tile_position.x, selectedTile.tile_position.z, towerTile)
+	
+	# Re-do pathing
+	gameGrid.clear_paths()
+	gameGrid.refresh_pathfinding()
+	
+	pass
+	
+
+# End of file

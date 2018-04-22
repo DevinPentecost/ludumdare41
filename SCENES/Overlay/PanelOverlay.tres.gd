@@ -39,6 +39,10 @@ func _ready():
 		N.connect("TowerButtonPressed", self, "__pressed")
 		N.connect("TowerButtonUnpressed", self, "__unpressed")
 
+func unselectAll():
+	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
+		N.toggledOn = false
+
 func setAvailable(towerString, enabled):
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
 		if (N.towerText == towerString):
