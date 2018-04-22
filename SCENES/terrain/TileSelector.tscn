@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://SCENES/terrain/TileSelectorVisible.tres" type="Material" id=1]
 [ext_resource path="res://SCENES/terrain/tile_selector.gd" type="Script" id=2]
 [ext_resource path="res://SCENES/terrain/TileSelectorHidden.tres" type="Material" id=3]
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="CubeMesh" id=1]
 
 material = ExtResource( 1 )
 size = Vector3( 2, 0.5, 2 )
@@ -12,12 +12,9 @@ subdivide_width = 0
 subdivide_height = 0
 subdivide_depth = 0
 
-[sub_resource type="BoxShape" id=3]
+[node name="TileSelector" type="MeshInstance" index="0"]
 
-extents = Vector3( 1, 0.25, 1 )
-
-[node name="TileSelector" type="MeshInstance"]
-
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -27,45 +24,12 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 2 )
+mesh = SubResource( 1 )
 skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 visible_material = ExtResource( 1 )
 hidden_material = ExtResource( 3 )
-
-[node name="Area" type="Area" parent="." index="0"]
-
-input_ray_pickable = false
-input_capture_on_drag = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision_layer = 1
-collision_mask = 1
-audio_bus_override = false
-audio_bus_name = "Master"
-reverb_bus_enable = false
-reverb_bus_name = "Master"
-reverb_bus_amount = 0.0
-reverb_bus_uniformity = 0.0
-
-[node name="CollisionShape" type="CollisionShape" parent="Area" index="0"]
-
-shape = SubResource( 3 )
-disabled = false
-
-[connection signal="input_event" from="Area" to="." method="_on_Area_input_event"]
-
-[connection signal="mouse_entered" from="Area" to="." method="_on_Area_mouse_entered"]
-
-[connection signal="mouse_exited" from="Area" to="." method="_on_Area_mouse_exited"]
 
 
