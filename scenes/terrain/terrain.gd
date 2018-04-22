@@ -82,6 +82,8 @@ func _rebuild_map():
 		for y in range(map_size.y):
 			#Does this tile already have something?
 			if (Vector3(x, 0, y) in used_cells):
+				var item = get_cell_item(x, 0, y)
+				set_cell_item(x, 0, y, item, 0)
 				continue
 			
 			if get_cell_item(x, 0, y) == INVALID_CELL_ITEM:

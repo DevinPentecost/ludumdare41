@@ -21,7 +21,7 @@ var waypoints = []
 
 # insert a global vector3 or a spatial to follow
 func AppendWaypoint(vector3):
-	print("going to " + str(vector3))
+	#print("going to " + str(vector3))
 	waypoints.append(vector3)
 
 func ClearWaypoints():
@@ -54,7 +54,7 @@ func _process(delta):
 		
 		#remove waypoint once we get close
 		if (__closeEnough(__spatialNode.global_transform.origin, targetCoord)):
-			print("hit waypoint " + str(targetCoord))
+			#print("hit waypoint " + str(targetCoord))
 			waypoints.remove(0)
 			#yell if we are done
 		if (waypoints.size() != 0):
