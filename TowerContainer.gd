@@ -17,7 +17,7 @@ func shootAt(baddie):
 func __createBullet():
 	var nBullet = (load(bulletPath)).instance()
 	#todo: orient to this spatial's facing
-	nBullet.origin = self.transform.origin
+	nBullet.transform.origin = self.transform.origin
 	
 	return nBullet
 
