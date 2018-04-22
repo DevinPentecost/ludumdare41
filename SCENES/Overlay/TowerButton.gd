@@ -26,6 +26,7 @@ func disabled_set(newvalue):
 	print(self.towerText + " disabled " + str(newvalue))
 	if disabled:
 		self.get_node("./NinePatchRect").texture = bgDisabled
+		emit_signal("TowerButtonUnpressed", self.towerText)
 	else:
 		self.get_node("./NinePatchRect").texture = bgUp
 
@@ -40,6 +41,7 @@ func toggledOn_set(newvalue):
 		toggledOn=newvalue
 		if (toggledOn):
 			self.get_node("./NinePatchRect").texture = bgDown
+			emit_signal("TowerButtonPressed", self.towerText)
 		else:
 			self.get_node("./NinePatchRect").texture = bgUp
 	print(self.towerText + " toggled " + str(newvalue))

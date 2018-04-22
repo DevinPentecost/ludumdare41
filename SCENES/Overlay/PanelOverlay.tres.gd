@@ -6,6 +6,7 @@ extends Node
 
 signal TowerPicked(tower)
 
+#don't set this
 export(String) var currentTower = null
 
 func __isDragging():
@@ -16,17 +17,27 @@ func __dropped(dropPos, dropTower):
 		print("I dropped a " + str(dropTower) + " tower at " + str(dropPos))
 
 func __pressed(a):
-	print("press encountered: "+str(a))
+	#print("press encountered: "+str(a))
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
 		if (N.towerText != a):
 			N.toggledOn = false
 	self.emit_signal("TowerPicked", a)
+	print(str(self) + " emits TowerPicked: "+str(a))
 	self.currentTower = a
-	
+
+func __unpressed(a):
+	#print("unpress encountered: "+str(a))
+	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
+		if N.toggledOn:
+			return
+	self.currentTower = null
+	self.emit_signal("TowerPicked", self.currentTower)
+	print(str(self) + " emits TowerPicked: (unpressed) "+str(self.currentTower))
 
 func _ready():
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
 		N.connect("TowerButtonPressed", self, "__pressed")
+		N.connect("TowerButtonUnpressed", self, "__unpressed")
 
 func setAvailable(towerString, enabled):
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
