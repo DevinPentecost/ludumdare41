@@ -37,7 +37,8 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	gameGrid.connect("new_paths_ready", self, "_handleNewPaths")
-	uiOverlay.connect("dropHappened", self, "__handleUiDrop")
+	gameGrid.connect("tileClicked", self, "__handleTileClick")
+	uiOverlay.connect("TowerPicked", self, "__handleUiPick")
 	pass
 
 func _process(deltaSeconds):
@@ -147,6 +148,15 @@ func _input(event):
    #elif event is InputEventMouseMotion:
    #    print("Mouse Motion at: ", event.position)
 	pass
+
+func __handleUiPick(towerString):
+	print("display tooltip for " + str(towerString))
+	pass
+
+func __handleTileClick(pos):
+	if (uiOverlay.currentTower != null):
+		print("please put a "+uiOverlay.currentTower+" tower at " + str(pos))
+		uiOverlay.unselectAll()
 
 func __handleUiDrop(towerString, dropPos):
 	#var from = primaryCamera.project_ray_origin(dropPos)

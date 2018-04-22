@@ -22,6 +22,8 @@ var map_size = Vector2(kSizeWide, kSizeHigh)
 
 signal new_paths_ready(newPathsSteps)
 
+signal tileClicked(coord)
+
 var _towers = []
 var _checkmarks = null
 var _paths = []
@@ -416,22 +418,25 @@ func _smallest_f(tiles, previous_tile):
 	return index
 
 func _on_Selector_input_event(camera, event, click_position, click_normal, shape_idx):
-	
+
 	#Was something hovered?
 	if event is InputEventMouseMotion:
-		
 		#Select it
 		select_tile_at_world_position(click_position)
-	
+	elif event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			var pos = select_tile_at_world_position(click_position)
+			print(str(self) + " emitting " + "tileClicked" +  str(pos.tile_position))
+			self.emit_signal("tileClicked", pos.tile_position)
 	pass
 
 func select_tile_at_world_position(target_position):
 	#Get the tile under the mouse
-	print("target_position" + String(target_position))
+	#print("target_position" + String(target_position))
 	var logicalPos = world_to_map(target_position)
-	print("logicalPos" + String(logicalPos))
+	#print("logicalPos" + String(logicalPos))
 	var absolutePosition = Vector3(logicalPos.x, 0,  logicalPos.z)*2 + Vector3(1, 1, 1)
-	print("absolutePosition" + String(absolutePosition))
+	#print("absolutePosition" + String(absolutePosition))
 	#Make a selector mesh
 	if not _tile_selector:
 		_tile_selector = selector_scene.instance()
