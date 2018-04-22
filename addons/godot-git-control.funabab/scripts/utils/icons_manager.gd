@@ -19,8 +19,8 @@ const LOOKUP = {
 }
 
 const FONTS = {
-		"octicon": preload("res://addons/godot-git-control.funabab/scenes/res/octicon_font.tres"),
-#		"fa": preload("res://addons/godot-git-control.funabab/scenes/res/font_awesome_font.tres")
+		"octicon": preload("res://addons/godot-git-control.funabab/SCENES/res/octicon_font.tres"),
+#		"fa": preload("res://addons/godot-git-control.funabab/SCENES/res/font_awesome_font.tres")
 };
 
 static func _get_icon(name):

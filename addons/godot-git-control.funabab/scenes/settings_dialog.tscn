@@ -6,7 +6,7 @@ resource_name = "settings_dialog"
 script/source = "tool
 extends \"res://addons/godot-git-control.funabab/scripts/git_dialog.gd\"
 
-var octicon_font = preload(\"res://addons/godot-git-control.funabab/scenes/res/octicon_font.tres\");
+var octicon_font = preload(\"res://addons/godot-git-control.funabab/SCENES/res/octicon_font.tres\");
 
 var list_container;
 var Settings;

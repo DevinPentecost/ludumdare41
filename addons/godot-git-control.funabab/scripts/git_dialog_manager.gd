@@ -11,15 +11,15 @@ const VIEW_SETTINGS = 8;
 const VIEW_GITIGNORE = 9;
 
 var views = {
-	VIEW_COMMIT_MSG: preload("res://addons/godot-git-control.funabab/scenes/commit_message_dialog.tscn").instance(),
-	VIEW_CREATE_BRANCH: preload("res://addons/godot-git-control.funabab/scenes/create_branch_dialog.tscn").instance(),
-	VIEW_DELETE_BRANCH: preload("res://addons/godot-git-control.funabab/scenes/delete_branch_dialog.tscn").instance(),
-	VIEW_REVERT_WORKSPACE: preload("res://addons/godot-git-control.funabab/scenes/revert_confirm_dialog.tscn").instance(),
-	VIEW_CREATE_TAG: preload("res://addons/godot-git-control.funabab/scenes/create_tag_dialog.tscn").instance(),
-	VIEW_MERGE_BRANCH: preload("res://addons/godot-git-control.funabab/scenes/merge_branch_dialog.tscn").instance(),
-	VIEW_REBASE: preload("res://addons/godot-git-control.funabab/scenes/rebase_dialog.tscn").instance(),
-	VIEW_SETTINGS: preload("res://addons/godot-git-control.funabab/scenes/settings_dialog.tscn").instance(),
-	VIEW_GITIGNORE: preload("res://addons/godot-git-control.funabab/scenes/gitignore_dialog.tscn").instance()
+	VIEW_COMMIT_MSG: preload("res://addons/godot-git-control.funabab/SCENES/commit_message_dialog.tscn").instance(),
+	VIEW_CREATE_BRANCH: preload("res://addons/godot-git-control.funabab/SCENES/create_branch_dialog.tscn").instance(),
+	VIEW_DELETE_BRANCH: preload("res://addons/godot-git-control.funabab/SCENES/delete_branch_dialog.tscn").instance(),
+	VIEW_REVERT_WORKSPACE: preload("res://addons/godot-git-control.funabab/SCENES/revert_confirm_dialog.tscn").instance(),
+	VIEW_CREATE_TAG: preload("res://addons/godot-git-control.funabab/SCENES/create_tag_dialog.tscn").instance(),
+	VIEW_MERGE_BRANCH: preload("res://addons/godot-git-control.funabab/SCENES/merge_branch_dialog.tscn").instance(),
+	VIEW_REBASE: preload("res://addons/godot-git-control.funabab/SCENES/rebase_dialog.tscn").instance(),
+	VIEW_SETTINGS: preload("res://addons/godot-git-control.funabab/SCENES/settings_dialog.tscn").instance(),
+	VIEW_GITIGNORE: preload("res://addons/godot-git-control.funabab/SCENES/gitignore_dialog.tscn").instance()
 };
 
 var git;

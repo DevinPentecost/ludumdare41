@@ -1,8 +1,8 @@
 extends GridMap
 tool
 
-var checkmark_scene = preload("res://scenes/terrain/Checkmark.tscn")
-var path_scene = preload("res://scenes/terrain/Path.tscn")
+var checkmark_scene = preload("res://SCENES/terrain/Checkmark.tscn")
+var path_scene = preload("res://SCENES/terrain/Path.tscn")
 var selector_scene = preload("res://SCENES/terrain/TileSelector.tscn")
 
 #Cell indicies. This MUST match what is used in the meshlibrary!
@@ -13,7 +13,11 @@ enum tile_types {
 }
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
-var map_size = Vector2(50, 50)
+
+var kSizeWide = 50
+var kSizeHigh = 50
+var kNumTiles = kSizeWide * kSizeHigh
+var map_size = Vector2(kSizeWide, kSizeHigh)
 
 signal new_paths_ready(newPathsSteps)
 
@@ -33,16 +37,18 @@ export(refresh) var refresh_grid setget _refresh_grid
 
 #A list of checkpoints by X and Y. First is spawn, last is end
 export var checkpoints = [
-							Vector2(5, 5),
+							Vector2(0,0),
+							Vector2(1,1),
+							#Vector2(5, 5),
 							
-							Vector2(40, 40),
-							Vector2(15, 40),
-							Vector2(25, 25),
-							Vector2(35, 20),
-							Vector2(20, 35),
-							Vector2(40, 15),
+							#Vector2(40, 40),
+							#Vector2(15, 40),
+							#Vector2(25, 25),
+							#Vector2(35, 20),
+							#Vector2(20, 35),
+							#Vector2(40, 15),
 							
-							Vector2(10, 10),
+							#Vector2(10, 10),
 						] setget _set_checkpoints
 
 func _ready():
@@ -299,6 +305,10 @@ func find_path(start_position, end_position):
 	var previous_tile = null
 	var step_count = 0
 	while open:
+		if step_count > kNumTiles:
+			#Error!
+			return null
+		
 		step_count = step_count+1
 		#Find the smallest score and remove it
 		var index = _smallest_f(open, previous_tile)
