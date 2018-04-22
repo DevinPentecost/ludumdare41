@@ -9,12 +9,11 @@ path="res://.import/teepee.obj-e940a28e0228e99bbab6376dd5c9d289.mesh"
 files=[ "res://.import/teepee.obj-e940a28e0228e99bbab6376dd5c9d289.mesh" ]
 
 source_file="res://3dmodels/obj/teepee.obj"
-source_md5="893437d8c8c3232f85470138bec8647b"
+source_md5="57ac815c214ec6072afd6d25236c9d10"
 
 dest_files=[ "res://.import/teepee.obj-e940a28e0228e99bbab6376dd5c9d289.mesh", "res://.import/teepee.obj-e940a28e0228e99bbab6376dd5c9d289.mesh" ]
-dest_md5="78be00bb24fa745cdafcdb0c840552b5"
+dest_md5="ccb9f98dbd50ce7a99475b0897c3ea15"
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
