@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/godot-git-control.funabab/scenes/res/git_toolbar_icon.png" type="Texture" id=1]
+[ext_resource path="res://addons/godot-git-control.funabab/SCENES/res/git_toolbar_icon.png" type="Texture" id=1]
 [ext_resource path="res://addons/godot-git-control.funabab/scripts/gui/git_control_toolbar.gd" type="Script" id=2]
 
 [node name="git_control_toolbar" type="MenuButton" index="0"]

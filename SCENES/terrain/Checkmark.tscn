@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scenes/terrain/valid_tile.png" type="Texture" id=1]
+[ext_resource path="res://SCENES/terrain/valid_tile.png" type="Texture" id=1]
 
 [node name="Checkmark" type="Sprite3D" index="0"]
 

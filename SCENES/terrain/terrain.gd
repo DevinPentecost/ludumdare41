@@ -1,8 +1,8 @@
 extends GridMap
 tool
 
-var checkmark_scene = preload("res://scenes/terrain/Checkmark.tscn")
-var path_scene = preload("res://scenes/terrain/Path.tscn")
+var checkmark_scene = preload("res://SCENES/terrain/Checkmark.tscn")
+var path_scene = preload("res://SCENES/terrain/Path.tscn")
 var selector_scene = preload("res://SCENES/terrain/TileSelector.tscn")
 
 #Cell indicies. This MUST match what is used in the meshlibrary!
