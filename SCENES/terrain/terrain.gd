@@ -412,8 +412,14 @@ func _on_Selector_input_event(camera, event, click_position, click_normal, shape
 	#Was something hovered?
 	if event is InputEventMouseMotion:
 		
-		#Get the tile under the mouse
-		var position = world_to_map(click_position)
+		#Select it
+		select_tile_at_world_position(click_position)
+	
+	pass
+
+func select_tile_at_world_position(target_position):
+	#Get the tile under the mouse
+		var position = world_to_map(target_position)
 		position = Vector3(position.x, 0,  position.z)*2 + Vector3(1, 1, 1)
 		
 		#Make a selector mesh
@@ -423,5 +429,3 @@ func _on_Selector_input_event(camera, event, click_position, click_normal, shape
 		
 		#Move it
 		_tile_selector.transform.origin = position
-	
-	pass
