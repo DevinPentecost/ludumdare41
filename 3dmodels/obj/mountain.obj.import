@@ -9,12 +9,11 @@ path="res://.import/mountain.obj-feb6f939144a5a23b5541d55d6f36c1b.mesh"
 files=[ "res://.import/mountain.obj-feb6f939144a5a23b5541d55d6f36c1b.mesh" ]
 
 source_file="res://3dmodels/obj/mountain.obj"
-source_md5="f21dd00e07d39c42008da6c9adc8db2b"
+source_md5="0b27312d07349682ec983f3239fbe036"
 
 dest_files=[ "res://.import/mountain.obj-feb6f939144a5a23b5541d55d6f36c1b.mesh", "res://.import/mountain.obj-feb6f939144a5a23b5541d55d6f36c1b.mesh" ]
-dest_md5="dc91cf1dc79800425d2fb999b01b723a"
+dest_md5="04b213fc936d5eaa0766d96d7e71c168"
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
