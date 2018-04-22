@@ -11,6 +11,7 @@ export var powerDrain = 0 # No drain when hit
 
 signal got_hit(damage)
 signal just_died
+signal escaped
 
 var currentHealth = 1
 var nextCheckpointIndex = 0 # Which checkpoint is this guy trying to walk to?
@@ -36,8 +37,8 @@ func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx
 	var type = event.get_class()
 	if type == "InputEventMouseButton":
 		if event.button_index == BUTTON_LEFT and event.pressed:
-			print("pressed! " + String(currentHealth))
 			currentHealth = currentHealth - 1
+			print("Life Left " + String(currentHealth))
 			# do something
 			checkIfDead()
 			pass
@@ -49,4 +50,5 @@ func checkIfDead():
 		emit_signal("just_died")
 
 func _on_WaypointFollower_TranslationFinishedSignal(sender):
+	emit_signal("escaped")
 	pass # replace with function body

@@ -31,7 +31,7 @@ func _ready():
 
 func _process(delta):
 	#print("" + self.get_path() + " has " + str(waypoints.size()) + " points to go to" )
-	if (waypoints.size() != 0):		
+	if (waypoints.size() != 0):
 		# Do we need to translate from spatial to vector3?
 		# Is this a spatial?
 		var targetCoord = waypoints[0]

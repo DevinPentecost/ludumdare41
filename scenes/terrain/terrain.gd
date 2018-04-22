@@ -13,7 +13,7 @@ enum tile_types {
 }
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
-var map_size = Vector2(10, 10)
+var map_size = Vector2(50, 50)
 
 signal new_paths_ready(newPathsSteps)
 
@@ -33,9 +33,16 @@ export(refresh) var refresh_grid setget _refresh_grid
 
 #A list of checkpoints by X and Y. First is spawn, last is end
 export var checkpoints = [
-							Vector2(0, 0),
 							Vector2(5, 5),
-							Vector2(7, 5),
+							
+							Vector2(40, 40),
+							Vector2(15, 40),
+							Vector2(25, 25),
+							Vector2(35, 20),
+							Vector2(20, 35),
+							Vector2(40, 15),
+							
+							Vector2(10, 10),
 						] setget _set_checkpoints
 
 func _ready():
@@ -51,7 +58,7 @@ func _refresh_grid(enum_value):
 		#Delete all the tiles
 		clear()
 	
-	_refresh_all()
+	#_refresh_all()
 
 func _refresh_all():
 	#We want to make a grid, but leave everything down already
