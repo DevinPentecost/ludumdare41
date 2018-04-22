@@ -9,11 +9,13 @@ signal TranslationFinishedSignal(sender)
 export var speed = 4.0
 #how tight the pather handles corners. value between 0 and 1
 export var accl = 0.3
+export var rotAccl = 0.08
 
 export(NodePath) var spatialToMove = NodePath("../")
 var  __spatialNode = null
 
 var velocity = Vector3(0.0, 0.0, 0.0)
+var rotVelocity = Vector3(0.0, 0.0, 0.0)
 
 var waypoints = []
 
@@ -48,7 +50,7 @@ func _process(delta):
 		
 		__spatialNode.global_translate(howFarWeWillMove)
 		# look at new direction
-		__spatialNode.look_at(howFarWeWillMove + __spatialNode.global_transform.origin, Vector3(0, 1, 0))
+		__spatialNode.look_at(rotVelocity + __spatialNode.global_transform.origin, Vector3(0, 1, 0))
 		
 		#remove waypoint once we get close
 		if (__closeEnough(__spatialNode.global_transform.origin, targetCoord)):
@@ -59,7 +61,7 @@ func _process(delta):
 			#start going to next waypoint if there is one
 			var newDirection = Vector3(targetCoord - __spatialNode.global_transform.origin).normalized()
 			velocity = ((newDirection * accl) + (velocity * (1 - accl))).normalized() * speed
-			
+			rotVelocity = ((newDirection * rotAccl) + (velocity * (1 - rotAccl))).normalized() * speed
 	else:
 		emit_signal("TranslationFinishedSignal", self)
 
