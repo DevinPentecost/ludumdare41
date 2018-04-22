@@ -14,8 +14,8 @@ enum tile_types {
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
 
-var kSizeWide = 10
-var kSizeHigh = 10
+var kSizeWide = 50
+var kSizeHigh = 50
 
 var kNumTiles = kSizeWide * kSizeHigh
 var map_size = Vector2(kSizeWide, kSizeHigh)
@@ -24,7 +24,7 @@ signal new_paths_ready(newPathsSteps)
 
 signal tileClicked(coord)
 
-var _towers = []
+var _towers = {}
 var _checkmarks = null
 var _paths = []
 var _tile_selector = null
@@ -278,28 +278,28 @@ func add_tower(x, y, tower):
 		return
 		
 	#Add the tower
-	_towers.append(tower)
-	set_cell_item(x, 0, y, tile_types.BLOCKED, 0)
-	_refresh_all()
+	if not _towers.has(x):
+		_towers[x] = {}
+	_towers[x][y] = tower
+
 	
 func remove_tower(x, y):
 	#Remove a tower, return the to-be-destroyed tower
 	
 	#Is there a tower here?
-	var tower = _get_tower_at_location(x, y)
-	if tower:
-		_towers.remove(_towers.find(tower))
+	if _towers.has(x) and _towers[x].has(y):
+		var tower = _towers[x][y]
+		_towers[x].erase(y)
 		return tower
-	
+
 	#Did not find the tower
 	return null 
 	
 func _get_tower_at_location(x, y):
 	#Go through each tower
-	for tower in _towers:
-		if tower.x == x and tower.y == y:
-			return tower
-	
+	if _towers.has(x) and _towers[x].has(y):
+		return _towers[x][y]
+
 	#No tower found
 	return null
 	
@@ -326,11 +326,20 @@ func _clear_checkpoints():
 			#Clear it 
 			set_cell_item(tile.x, tile.y, tile.z, INVALID_CELL_ITEM)
 
+
+func _build_step(g_score, f_score, point, parent):
+	return {
+		'g': g_score,
+		'f': f_score,
+		'pt': point,
+		'parent': parent,
+	}
+
 func find_path(start_position, end_position):
 	
 	#Open and closed tiles
-	var open = [{'g': 0, 'f': 0, 'pt': start_position, 'parent':null}]
-	var closed = []
+	var open = [_build_step(0, 0, start_position, null)]
+	var closed = {}
 	
 	#While we haven't run out of tiles...
 	var previous_tile = null
@@ -341,12 +350,17 @@ func find_path(start_position, end_position):
 			return null
 		
 		step_count = step_count+1
+
 		#Find the smallest score and remove it
 		var index = _smallest_f(open, previous_tile)
 		var next_step = open[index]
 		previous_tile = next_step
+
+		#No longer consider this tile as we are currently doing so
 		open.remove(index)
-		closed.append(next_step)
+		
+		#Mark this X/Y as already used
+		closed[next_step.pt] = true
 		
 		#Did we reach the end?
 		if next_step.pt == end_position:
@@ -369,7 +383,7 @@ func find_path(start_position, end_position):
 			var adjacent_tile = next_step.pt + Vector2(pos[0], pos[1])
 			
 			#Did we already close this one?
-			if _search_in_tiles(adjacent_tile, closed):
+			if closed.has(adjacent_tile):
 				continue
 			
 			#Is this a valid tile?
@@ -378,8 +392,14 @@ func find_path(start_position, end_position):
 				
 				#Get the distance to the end
 				var h = abs(adjacent_tile.x - end_position.x) + abs(adjacent_tile.y - end_position.y)
-				var new_tile = {'g': next_step.g + 1, 'f': h + next_step.g + 1, 'pt': adjacent_tile, 'parent': next_step}
-				open.append(new_tile)
+
+				#Build the new tile and add it to the front of the list
+				var new_tile = _build_step(next_step.g + 1, h + next_step.g + 1, adjacent_tile, next_step)
+				open.insert(0, new_tile)
+
+			else:
+				#Close the tile, we can't use it anyways
+				closed[adjacent_tile] = true
 	
 	#Couldn't find a path
 	print("Failed to find a path after steps: ", step_count)
@@ -391,15 +411,6 @@ func __crappyPathRandom():
 	posList.append(popped)
 	return posList
 
-func _search_in_tiles(position, tiles):
-	#Check each index
-	for index in range(tiles.size()):
-		if tiles[index].pt == position:
-			#We're golden
-			return index
-	#Didn't find it
-	return false
-
 func _search_in_cells(position):
 	#Check all cells
 	for cell in get_used_cells():
@@ -409,12 +420,17 @@ func _search_in_cells(position):
 
 func _smallest_f(tiles, previous_tile):
 	#Find the shortest index
+	var max_attempts = 10
 	var index = 0
 	for i in range(tiles.size()):
 		#Is it shorter?
 		if tiles[i].f < tiles[index].f or (tiles[i].f <= tiles[index].f and tiles[i].parent == previous_tile):
 			#Use this one
 			index = i
+		
+		#Give up after a bit, see if this speeds things up
+		if i > max_attempts:
+			break
 	return index
 
 func _on_Selector_input_event(camera, event, click_position, click_normal, shape_idx):
@@ -433,7 +449,7 @@ func _on_Selector_input_event(camera, event, click_position, click_normal, shape
 func select_tile_at_world_position(target_position):
 	#Get the tile under the mouse
 	#print("target_position" + String(target_position))
-	var logicalPos = world_to_map(target_position)
+	var logicalPos = world_to_map(target_position - transform.origin)
 	#print("logicalPos" + String(logicalPos))
 	var absolutePosition = Vector3(logicalPos.x, 0,  logicalPos.z)*2 + Vector3(1, 1, 1)
 	#print("absolutePosition" + String(absolutePosition))

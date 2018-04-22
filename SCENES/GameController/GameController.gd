@@ -164,7 +164,7 @@ func __handleTileClick(pos):
 	
 	# put a tower at the location
 	print("please put a "+uiOverlay.currentTower+" tower at grid: " + str(pos.tile_position) + " world: " + str(pos.transform.origin) )
-	__createTower(uiOverlay.currentTower, pos)
+	var new_tower = __createTower(uiOverlay.currentTower, pos)
 	
 	uiOverlay.unselectAll()
 	
@@ -172,7 +172,7 @@ func __handleTileClick(pos):
 	var towerTile = {}
 	towerTile.x = pos.tile_position.x
 	towerTile.y = pos.tile_position.z
-	gameGrid.add_tower(pos.tile_position.x, pos.tile_position.z, towerTile)
+	gameGrid.add_tower(pos.tile_position.x, pos.tile_position.z, new_tower)
 	
 	# Re-do pathing
 	gameGrid.clear_paths()
