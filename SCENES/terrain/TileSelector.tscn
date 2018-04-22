@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://SCENES/terrain/TileSelectorVisible.tres" type="Material" id=1]
+[ext_resource path="res://SCENES/terrain/ValidMaterial.tres" type="Material" id=1]
 [ext_resource path="res://SCENES/terrain/tile_selector.gd" type="Script" id=2]
-[ext_resource path="res://SCENES/terrain/TileSelectorHidden.tres" type="Material" id=3]
+[ext_resource path="res://SCENES/terrain/InvalidMaterial.tres" type="Material" id=3]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -12,7 +12,7 @@ subdivide_width = 0
 subdivide_height = 0
 subdivide_depth = 0
 
-[node name="TileSelector" type="MeshInstance" index="0"]
+[node name="TileSelector" type="MeshInstance"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
 layers = 1
@@ -29,7 +29,7 @@ skeleton = NodePath("..")
 material/0 = null
 script = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
-visible_material = ExtResource( 1 )
-hidden_material = ExtResource( 3 )
+valid_material = ExtResource( 1 )
+invalid_material = ExtResource( 3 )
 
 

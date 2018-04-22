@@ -28,6 +28,8 @@ signal tileClicked(coord)
 var _towers = {}
 var _checkmarks = null
 var _paths = []
+var _precalculated_can_build = {}
+
 var _tile_selector = null
 var highlighted_tile_position = null
 
@@ -144,33 +146,60 @@ func refresh_pathfinding():
 	print("Refreshing Pathfinding")
 	#For each checkpoint
 	var prev_checkpoint = null
+	var paths = _get_all_paths()
+
+	#Emit that we have a new path
+	show_paths(paths)
+	emit_signal("new_paths_ready", paths)
+	
+	#We need to recalculate invalid build spots
+	_precalculated_can_build = {}
+
+func _get_all_paths(blocked_tiles=null):
+	#Go through each checkpoint
 	var paths = []
+	var prev_checkpoint = null
 	for checkpoint in checkpoints:
 		
 		#Did we have a previous?
 		if prev_checkpoint != null:
 			#We can make a path
 			#print("Pathing: " + String(prev_checkpoint) + " to :" + String(checkpoint))
-			var path = find_path(prev_checkpoint, checkpoint)
+			var path = find_path(prev_checkpoint, checkpoint, blocked_tiles)
 			
 			#Could we find one?
 			if not path:
 				print("PATH IS BLOCKED! PANIC!")
 			else:
-			
+				#Invert the order to match source->dest
 				path.invert()
-				#Show the path
-				show_path(path)
-				paths.append(path)
+				
+			#Add it to our collection
+			paths.append(path)
 				
 		#Set this spot as the previous
 		prev_checkpoint = checkpoint
-		
-		
 	
-	#Emit that we have a new path
-	emit_signal("new_paths_ready", paths)
+	#Give away them paths
+	return paths
+
+func validate_paths(paths):
+	#Are any of them null?
+	for path in paths:
+		if path == null:
+			return false
+
+	#Made it through
+	return true
 	
+func show_paths(paths, clear=true):
+	#Make game objects for each
+	if clear:
+		clear_paths()
+		
+	for path in paths:
+		#Show the path
+		show_path(path)
 
 func show_path(steps):
 	#Go through each step in the path
@@ -196,7 +225,8 @@ func clear_paths():
 	#Clear the list
 	_paths = []
 
-func show_buildable_tiles():
+#Shouldn't ever need this function, remove it if so
+func __show_buildable_tiles():
 	
 	#Get all open tiles if we aren't already showing
 	if _checkmarks:
@@ -222,7 +252,8 @@ func clear_open_tiles():
 	#And stop paying attention to them
 	_checkmarks = null
 
-func get_buildable_tiles():
+#Shouldn't need this function
+func __get_buildable_tiles():
 	#Get a list of all 'good' tiles by X and Y
 	var open_tiles = []
 	
@@ -253,21 +284,36 @@ func tile_is_open(x, y):
 	#We are not on a good tile
 	return false
 	
+var CHECK_PATHFINDING = true
 func tile_is_buildable(x, y):
 	#Check to see if we can build on it
 	var item_index = get_cell_item(x, 0, y)
-	
+	var position = Vector2(x, y)
+
 	#Is it empty?
-	if item_index in buildable_cells:
-		#No other towers there?
-		if _get_tower_at_location(x, y):
-			return false
+	var empty_tile = (item_index in buildable_cells) and (_get_tower_at_location(x, y) == null)
+	
+	#Test if it breaks pathfinding too
+	if CHECK_PATHFINDING and empty_tile:
+		#Did we already have an answer?
+		if _precalculated_can_build.has(position):
+			return _precalculated_can_build[position]
 		
-		#We can build here
-		return true
+		#Do the pathfinding, but give it an additional blocking tile
+		var blocked_tiles = [Vector2(x, y)]
+		var new_paths = _get_all_paths(blocked_tiles)
+		var can_build = validate_paths(new_paths)
+		_precalculated_can_build[position] = can_build
+		return can_build
 		
-	#Can't build here
+		
+	else:
+		#Not doing the pathfinding game
+		return empty_tile
+
+	#Not a good tile
 	return false
+
 	
 func add_tower(x, y, tower):
 	#Add a tower if possible
@@ -334,11 +380,16 @@ func _build_step(g_score, f_score, point, parent):
 		'parent': parent,
 	}
 
-func find_path(start_position, end_position):
+func find_path(start_position, end_position, blocked_tiles=null):
 	
 	#Open and closed tiles
 	var open = [_build_step(0, 0, start_position, null)]
 	var closed = {}
+
+	#Were there any blocked tiles?
+	if blocked_tiles != null:
+		for blocked_tile in blocked_tiles:
+			closed[blocked_tile] = true
 	
 	#While we haven't run out of tiles...
 	var previous_tile = null
@@ -450,8 +501,14 @@ func select_tile_at_world_position(target_position):
 	#Get the tile under the mouse
 	#print("target_position" + String(target_position))
 	var logicalPos = world_to_map(target_position - transform.origin)
+	
+	#Did it move?
+	if _tile_selector and _tile_selector.tile_position == logicalPos:
+		#No tile movements, do nothing
+		return _tile_selector
+	
 	#print("logicalPos" + String(logicalPos))
-	var absolutePosition = Vector3(logicalPos.x, 1,  logicalPos.z)*tile_size + Vector3(tile_size, tile_size, tile_size)/2
+	var absolutePosition = Vector3(logicalPos.x, 0.25,  logicalPos.z)*tile_size + Vector3(tile_size, tile_size, tile_size)/2
 	#print("absolutePosition" + String(absolutePosition))
 	#Make a selector mesh
 	if not _tile_selector:
@@ -461,6 +518,10 @@ func select_tile_at_world_position(target_position):
 	# Move it
 	_tile_selector.transform.origin = absolutePosition
 	_tile_selector.tile_position = logicalPos
+	
+	#Can we place a tower there?
+	var is_valid = tile_is_buildable(logicalPos.x, logicalPos.z)
+	_tile_selector.set_valid(is_valid)
 	return _tile_selector
 	
 
