@@ -4,21 +4,29 @@ extends Node
 # var a = 2
 # var b = "textvar"
 
+signal TowerPicked(tower)
+
+export(String) var currentTower = null
+
 func __isDragging():
 	return self.get_node("DragReceiver").visible
 
 func __dropped(dropPos, dropTower):
-	print("I dropped a " + str(dropTower) + " tower at " + str(dropPos))
+	if (dropTower != null):
+		print("I dropped a " + str(dropTower) + " tower at " + str(dropPos))
 
 func __pressed(a):
 	print("press encountered: "+str(a))
-	self.get_node("DragReceiver").visible = true
+	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
+		if (N.towerText != a):
+			N.toggledOn = false
+	self.emit_signal("TowerPicked", a)
+	self.currentTower = a
 	
 
 func _ready():
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
 		N.connect("TowerButtonPressed", self, "__pressed")
-	self.get_node("./DragReceiver").connect("DroppedTowerAt", self, "__dropped")
 
 func setAvailable(towerString, enabled):
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():

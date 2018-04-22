@@ -4,6 +4,9 @@ extends Control
 # var a = 2
 # var b = "textvar"
 
+#not really used anymore
+
+
 signal DroppedTowerAt(dropPos, dropData) 
 
 
