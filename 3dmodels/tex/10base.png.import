@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/10base.png-002f1020b60ec571056bd0bd5abad8eb.s3tc.stex"
-path.etc2="res://.import/10base.png-002f1020b60ec571056bd0bd5abad8eb.etc2.stex"
+path.s3tc="res://.import/10base.png-cccaf0d3f535ec287ebe90d28b66b79a.s3tc.stex"
+path.etc2="res://.import/10base.png-cccaf0d3f535ec287ebe90d28b66b79a.etc2.stex"
 
 [deps]
 
-source_file="res://3dmodels/10base.png"
+source_file="res://3dmodels/tex/10base.png"
 source_md5="2ec947afe9a41706a81a30a6277de667"
 
-dest_files=[ "res://.import/10base.png-002f1020b60ec571056bd0bd5abad8eb.s3tc.stex", "res://.import/10base.png-002f1020b60ec571056bd0bd5abad8eb.etc2.stex" ]
+dest_files=[ "res://.import/10base.png-cccaf0d3f535ec287ebe90d28b66b79a.s3tc.stex", "res://.import/10base.png-cccaf0d3f535ec287ebe90d28b66b79a.etc2.stex" ]
 dest_md5="a896a8773107f05de98d93840126c1e0"
 
 [params]

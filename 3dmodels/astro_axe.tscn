@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://3dmodels/astro.dae" type="PackedScene" id=1]
-[ext_resource path="res://3dmodels/tex10.tres" type="Material" id=2]
+[ext_resource path="res://3dmodels/dae/astro.dae" type="PackedScene" id=1]
+[ext_resource path="res://3dmodels/mat/tex10.tres" type="Material" id=2]
 [ext_resource path="res://3dmodels/12TEX.material" type="Material" id=3]
-[ext_resource path="res://3dmodels/tex12.tres" type="Material" id=4]
+[ext_resource path="res://3dmodels/mat/tex12.tres" type="Material" id=4]
 
-[sub_resource type="ArrayMesh" id=3]
+[sub_resource type="ArrayMesh" id=1]
 
 resource_name = "Cube.001"
 blend_shape_mode = 1
@@ -24,7 +24,7 @@ surfaces/0 = {
 "vertex_count": 24
 }
 
-[sub_resource type="ArrayMesh" id=4]
+[sub_resource type="ArrayMesh" id=2]
 
 resource_name = "Circle.001"
 blend_shape_mode = 1
@@ -43,9 +43,8 @@ surfaces/0 = {
 "vertex_count": 35
 }
 
-[sub_resource type="ArrayMesh" id=2]
+[sub_resource type="ArrayMesh" id=3]
 
-resource_name = "Cylinder.005"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -64,12 +63,6 @@ surfaces/0 = {
 
 [node name="astro_axe" index="0" instance=ExtResource( 1 )]
 
-editor/display_folded = true
-
-[node name="10base" parent="." index="0"]
-
-editor/display_folded = true
-
 [node name="Skeleton" parent="10base" index="0"]
 
 bones/7/bound_children = [ NodePath("bone_chest") ]
@@ -83,7 +76,7 @@ _sections_unfolded = [ "material" ]
 
 [node name="bone_chest" type="BoneAttachment" parent="10base/Skeleton" index="1"]
 
-transform = Transform( 1, 2.38419e-07, 0, -3.98902e-08, 0.167312, -0.985904, -2.35058e-07, 0.985904, 0.167312, -3.55271e-15, 0.0465125, 0.00581406 )
+transform = Transform( 0.974043, -0.223025, 0.0387373, 0.0736648, 0.15049, -0.985863, 0.214042, 0.963126, 0.163013, 8.09204e-11, -0.00959962, 0.00581407 )
 bone_name = "chest"
 
 [node name="chestpiece" type="MeshInstance" parent="10base/Skeleton/bone_chest" index="0"]
@@ -98,14 +91,14 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 3 )
+mesh = SubResource( 1 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 4 )
 _sections_unfolded = [ "material" ]
 
 [node name="bone_head" type="BoneAttachment" parent="10base/Skeleton" index="2"]
 
-transform = Transform( -1, 3.89414e-07, 5.83479e-14, 1.91269e-07, 0.491172, -0.871063, -3.39204e-07, -0.871063, -0.491172, 2.90032e-14, 0.730615, -0.0891491 )
+transform = Transform( -0.997451, -0.065549, 0.0281942, -0.0567451, 0.489113, -0.870372, 0.0432617, -0.869753, -0.491586, -0.0485358, 0.672143, -0.0864637 )
 bone_name = "head"
 
 [node name="circlet" type="MeshInstance" parent="10base/Skeleton/bone_head" index="0"]
@@ -120,14 +113,14 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 4 )
+mesh = SubResource( 2 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 4 )
 _sections_unfolded = [ "material" ]
 
 [node name="bone_handR" type="BoneAttachment" parent="10base/Skeleton" index="3"]
 
-transform = Transform( 1.15955e-07, -0.60745, 0.794358, -1.13288e-07, 0.794358, 0.60745, -1, -7.75702e-08, 8.66554e-08, -0.741832, -0.00981803, -0.0325589 )
+transform = Transform( -0.909129, -0.415117, -0.0340946, -0.171933, 0.299462, 0.938489, -0.379373, 0.859069, -0.343622, -0.302512, -0.273098, -0.333423 )
 bone_name = "hand.r"
 
 [node name="axe" type="MeshInstance" parent="10base/Skeleton/bone_handR" index="0"]
@@ -142,7 +135,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 2 )
+mesh = SubResource( 3 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 4 )
 _sections_unfolded = [ "material" ]
