@@ -10,7 +10,6 @@
 
 [node name="open" type="MeshInstance" parent="." index="0"]
 
-transform = Transform( 0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -27,7 +26,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="rock" type="MeshInstance" parent="." index="1"]
 
-transform = Transform( 0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.183677, 0.0121534 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.183677, 0.0121534 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -45,7 +44,7 @@ _sections_unfolded = [ "Transform", "material" ]
 
 [node name="goal" type="MeshInstance" parent="." index="2"]
 
-transform = Transform( 0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0.0591458, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0591458, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
