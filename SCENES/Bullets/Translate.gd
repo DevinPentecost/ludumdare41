@@ -79,8 +79,6 @@ func __move(delta):
 
 func _process(delta):
 	__move(delta)
-	while (__leftoverSpeed > 0.0):
-		__move(delta)
 
 func __closeEnough(vectorA, vectorB):
 	var distance = vectorA.distance_to(vectorB)
