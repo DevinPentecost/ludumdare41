@@ -156,7 +156,7 @@ func __handleUiPick(towerString):
 
 func __handleBaddieClick(baddie):
 	for T in self.towerList:
-		T.get_node("./Tower").shootAt(baddie)
+		T.find_node("Tower", true, true).shootAt(baddie)
 
 func __handleTileClick(pos):
 	if (uiOverlay.currentTower == null):

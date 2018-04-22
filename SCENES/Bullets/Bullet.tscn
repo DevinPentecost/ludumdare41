@@ -160,7 +160,7 @@ subdivide_depth = 0
 
 radius = 1.0
 
-[node name="Bullet" type="Spatial"]
+[node name="Bullet" type="Spatial" index="0"]
 
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 script = ExtResource( 1 )
@@ -228,6 +228,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="WaypointFollower" parent="." index="1" instance=ExtResource( 3 )]
 
-accl = 0.1
+speed = 20.0
+accl = 0.2
 
 
