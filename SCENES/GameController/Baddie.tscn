@@ -3,7 +3,7 @@
 [ext_resource path="res://SCENES/GameController/Baddie.gd" type="Script" id=1]
 [ext_resource path="res://SCENES/Bullets/WaypointFollower.tscn" type="PackedScene" id=2]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=1]
 
 render_priority = 0
 flags_transparent = false
@@ -26,7 +26,7 @@ params_point_size = 1.0
 params_billboard_mode = 0
 params_grow = false
 params_use_alpha_scissor = false
-albedo_color = Color( 0.21875, 1, 0, 1 )
+albedo_color = Color( 1, 0, 0, 1 )
 metallic = 0.0
 metallic_specular = 0.5
 metallic_texture_channel = 0
@@ -55,15 +55,15 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Albedo" ]
 
-[sub_resource type="CapsuleMesh" id=1]
+[sub_resource type="CapsuleMesh" id=2]
 
-material = SubResource( 3 )
+material = SubResource( 1 )
 radius = 1.0
 mid_height = 1.0
 radial_segments = 64
 rings = 8
 
-[sub_resource type="CapsuleShape" id=2]
+[sub_resource type="CapsuleShape" id=3]
 
 radius = 1.0
 height = 1.0
@@ -152,7 +152,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Transform" ]
@@ -183,7 +183,7 @@ _sections_unfolded = [ "Audio Bus", "Collision", "Reverb Bus", "Transform" ]
 
 [node name="CollisionShape" type="CollisionShape" parent="VisibleMesh/Area" index="0"]
 
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 disabled = false
 _sections_unfolded = [ "Transform" ]
 
