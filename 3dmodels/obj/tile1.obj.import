@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh"
+
+[deps]
+
+files=[ "res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh" ]
+
+source_file="res://3dmodels/obj/tile1.obj"
+source_md5="5b97cada9ab98840675eecb7fe64cd3a"
+
+dest_files=[ "res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh", "res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh" ]
+dest_md5="165a5ee6831dfabccc83b0ff1e688867"
+
+[params]
+
+generate_tangents=true
