@@ -21,13 +21,11 @@ script = ExtResource( 2 )
 
 baddieHealth = 1
 baddieSpeed = 3
-baddiePowerDrain = 0
 
 [node name="Level2" parent="Levels" index="1" instance=ExtResource( 3 )]
 
 numBaddies = 15
 baddieHealth = 1
 baddieSpeed = 5
-baddiePowerDrain = 0
 
 

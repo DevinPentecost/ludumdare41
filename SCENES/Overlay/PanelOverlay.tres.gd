@@ -42,6 +42,7 @@ func _ready():
 func unselectAll():
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
 		N.toggledOn = false
+		currentTower = null
 
 func setAvailable(towerString, enabled):
 	for N in self.get_node("./Container/NinePatchRect/HBoxContainer").get_children():
