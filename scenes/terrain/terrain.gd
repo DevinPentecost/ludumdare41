@@ -3,6 +3,7 @@ tool
 
 var checkmark_scene = preload("res://scenes/terrain/Checkmark.tscn")
 var path_scene = preload("res://scenes/terrain/Path.tscn")
+var selector_scene = preload("res://SCENES/terrain/TileSelector.tscn")
 
 #Cell indicies. This MUST match what is used in the meshlibrary!
 enum tile_types {
@@ -19,6 +20,8 @@ signal new_paths_ready(newPathsSteps)
 var _towers = []
 var _checkmarks = null
 var _paths = []
+var _tile_selectors = []
+var highlighted_tile_position = null
 
 enum refresh {
 	REFRESH,
@@ -58,6 +61,7 @@ func _refresh_all():
 	#Also show open tiles and stuff
 	_show_checkpoints()
 	_rebuild_map()
+	rebuild_selectors()
 	
 	#And pathfinding
 	refresh_pathfinding()
@@ -76,7 +80,27 @@ func _rebuild_map():
 			if get_cell_item(x, 0, y) == INVALID_CELL_ITEM:
 				#We can set it to the ground
 				set_cell_item(x, 0, y, tile_types.OPEN)
+
+func rebuild_selectors():
+	#Clear the old ones
+	for selector in _tile_selectors:
+		selector.queue_free()
 	
+	#Make them
+	for position in get_used_cells():
+		#Create a new scene
+		var tile_selector = selector_scene.instance()
+		tile_selector.translate(map_to_world(position.x, position.y, position.z))
+		tile_selector.connect("tile_highlighted", self, "_on_tile_highlighted")
+		add_child(tile_selector)
+		
+
+func _on_tile_highlighted(tile):
+	#Just store it for now
+	tile = tile[0]
+	highlighted_tile_position = world_to_map(tile.to_global(tile.transform.origin))
+	#TODO: Highlight red if we can't build there for any reason, including pathfinding
+
 func refresh_pathfinding():
 	#For each checkpoint
 	var prev_checkpoint = null
