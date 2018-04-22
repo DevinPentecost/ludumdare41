@@ -47,7 +47,7 @@ func __move():
 	
 	var distanceToTargetCoord = targetCoord.distance_to(__spatialNode.global_transform.origin)
 	var desiredBearing = Vector3(targetCoord - __spatialNode.global_transform.origin).normalized()
-	var desiredMove = desiredBearing * __availSpeed
+	var desiredMove = desiredBearing * __availSpeed# * 4 #DEBUG
 	
 	var projectedVelocity = (desiredMove * accl) + (__prevVelocity * (1 - accl))
 	var projectedDistanceMoved = projectedVelocity.length()

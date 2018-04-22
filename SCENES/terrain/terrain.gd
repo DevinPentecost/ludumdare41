@@ -16,6 +16,7 @@ var buildable_cells = [tile_types.OPEN]
 
 var kSizeWide = 50
 var kSizeHigh = 50
+var tile_size = 7.2
 
 var kNumTiles = kSizeWide * kSizeHigh
 var map_size = Vector2(kSizeWide, kSizeHigh)
@@ -133,11 +134,11 @@ func _rebuild_map():
 
 func refresh_selector():
 	#We know our size, so we know where to move it
-	var position = map_size/2 * 2
+	var position = map_size/2 * tile_size
 	$Selector.transform.origin = Vector3(position.x, 0, position.y)
 	
 	#Set the shape size
-	$Selector/CollisionShape.shape.extents = Vector3(position.x, 0.5, position.y)
+	$Selector/CollisionShape.shape.extents = Vector3(position.x, tile_size/2, position.y)
 
 func refresh_pathfinding():
 	print("Refreshing Pathfinding")
@@ -151,8 +152,6 @@ func refresh_pathfinding():
 			#We can make a path
 			#print("Pathing: " + String(prev_checkpoint) + " to :" + String(checkpoint))
 			var path = find_path(prev_checkpoint, checkpoint)
-			
-			
 			
 			#Could we find one?
 			if not path:
@@ -378,7 +377,8 @@ func find_path(start_position, end_position):
 			return path
 		
 		#Check adjacent tiles
-		for pos in __crappyPathRandom():
+		#for pos in __crappyPathRandom():
+		for pos in posList:
 			#Are we ignoring this tile?
 			var adjacent_tile = next_step.pt + Vector2(pos[0], pos[1])
 			
@@ -451,7 +451,7 @@ func select_tile_at_world_position(target_position):
 	#print("target_position" + String(target_position))
 	var logicalPos = world_to_map(target_position - transform.origin)
 	#print("logicalPos" + String(logicalPos))
-	var absolutePosition = Vector3(logicalPos.x, 0,  logicalPos.z)*2 + Vector3(1, 1, 1)
+	var absolutePosition = Vector3(logicalPos.x, 1,  logicalPos.z)*tile_size + Vector3(tile_size, tile_size, tile_size)/2
 	#print("absolutePosition" + String(absolutePosition))
 	#Make a selector mesh
 	if not _tile_selector:
