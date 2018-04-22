@@ -429,3 +429,4 @@ func select_tile_at_world_position(target_position):
 		
 		#Move it
 		_tile_selector.transform.origin = position
+		_tile_selector.tile_position = position

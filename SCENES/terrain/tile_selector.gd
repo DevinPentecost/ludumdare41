@@ -8,6 +8,9 @@ extends MeshInstance
 export(Material) var visible_material = Color(1, 1, 1, 0.25)
 export(Material) var hidden_material = Color(1, 1, 1, 0)
 
+#Position
+var tile_position = Vector2(0, 0)
+
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
