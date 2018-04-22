@@ -54,7 +54,7 @@ func _process(deltaSeconds):
 	timeSinceLastSpawnSeconds = timeSinceLastSpawnSeconds + deltaSeconds
 	if spawner.timeForNextBaddie(timeSinceLastSpawnSeconds):
 		timeSinceLastSpawnSeconds = 0
-		spawnNext(1)
+		spawnNext(baddiePath2D[0][0])
 	
 	# I think thats all we care about!
 	return
@@ -99,6 +99,7 @@ func spawnNext(spawnGridLocation):
 	if newBaddie != null:
 		# We need to track this baddie
 		newBaddie.connect("just_died", self, "_baddieDied", [newBaddie])
+		newBaddie.connect("escaped", self, "_baddieEscaped", [newBaddie])
 		baddieList.append(newBaddie)
 		add_child(newBaddie)
 		var follower = newBaddie.get_node("WaypointFollower")
@@ -113,6 +114,15 @@ func _baddieDied(theBaddie):
 	remove_child(theBaddie)
 	theBaddie.queue_free()
 	# Emit an event?
+	pass
+
+func _baddieEscaped(theBaddie):
+	# Remove from the list
+	emit_signal("damage_taken")
+	
+	baddieList.erase(theBaddie)
+	remove_child(theBaddie)
+	theBaddie.queue_free()
 	pass
 
 func _handleNewPaths(pathList):

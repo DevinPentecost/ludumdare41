@@ -34,6 +34,7 @@ func _ready():
 
 func createBaddieInstance(gridLocation):
 	var newBaddie = baddieScene.instance()
+	newBaddie.transform.origin = gridLocation
 	print("New Baddie!")
 	newBaddie.baddieHealth = baddieHealth
 	newBaddie.baddieSpeed = baddieSpeed
