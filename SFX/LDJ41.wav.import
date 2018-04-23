@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/LDJ41.wav-dc376030865d6dee49e09a6ca1ceeb11.sample"
+
+[deps]
+
+source_file="res://SFX/LDJ41.wav"
+source_md5="666457331e0706f4931caf1334f738e3"
+
+dest_files=[ "res://.import/LDJ41.wav-dc376030865d6dee49e09a6ca1ceeb11.sample" ]
+dest_md5="6e280a4d630f301ce15a14ba61b024cd"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

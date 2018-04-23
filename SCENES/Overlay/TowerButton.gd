@@ -82,6 +82,8 @@ func _ready():
 	self.get_node("./NinePatchRect/VBoxContainer/TowerLabel").text = self.towerText
 	self.get_node("./NinePatchRect").texture = bgDisabled
 	
+	#Set the tooltip
+	hint_tooltip = "Makes a bone dude. Costs 2 bones" #TODO: Get better descriptions
 	
 	ready = true
 

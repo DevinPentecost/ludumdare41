@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://SCENES/test/CalebSandbox.gd" type="Script" id=1]
 [ext_resource path="res://SCENES/GameController/GameController.tscn" type="PackedScene" id=2]
 [ext_resource path="res://SCENES/Camera/CameraPan.tscn" type="PackedScene" id=3]
 [ext_resource path="res://SCENES/terrain/terrain.tscn" type="PackedScene" id=4]
 [ext_resource path="res://SCENES/Overlay/PanelOverlay.tscn" type="PackedScene" id=5]
+[ext_resource path="res://SFX/LDJ41.wav" type="AudioStream" id=6]
 
 [node name="CalebSandbox" type="Node" index="0"]
 
@@ -128,8 +129,18 @@ cast_to = Vector3( 0, 0, 0 )
 collision_mask = 1
 _sections_unfolded = [ "Transform", "Visibility" ]
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="6"]
+
+stream = ExtResource( 6 )
+volume_db = -25.0
+autoplay = true
+mix_target = 0
+bus = "Master"
+
 [connection signal="damage_taken" from="GameController" to="." method="_on_GameController_damage_taken"]
 
 [connection signal="pressed" from="lifeLost/Button" to="." method="_on_Button_pressed"]
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]
 
 
