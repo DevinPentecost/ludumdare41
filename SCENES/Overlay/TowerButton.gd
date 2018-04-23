@@ -91,24 +91,6 @@ func __hover():
 func __disable():
 	self.get_node("./NinePatchRect").texture = bgDisabled
 
-func __getPreview():
-	var drag = TextureRect.new()
-	drag.texture = self.towerIcon
-	return drag
-
-func get_drag_data(pos):
-	if disabled:
-		return null
-	else:
-		set_drag_preview(__getPreview())
-		return self.towerText
-
-# don't receive drops
-func can_drop_data(pos, data):
-	return false
-
-func drop_data(pos, data):
-	print("dropping tower data")
 
 func _on_TowerButton_mouse_entered():
 	if disabled:
