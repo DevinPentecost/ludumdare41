@@ -590,8 +590,8 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="title" type="Sprite" parent="UI" index="0"]
 
-position = Vector2( 509.896, 155.174 )
-scale = Vector2( 0.190629, 0.190629 )
+position = Vector2( 532.432, 122.937 )
+scale = Vector2( 0.272262, 0.272262 )
 texture = ExtResource( 8 )
 _sections_unfolded = [ "Visibility" ]
 

@@ -7,10 +7,10 @@ path="res://.import/title.png-9b70ebf3cbba4aeae79e9fef56133278.stex"
 [deps]
 
 source_file="res://SCENES/mainmenu/title.png"
-source_md5="8a8d35eb81f1c1fbb6fab8e203f48361"
+source_md5="91c308b6398e3953ccd3d6f9cb84c365"
 
 dest_files=[ "res://.import/title.png-9b70ebf3cbba4aeae79e9fef56133278.stex" ]
-dest_md5="adc36572c73004a661df7753a616f6e2"
+dest_md5="121bb289254b057b4aa248127a2f65d0"
 
 [params]
 
