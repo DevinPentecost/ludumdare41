@@ -15,10 +15,11 @@ rings = 4
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
 towerType = "Poncho"
-towerIcon = "res://UISPRITES/cursorSword_gold.png"
+towerIcon = "res://UISPRITES/cursorSword_bronze.png"
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.99074, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1

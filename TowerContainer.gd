@@ -1,9 +1,13 @@
 extends Spatial
 
+### THIS IS WHERE TOWER INFO GOES! ###
+
 export(String) var towerType = "abstract"
-export(NodePath) var bulletPath = NodePath("res://SCENES/Bullets/Bullet.tscn")
-export(String) var towerIcon = str("res://UISPRITES/cursorBronze.png")
-var buttonPath = NodePath("res://SCENES/Overlay/TowerButton.tscn")
+export(String) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
+export(String) var towerIcon = "res://UISPRITES/cursorBronze.png"
+
+
+
 
 func canShoot(baddie):
 	return true
@@ -17,13 +21,11 @@ func shootAt(baddie):
 
 func __createBullet():
 	var nBullet = (load(bulletPath)).instance()
+	self.add_child(nBullet)
 	#todo: orient to this spatial's facing
 	nBullet.global_transform.origin = self.global_transform.origin
-	self.add_child(nBullet)
 	return nBullet
 
-func _ready():
-	print("new "+_description())
 
 func _description():
 	return str(self.towerType) +" tower at " + str(self.global_transform.origin)

@@ -75,6 +75,8 @@ func _process(delta):
 		if (waypoints.size() == 0):
 			emit_signal("TranslationFinishedSignal", self)
 			break
+		elif (waypoints[0] == null):
+			waypoints.remove(0)
 		elif (__availSpeed >= 0.0002):
 			__move()
 		else:

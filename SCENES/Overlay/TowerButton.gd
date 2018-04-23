@@ -4,8 +4,8 @@ extends Container
 # var a = 2
 # var b = "textvar"
 
-signal TowerButtonPressed(towerName)
-signal TowerButtonUnpressed(towerName) 
+signal TowerButtonPressed(towerName, towerInstancePath)
+signal TowerButtonUnpressed(towerName, towerInstancePath) 
 
 #this doubles as the "dropped data"
 #don't set this
@@ -38,7 +38,7 @@ func disabled_set(newvalue):
 		print(self.towerText + " disabled " + str(newvalue))
 		if disabled:
 			self.get_node("./NinePatchRect").texture = bgDisabled
-			emit_signal("TowerButtonUnpressed", self.towerText)
+			emit_signal("TowerButtonUnpressed", self.towerText, towerInstancePath)
 		else:
 			self.get_node("./NinePatchRect").texture = bgUp
 
@@ -54,7 +54,7 @@ func toggledOn_set(newvalue):
 			toggledOn=newvalue
 			if (toggledOn):
 				self.get_node("./NinePatchRect").texture = bgDown
-				emit_signal("TowerButtonPressed", self.towerText)
+				emit_signal("TowerButtonPressed", self.towerText, towerInstancePath)
 			else:
 				self.get_node("./NinePatchRect").texture = bgUp
 		print(self.towerText + " toggled " + str(newvalue))
@@ -138,9 +138,9 @@ func _on_TowerButton_gui_input(ev):
 				toggledOn = !toggledOn
 				if (toggledOn):
 					__down()
-					emit_signal("TowerButtonPressed", self.towerText)
+					emit_signal("TowerButtonPressed", self.towerText, towerInstancePath)
 				else:
 					__hover()
-					emit_signal("TowerButtonUnpressed", self.towerText)
+					emit_signal("TowerButtonUnpressed", self.towerText, towerInstancePath)
 			else:
 				__hover()

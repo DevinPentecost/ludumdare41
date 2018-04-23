@@ -19,6 +19,7 @@ towerIcon = "res://UISPRITES/cursorSword_bronze.png"
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36309, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
