@@ -12,6 +12,9 @@ onready var bottle1 = get_node("./bottle_start")
 onready var bottle2 = get_node("./bottle_quit")
 onready var tween = get_node("./tween")
 
+onready var song = get_node("./sfx/song")
+onready var wind = get_node("./sfx/wind")
+
 
 
 onready var skel_rot = skel.rotation_degrees
@@ -54,6 +57,7 @@ func bcheck(vx,vy):
 			tween.interpolate_property(bottle2,"translation",bottle2.translation,bottle2.translation+Vector3(1,3,10),tweentime,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
 			tween.interpolate_property(bottle2,"rotation_degrees",Vector3(0,0,0),Vector3(1000,200,0),tweentime/2,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
 			
+			
 			#quit here
 			tween.interpolate_callback(self,tweentime/2,"quitgame")
 			tween.start()
@@ -86,8 +90,13 @@ func _input(event):
 						tween.interpolate_property(env,"dof_blur_far_amount",0,0.1,tweentime,Tween.TRANS_QUAD,Tween.EASE_IN_OUT,0)
 						tween.interpolate_property(env,"dof_blur_near_amount",0.1,0.0,tweentime,Tween.TRANS_QUAD,Tween.EASE_IN_OUT,0)
 						tween.interpolate_property(cam,"fov",8,16,tweentime,Tween.TRANS_QUAD,Tween.EASE_IN_OUT,0)
+						tween.interpolate_property(wind,"volume_db",-15,-50,tweentime,Tween.TRANS_LINEAR,Tween.EASE_IN,0)
 						
 						tween.interpolate_callback(self,tweentime,"switchtitle")
+						
+						
+						# fade to show bottles
+						song.play()
 						
 						tween.start()
 						
