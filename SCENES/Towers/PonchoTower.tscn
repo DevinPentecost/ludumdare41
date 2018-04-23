@@ -10,12 +10,12 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[node name="KisserTower" type="Spatial"]
+[node name="PonchoTower" type="Spatial"]
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
-towerType = "Kisser"
-towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+towerType = "Poncho"
+towerIcon = "res://UISPRITES/cursorSword_gold.png"
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 

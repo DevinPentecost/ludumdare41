@@ -1,8 +1,9 @@
 extends Spatial
 
-export(String) var towerType = null
-export(NodePath) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
-
+export(String) var towerType = "abstract"
+export(NodePath) var bulletPath = NodePath("res://SCENES/Bullets/Bullet.tscn")
+export(String) var towerIcon = str("res://UISPRITES/cursorBronze.png")
+var buttonPath = NodePath("res://SCENES/Overlay/TowerButton.tscn")
 
 func canShoot(baddie):
 	return true

@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://SCENES/Overlay/PanelOverlay.tres.gd" type="Script" id=1]
 [ext_resource path="res://UISPRITES/panel_brown.png" type="Texture" id=2]
 [ext_resource path="res://SCENES/Overlay/TowerButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://UISPRITES/cursorSword_gold.png" type="Texture" id=4]
-[ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=5]
+[ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 
@@ -14,7 +13,7 @@ region = Rect2( 0, 0, 0, 0 )
 margin = Rect2( 0, 0, 0, 0 )
 filter_clip = false
 
-[node name="UiOverlay" type="Node" index="0"]
+[node name="UiOverlay" type="Node"]
 
 script = ExtResource( 1 )
 currentTower = null
@@ -87,8 +86,6 @@ margin_right = 80.0
 grow_horizontal = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "custom_styles" ]
 towerText = "Kisser"
-disabled = null
-toggledOn = null
 
 [node name="TowerButton2" parent="Container/NinePatchRect/HBoxContainer" index="1" instance=ExtResource( 3 )]
 
@@ -96,10 +93,9 @@ margin_top = 104.0
 margin_right = 80.0
 margin_bottom = 204.0
 _sections_unfolded = [ "Material", "Mouse", "Rect", "Size Flags", "custom_styles" ]
-towerText = "Sheriff"
-towerIcon = ExtResource( 4 )
-disabled = null
-toggledOn = null
+towerText = "Poncho"
+towerIcon = "res://UISPRITES/cursorSword.png"
+towerInstancePath = "res://SCENES/Towers/PonchoTower.tscn"
 
 [node name="DragReceiver" type="Control" parent="." index="1"]
 
@@ -114,7 +110,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Focus", "Margin", "Material", "Mouse", "Visibility" ]
 dropPos = null
 dropData = null
