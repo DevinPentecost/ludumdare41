@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://3dmodels/obj/tile1.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://3dmodels/obj/mountain.obj" type="ArrayMesh" id=2]
-[ext_resource path="res://3dmodels/mat/mountain.tres" type="Material" id=3]
-[ext_resource path="res://3dmodels/obj/teepee.obj" type="ArrayMesh" id=4]
-[ext_resource path="res://3dmodels/mat/teepee.tres" type="Material" id=5]
+[ext_resource path="res://3dmodels/obj/tile1.tres" type="ArrayMesh" id=1]
+[ext_resource path="res://3dmodels/mat/tile1.tres" type="Material" id=2]
+[ext_resource path="res://3dmodels/obj/mountain.tres" type="ArrayMesh" id=3]
+[ext_resource path="res://3dmodels/mat/mountain.tres" type="Material" id=4]
+[ext_resource path="res://3dmodels/obj/teepee.tres" type="ArrayMesh" id=5]
+[ext_resource path="res://3dmodels/mat/teepee.tres" type="Material" id=6]
 
-[node name="terrain_meshlibrary" type="Spatial" index="0"]
+[node name="terrain_meshlibrary" type="Spatial"]
 
 [node name="open" type="MeshInstance" parent="." index="0"]
 
@@ -21,8 +22,8 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = ExtResource( 1 )
 skeleton = NodePath("..")
-material/0 = null
-_sections_unfolded = [ "Transform" ]
+material/0 = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "material" ]
 
 [node name="rock" type="MeshInstance" parent="." index="1"]
 
@@ -36,10 +37,10 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = ExtResource( 2 )
+mesh = ExtResource( 3 )
 skeleton = NodePath("..")
-material/0 = ExtResource( 3 )
-material/1 = ExtResource( 3 )
+material/0 = ExtResource( 4 )
+material/1 = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "material" ]
 
 [node name="goal" type="MeshInstance" parent="." index="2"]
@@ -54,10 +55,11 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = ExtResource( 4 )
+mesh = ExtResource( 5 )
 skeleton = NodePath("..")
-material/0 = ExtResource( 5 )
-material/1 = ExtResource( 5 )
+material/0 = ExtResource( 6 )
+material/1 = ExtResource( 6 )
+material/2 = ExtResource( 2 )
 _sections_unfolded = [ "Transform", "material" ]
 
 

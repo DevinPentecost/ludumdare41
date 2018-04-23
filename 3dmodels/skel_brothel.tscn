@@ -13,7 +13,7 @@
 [ext_resource path="res://3dmodels/mat/03tex.tres" type="Material" id=11]
 [ext_resource path="res://3dmodels/dae/05tex.material" type="Material" id=12]
 
-[sub_resource type="ArrayMesh" id=8]
+[sub_resource type="ArrayMesh" id=1]
 
 resource_name = "Plane"
 blend_shape_mode = 1
@@ -32,7 +32,7 @@ surfaces/0 = {
 "vertex_count": 272
 }
 
-[sub_resource type="SpatialMaterial" id=25]
+[sub_resource type="SpatialMaterial" id=2]
 
 render_priority = 0
 flags_transparent = false
@@ -85,7 +85,7 @@ proximity_fade_enable = false
 distance_fade_enable = false
 _sections_unfolded = [ "Albedo", "Parameters" ]
 
-[sub_resource type="ArrayMesh" id=11]
+[sub_resource type="ArrayMesh" id=3]
 
 resource_name = "Cube.002"
 blend_shape_mode = 1
@@ -104,7 +104,7 @@ surfaces/0 = {
 "vertex_count": 130
 }
 
-[sub_resource type="ArrayMesh" id=22]
+[sub_resource type="ArrayMesh" id=4]
 
 resource_name = "Cylinder.004"
 blend_shape_mode = 1
@@ -123,9 +123,8 @@ surfaces/0 = {
 "vertex_count": 95
 }
 
-[sub_resource type="ArrayMesh" id=3]
+[sub_resource type="ArrayMesh" id=5]
 
-resource_name = "Cylinder.002"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -142,7 +141,7 @@ surfaces/0 = {
 "vertex_count": 62
 }
 
-[sub_resource type="ArrayMesh" id=10]
+[sub_resource type="ArrayMesh" id=6]
 
 resource_name = "Cylinder.003"
 blend_shape_mode = 1
@@ -161,7 +160,7 @@ surfaces/0 = {
 "vertex_count": 94
 }
 
-[sub_resource type="ArrayMesh" id=13]
+[sub_resource type="ArrayMesh" id=7]
 
 resource_name = "Circle.003"
 blend_shape_mode = 1
@@ -180,7 +179,7 @@ surfaces/0 = {
 "vertex_count": 22
 }
 
-[sub_resource type="ArrayMesh" id=15]
+[sub_resource type="ArrayMesh" id=8]
 
 resource_name = "Plane.002"
 blend_shape_mode = 1
@@ -199,7 +198,7 @@ surfaces/0 = {
 "vertex_count": 10
 }
 
-[sub_resource type="ArrayMesh" id=20]
+[sub_resource type="ArrayMesh" id=9]
 
 resource_name = "Circle.006"
 blend_shape_mode = 1
@@ -218,7 +217,7 @@ surfaces/0 = {
 "vertex_count": 18
 }
 
-[sub_resource type="ArrayMesh" id=21]
+[sub_resource type="ArrayMesh" id=10]
 
 resource_name = "Cube.005"
 blend_shape_mode = 1
@@ -237,7 +236,7 @@ surfaces/0 = {
 "vertex_count": 45
 }
 
-[sub_resource type="ArrayMesh" id=23]
+[sub_resource type="ArrayMesh" id=11]
 
 resource_name = "Sphere"
 blend_shape_mode = 1
@@ -256,7 +255,7 @@ surfaces/0 = {
 "vertex_count": 69
 }
 
-[sub_resource type="ArrayMesh" id=16]
+[sub_resource type="ArrayMesh" id=12]
 
 resource_name = "Cylinder.008"
 blend_shape_mode = 1
@@ -275,7 +274,7 @@ surfaces/0 = {
 "vertex_count": 144
 }
 
-[sub_resource type="ArrayMesh" id=24]
+[sub_resource type="ArrayMesh" id=13]
 
 resource_name = "Cube.004"
 blend_shape_mode = 1
@@ -294,9 +293,8 @@ surfaces/0 = {
 "vertex_count": 40
 }
 
-[sub_resource type="ArrayMesh" id=12]
+[sub_resource type="ArrayMesh" id=14]
 
-resource_name = "Cylinder.006"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -313,9 +311,8 @@ surfaces/0 = {
 "vertex_count": 144
 }
 
-[sub_resource type="ArrayMesh" id=5]
+[sub_resource type="ArrayMesh" id=15]
 
-resource_name = "Cube.006"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -330,7 +327,7 @@ surfaces/0 = {
 "vertex_count": 62
 }
 
-[sub_resource type="ArrayMesh" id=17]
+[sub_resource type="ArrayMesh" id=16]
 
 resource_name = "Cylinder.007"
 blend_shape_mode = 1
@@ -349,9 +346,8 @@ surfaces/0 = {
 "vertex_count": 150
 }
 
-[sub_resource type="ArrayMesh" id=14]
+[sub_resource type="ArrayMesh" id=17]
 
-resource_name = "Cube.003"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -368,7 +364,7 @@ surfaces/0 = {
 "vertex_count": 40
 }
 
-[sub_resource type="ArrayMesh" id=19]
+[sub_resource type="ArrayMesh" id=18]
 
 resource_name = "Cylinder.009"
 blend_shape_mode = 1
@@ -385,9 +381,8 @@ surfaces/0 = {
 "vertex_count": 84
 }
 
-[sub_resource type="ArrayMesh" id=7]
+[sub_resource type="ArrayMesh" id=19]
 
-resource_name = "Circle"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -404,9 +399,8 @@ surfaces/0 = {
 "vertex_count": 6
 }
 
-[sub_resource type="ArrayMesh" id=6]
+[sub_resource type="ArrayMesh" id=20]
 
-resource_name = "Circle.001"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -423,9 +417,8 @@ surfaces/0 = {
 "vertex_count": 6
 }
 
-[sub_resource type="ArrayMesh" id=4]
+[sub_resource type="ArrayMesh" id=21]
 
-resource_name = "Cube.001"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -442,9 +435,8 @@ surfaces/0 = {
 "vertex_count": 34
 }
 
-[sub_resource type="ArrayMesh" id=9]
+[sub_resource type="ArrayMesh" id=22]
 
-resource_name = "Circle.002"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -461,9 +453,8 @@ surfaces/0 = {
 "vertex_count": 24
 }
 
-[sub_resource type="ArrayMesh" id=18]
+[sub_resource type="ArrayMesh" id=23]
 
-resource_name = "Circle.004"
 blend_shape_mode = 1
 custom_aabb = AABB( 0, 0, 0, 0, 0, 0 )
 surfaces/0 = {
@@ -506,7 +497,7 @@ _sections_unfolded = [ "material" ]
 
 [node name="bone_chest" type="BoneAttachment" parent="00skeleton/Skeleton" index="2"]
 
-transform = Transform( 0.927399, 0.358889, 0.105501, 0.0806783, 0.0834985, -0.993237, -0.365271, 0.929638, 0.0484818, 0.229778, 0.949753, -0.430359 )
+transform = Transform( 1, 0, 0, 0, 0.0838182, -0.996481, 0, 0.996481, 0.0838182, 0.229778, 0.949753, -0.430359 )
 bone_name = "chest"
 
 [node name="01vest" type="MeshInstance" parent="00skeleton/Skeleton/bone_chest" index="0"]
@@ -522,9 +513,9 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 8 )
+mesh = SubResource( 1 )
 skeleton = NodePath("..")
-material/0 = SubResource( 25 )
+material/0 = SubResource( 2 )
 
 [node name="02poncho" type="MeshInstance" parent="00skeleton/Skeleton/bone_chest" index="1"]
 
@@ -539,7 +530,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 11 )
+mesh = SubResource( 3 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 7 )
 
@@ -556,13 +547,13 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 22 )
+mesh = SubResource( 4 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 9 )
 
 [node name="bone_head" type="BoneAttachment" parent="00skeleton/Skeleton" index="3"]
 
-transform = Transform( 0.999145, -0.00297694, 0.0412261, 0.0351109, -0.465161, -0.88453, 0.0218098, 0.885221, -0.464659, -0.464966, 8.29347, -0.892936 )
+transform = Transform( 1, 2.38419e-07, -3.74418e-09, 1.06814e-07, -0.461937, -0.886912, -2.13186e-07, 0.886913, -0.461937, 0.229778, 8.31555, -0.789487 )
 bone_name = "head"
 
 [node name="01hat" type="MeshInstance" parent="00skeleton/Skeleton/bone_head" index="0"]
@@ -578,9 +569,9 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 3 )
+mesh = SubResource( 5 )
 skeleton = NodePath("..")
-material/0 = SubResource( 25 )
+material/0 = SubResource( 2 )
 
 [node name="02hat" type="MeshInstance" parent="00skeleton/Skeleton/bone_head" index="1"]
 
@@ -595,7 +586,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 10 )
+mesh = SubResource( 6 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 7 )
 
@@ -612,7 +603,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 13 )
+mesh = SubResource( 7 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
@@ -629,7 +620,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 15 )
+mesh = SubResource( 8 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
@@ -646,7 +637,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 20 )
+mesh = SubResource( 9 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 9 )
 _sections_unfolded = [ "material" ]
@@ -664,7 +655,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 21 )
+mesh = SubResource( 10 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 9 )
 
@@ -680,14 +671,14 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 23 )
+mesh = SubResource( 11 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 2 )
 _sections_unfolded = [ "material" ]
 
 [node name="bone_handL" type="BoneAttachment" parent="00skeleton/Skeleton" index="4"]
 
-transform = Transform( 0.621131, -0.6795, 0.390483, -0.655467, -0.723544, -0.216443, 0.429605, -0.121509, -0.894805, -2.37601, 3.55583, 9.25765 )
+transform = Transform( 8.11736e-07, -0.929934, 0.367728, 7.04633e-08, 0.367728, 0.929934, -1, 2.93841e-07, 1.14229e-07, -7.85069, -1.33144, 0.0110774 )
 bone_name = "hand.l"
 
 [node name="03pistolL" type="MeshInstance" parent="00skeleton/Skeleton/bone_handL" index="0"]
@@ -703,7 +694,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 16 )
+mesh = SubResource( 12 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
@@ -720,13 +711,13 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 24 )
+mesh = SubResource( 13 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
 [node name="bone_handR" type="BoneAttachment" parent="00skeleton/Skeleton" index="5"]
 
-transform = Transform( 0.189181, 0.934584, -0.301271, -0.163752, 0.332542, 0.928764, 0.968192, -0.126371, 0.215951, 5.09598, -0.265427, -2.66986 )
+transform = Transform( 1.38815e-07, 0.929934, -0.367728, -1.26475e-08, 0.367728, 0.929934, 1, -8.73317e-09, 1.22138e-07, 8.40215, -1.33145, 0.0110775 )
 bone_name = "hand.r"
 
 [node name="02rifle" type="MeshInstance" parent="00skeleton/Skeleton/bone_handR" index="0"]
@@ -742,7 +733,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 12 )
+mesh = SubResource( 14 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 7 )
 
@@ -759,9 +750,9 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 5 )
+mesh = SubResource( 15 )
 skeleton = NodePath("..")
-material/0 = SubResource( 25 )
+material/0 = SubResource( 2 )
 _sections_unfolded = [ "material" ]
 
 [node name="03pistolR" type="MeshInstance" parent="00skeleton/Skeleton/bone_handR" index="2"]
@@ -777,7 +768,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 17 )
+mesh = SubResource( 16 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
@@ -794,7 +785,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 14 )
+mesh = SubResource( 17 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
@@ -811,13 +802,13 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 19 )
+mesh = SubResource( 18 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 9 )
 
 [node name="bone_footR" type="BoneAttachment" parent="00skeleton/Skeleton" index="6"]
 
-transform = Transform( -0.998247, -0.0586493, -0.00795067, -0.0590142, 0.996552, 0.0583314, 0.00450213, 0.0586988, -0.998267, 2.28004, -10.0343, -0.017979 )
+transform = Transform( -1, 5.53578e-06, -1.28057e-09, 5.53578e-06, 0.997635, 0.068739, 3.67756e-07, 0.0687394, -0.997636, 1.73086, -10.0417, -0.112185 )
 visible = false
 bone_name = "foot.r"
 
@@ -834,14 +825,14 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 7 )
+mesh = SubResource( 19 )
 skeleton = NodePath("..")
-material/0 = SubResource( 25 )
+material/0 = SubResource( 2 )
 _sections_unfolded = [ "material" ]
 
 [node name="bone_footL" type="BoneAttachment" parent="00skeleton/Skeleton" index="7"]
 
-transform = Transform( -0.998164, 0.0599388, 0.00875595, 0.0604438, 0.99505, 0.0788786, -0.0039847, 0.0792632, -0.996847, -1.74099, -10.0314, -0.209791 )
+transform = Transform( -1, -5.54323e-06, -6.98492e-10, -5.53951e-06, 0.997635, 0.0687389, -3.66301e-07, 0.0687392, -0.997635, -1.17939, -10.0417, -0.112185 )
 visible = false
 bone_name = "foot.l"
 
@@ -858,9 +849,9 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 6 )
+mesh = SubResource( 20 )
 skeleton = NodePath("..")
-material/0 = SubResource( 25 )
+material/0 = SubResource( 2 )
 _sections_unfolded = [ "material" ]
 
 [node name="bone_hip" type="BoneAttachment" parent="00skeleton/Skeleton" index="8"]
@@ -880,9 +871,9 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 4 )
+mesh = SubResource( 21 )
 skeleton = NodePath("..")
-material/0 = SubResource( 25 )
+material/0 = SubResource( 2 )
 
 [node name="02belt" type="MeshInstance" parent="00skeleton/Skeleton/bone_hip" index="1"]
 
@@ -897,7 +888,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 9 )
+mesh = SubResource( 22 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 7 )
 
@@ -914,7 +905,7 @@ lod_min_distance = 0.0
 lod_min_hysteresis = 0.0
 lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
-mesh = SubResource( 18 )
+mesh = SubResource( 23 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 11 )
 
@@ -936,7 +927,10 @@ visible = false
 
 [node name="05.babe" parent="." index="5"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+visible = false
+
+[node name="glove.l" parent="." index="6"]
+
 visible = false
 
 
