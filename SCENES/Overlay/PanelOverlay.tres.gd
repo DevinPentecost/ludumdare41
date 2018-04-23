@@ -64,3 +64,23 @@ func update_bone_count(bones):
 		#Get the cost of the tower
 		var purchasable = bones >= tower_button.towerCost
 		tower_button.disabled = !purchasable
+		
+func update_status(wave, health):
+	#Set up the text fields
+	$StatusContainer/NinePatchRect/HBoxContainer/WaveContainer/WaveCount.text = str(wave)
+	$StatusContainer/NinePatchRect/HBoxContainer/HealthContainer/HealthCount.text = str(health)
+	
+func player_lost():
+	#Show the button
+	var button = $RestartButton
+	button.visible = true
+	
+	#Fade it in
+	var tween = $RestartButton/Tween
+	tween.interpolate_property(button, "modulate.alpha", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	tween.start()
+
+func _on_RestartButton_pressed():
+	#Go back to the main menu
+	get_tree().change_scene("res://SCENES/mainmenu/main.tscn")
+	pass # replace with function body

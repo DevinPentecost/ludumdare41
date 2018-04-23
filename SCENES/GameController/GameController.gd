@@ -30,6 +30,7 @@ var suddenDeathMultiplier = 0
 var kDelayBetweenLevelsSeconds = -1 #-30 # Negative to require a count-up to the next spawn
 var timeSinceLastSpawnSeconds = 0
 var playerBones = 10
+var playerHealth = 50
 
 # Debug stuff
 var baddiePath2D = []
@@ -43,6 +44,7 @@ func _ready():
 	
 	#Update them bones
 	uiOverlay.update_bone_count(playerBones)
+	uiOverlay.update_status(currentLevelIndex, playerHealth)
 
 func _process(deltaSeconds):
 	# Called every frame. Delta is time since last frame.
@@ -53,6 +55,7 @@ func _process(deltaSeconds):
 	if levelFinished == true:
 		# Increment and start the level
 		currentLevelIndex = currentLevelIndex + 1
+		uiOverlay.update_status(currentLevelIndex, playerHealth)
 		startLevel(currentLevelIndex)
 		# TODO: Add special effects to the levels?
 		timeSinceLastSpawnSeconds = kDelayBetweenLevelsSeconds
@@ -149,7 +152,18 @@ func _baddieEscaped(theBaddie):
 	baddieList.erase(theBaddie)
 	remove_child(theBaddie)
 	theBaddie.queue_free()
-	pass
+	
+	#Take some damage
+	_take_damage(1)
+	
+	
+func _take_damage(damage):
+	#Lose the health
+	playerHealth -= damage
+
+	#Update the status ui
+	uiOverlay.update_status(currentLevelIndex, playerHealth)
+	
 
 func _handleNewPaths(pathList):
 	if baddiePath2D != null:
