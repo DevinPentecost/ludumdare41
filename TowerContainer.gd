@@ -1,42 +1,51 @@
 extends Spatial
 
 ### THIS IS WHERE TOWER INFO GOES! ###
-export(NodePath) var gameController = null
 export(String) var towerType = "abstract"
 export(String) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
 export(String) var towerIcon = "res://UISPRITES/cursorBronze.png"
-export(int) var autoAttackDelayMs = 1000 # One attack, wait a second
-export(int) var manualAttackDelayMs = 500 # One attack, wait half a second
+export(int) var autoAttackDelayMs = 5000 # One attack, wait this many millisecond
+export(int) var manualAttackDelayMs = 1000 # One attack, wait this many second
 
 
 var timeSinceAutoAttackS = 0.0
-var autoAttackReady = false
+var autoAttackReady = true
 var timeSinceManualAttackS = 0.0
-var manualAttackReady = false
+var manualAttackReady = true
+
+var gameController = null
 
 func _process(delta):
 	incrementAttackTimers(delta)
 	# If we are ready to attack lets ask the controller for a baddie?
 	if (manualAttackReady):
-		var baddieList = baddieList
+		var baddieList = gameController.baddieList
 		var closestBaddie = null
 		var myLocation = global_transform.origin
 		var clostestDistanceSquared = null
+		
 		for baddie in baddieList:
+			if baddie.visible == false:
+				continue
+			
 			var distance = myLocation.distance_squared_to(baddie.global_transform.origin)
 			if clostestDistanceSquared == null:
 				clostestDistanceSquared = distance
 				closestBaddie = baddie
-			if clostestDistanceSquared < distance:
+				continue
+			if distance < clostestDistanceSquared:
 				# Closer!
 				clostestDistanceSquared = distance
 				closestBaddie = baddie
+				continue
 			
 		if closestBaddie != null:
-			attemptManualAttack(closestBaddie)
+			attemptAutoAttack(closestBaddie)
 	pass
 
 func incrementAttackTimers(delayS):
+	#print("timeSinceAutoAttackS" + str(timeSinceAutoAttackS))
+	#print("timeSinceManualAttackS" + str(timeSinceAutoAttackS))
 	timeSinceAutoAttackS += delayS
 	timeSinceManualAttackS += delayS
 	
@@ -65,7 +74,7 @@ func shootAt(baddie):
 	if (!canShoot(baddie)):
 		return
 	var bullet = __createBullet()
-	print (_description() + " shooting at " + str(baddie) + " with " + str(bullet))
+	#print (_description() + " shooting at " + str(baddie) + " with " + str(bullet))
 	bullet.shootAt(baddie)
 
 func __createBullet():
