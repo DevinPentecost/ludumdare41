@@ -7,10 +7,10 @@ path="res://.import/main_scene.dae-454fe246b687e11a9ab7be3fcb83a2d0.scn"
 [deps]
 
 source_file="res://3dmodels/dae/main_scene.dae"
-source_md5="e989b1bd9d75a26e6db91697010ecda1"
+source_md5="a55ba156a9fad35ecb9f11d2c2e12e87"
 
 dest_files=[ "res://.import/main_scene.dae-454fe246b687e11a9ab7be3fcb83a2d0.scn" ]
-dest_md5="fa05dc8d033b1a696411c0701f05fc3b"
+dest_md5="26c5810ffbb1bed9c45d4e4389d22ec3"
 
 [params]
 

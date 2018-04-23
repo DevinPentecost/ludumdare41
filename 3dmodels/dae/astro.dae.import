@@ -7,10 +7,10 @@ path="res://.import/astro.dae-c8106acd084fb260022a73a358ed3375.scn"
 [deps]
 
 source_file="res://3dmodels/dae/astro.dae"
-source_md5="df7d21faadbb743d705cdfb1cd5144c4"
+source_md5="f728a10b848fde006dee6ed40f8aca37"
 
 dest_files=[ "res://.import/astro.dae-c8106acd084fb260022a73a358ed3375.scn" ]
-dest_md5="f8f7c4d67309b289a73828e0535fb644"
+dest_md5="5a815c8db2edf052ffcc46ff20ebbd46"
 
 [params]
 

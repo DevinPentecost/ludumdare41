@@ -7,10 +7,10 @@ path="res://.import/skeli.dae-f27b393d9afae6808fe791631175e931.scn"
 [deps]
 
 source_file="res://3dmodels/dae/skeli.dae"
-source_md5="b4818c2cc2500220d571b5fbb76582b8"
+source_md5="5746d6ba4fc597830f4acf650af8c7ba"
 
 dest_files=[ "res://.import/skeli.dae-f27b393d9afae6808fe791631175e931.scn" ]
-dest_md5="e08c17739887d52049bb81947ffbb869"
+dest_md5="965005d2da7466d38d12f0f870ed4ec3"
 
 [params]
 

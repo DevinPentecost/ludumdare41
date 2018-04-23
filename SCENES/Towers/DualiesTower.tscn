@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://SCENES/Towers/Tower.tscn" type="PackedScene" id=1]
-[ext_resource path="res://3dmodels/skel_poncho.tscn" type="PackedScene" id=2]
+[ext_resource path="res://3dmodels/skel_bandana.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CylinderMesh" id=1]
 
@@ -11,20 +11,16 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[node name="PonchoTower" type="Spatial" index="0"]
+[node name="KisserTower" type="Spatial" index="0"]
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
-towerType = "Poncho"
+towerType = "Kisser"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
 
-[node name="Model" parent="." index="1" instance=ExtResource( 2 )]
+[node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
-transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 1.11236, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="." index="2"]
-
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.99074, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36309, 0 )
 visible = false
 layers = 1
 material_override = null
@@ -38,5 +34,9 @@ lod_max_hysteresis = 0.0
 mesh = SubResource( 1 )
 skeleton = NodePath("..")
 material/0 = null
+
+[node name="Model" parent="." index="2" instance=ExtResource( 2 )]
+
+transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.949357, 0 )
 
 

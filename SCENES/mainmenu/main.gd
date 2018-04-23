@@ -33,8 +33,8 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 	
-	anim.play("01idle")
-	anim.get_animation("01attack.loop").set_loop(false)
+	anim.play("idle")
+	anim.get_animation("attack.loop").set_loop(false)
 
 
 func _process(delta):
@@ -45,14 +45,23 @@ func bcheck(vx,vy):
 		if vx > -0.7 and vx < -0.2:
 			tween.interpolate_property(bottle1,"translation",bottle1.translation,bottle1.translation+Vector3(-1,3,10),tweentime/2,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
 			tween.interpolate_property(bottle1,"rotation_degrees",Vector3(0,0,0),Vector3(1000,200,0),tweentime/2,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
+			
+			#change scene
+			tween.interpolate_callback(self,tweentime/2,"startgame")
+			tween.start()
+			
 		elif vx > 0.25 and vx < 0.7:
 			tween.interpolate_property(bottle2,"translation",bottle2.translation,bottle2.translation+Vector3(1,3,10),tweentime,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
 			tween.interpolate_property(bottle2,"rotation_degrees",Vector3(0,0,0),Vector3(1000,200,0),tweentime/2,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
+			
+			#quit here
+			tween.interpolate_callback(self,tweentime/2,"quitgame")
+			tween.start()
 	
 func _input(event):
 	
 	# quit with ESC
-
+	#
 	
 	if not event_lock and event is InputEventMouse:
 		var vp_size = get_viewport().size
@@ -66,7 +75,6 @@ func _input(event):
 		var relx = 2*(mx/vpx - 0.5)
 		var rely = 2*(my/vpy - 0.5)
 		
-		print(str(relx) + ', ' + str(rely))
 		
 		if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT and event.pressed == false:
@@ -83,10 +91,10 @@ func _input(event):
 						
 						tween.start()
 						
-						anim.play("01attack.init",-1.0,0.3)
+						anim.play("attack.init",-1.0,0.3)
 					elif title_show == false:
-						anim.play("01attack.loop",-1.0,1.0)
-						anim.animation_set_next("01attack.loop","01attack.idle")
+						anim.play("attack.loop",-1.0,1.0)
+						anim.animation_set_next("attack.loop","attack.idle")
 						bcheck(relx,rely)
 					
 		elif event is InputEventMouseMotion and not title_show:
@@ -102,4 +110,8 @@ func _input(event):
 			
 func switchtitle():
 	title_show = false
-			
+	tween.stop_all()
+func startgame():
+	get_tree().change_scene("res://SCENES/test/CalebSandbox.tscn")
+func quitgame():
+	get_tree().quit()
