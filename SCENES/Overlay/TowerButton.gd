@@ -15,6 +15,9 @@ export(StreamTexture) var towerIcon = str("res://UISPRITES/cursorSword.png")
 #set this
 export(String) var towerInstancePath = String("res://SCENES/Towers/KisserTower.tscn")
 
+#Get this somehow
+export(int) var towerCost = 2
+
 var bgUp = str("res://UISPRITES/buttonSquare_beige.png")
 var bgDown = str("res://UISPRITES/buttonSquare_grey_pressed.png")
 var bgHover = str("res://UISPRITES/buttonSquare_grey.png")

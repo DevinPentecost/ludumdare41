@@ -54,3 +54,13 @@ func setAvailable(towerString, enabled):
 		if (N.towerText == towerString):
 			print("ui: " + towerString + " = " + str(enabled))
 			N.disabled = !enabled
+
+func update_bone_count(bones):
+	#Set the text
+	$BonesContainer/NinePatchRect/BoneCount.text = str(bones)
+	
+	#We can disable UI based on the bone counts
+	for tower_button in $Container/NinePatchRect/HBoxContainer.get_children():
+		#Get the cost of the tower
+		var purchasable = bones >= tower_button.towerCost
+		tower_button.disabled = !purchasable

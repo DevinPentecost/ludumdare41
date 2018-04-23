@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://SCENES/Overlay/PanelOverlay.tres.gd" type="Script" id=1]
 [ext_resource path="res://UISPRITES/panel_brown.png" type="Texture" id=2]
 [ext_resource path="res://SCENES/Overlay/TowerButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=4]
+[ext_resource path="res://UISPRITES/buttonSquare_grey_pressed.png" type="Texture" id=5]
+[ext_resource path="res://FONTS/KenPixel Blocks.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://FONTS/KenPixel Future Square.ttf" type="DynamicFontData" id=7]
 
 [sub_resource type="AtlasTexture" id=1]
 
@@ -13,10 +16,27 @@ region = Rect2( 0, 0, 0, 0 )
 margin = Rect2( 0, 0, 0, 0 )
 filter_clip = false
 
-[node name="UiOverlay" type="Node"]
+[sub_resource type="DynamicFont" id=2]
+
+size = 25
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 6 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 25
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 7 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[node name="UiOverlay" type="Node" index="0"]
 
 script = ExtResource( 1 )
 currentTower = null
+currentTowerPath = null
 
 [node name="Container" type="Container" parent="." index="0"]
 
@@ -33,7 +53,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-_sections_unfolded = [ "Grow Direction", "Rect", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags" ]
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Container" index="0"]
 
@@ -43,8 +63,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 11.0
-margin_bottom = 515.0
+margin_bottom = 500.0
 rect_min_size = Vector2( 100, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -68,7 +87,7 @@ anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 15.0
 margin_right = 90.0
-margin_bottom = 484.0
+margin_bottom = 485.0
 grow_horizontal = 0
 rect_min_size = Vector2( 50, 470 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -86,6 +105,7 @@ margin_right = 80.0
 grow_horizontal = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "custom_styles" ]
 towerText = "Kisser"
+towerCost = 2
 
 [node name="TowerButton2" parent="Container/NinePatchRect/HBoxContainer" index="1" instance=ExtResource( 3 )]
 
@@ -96,6 +116,7 @@ _sections_unfolded = [ "Material", "Mouse", "Rect", "Size Flags", "custom_styles
 towerText = "Poncho"
 towerIcon = "res://UISPRITES/cursorSword.png"
 towerInstancePath = "res://SCENES/Towers/PonchoTower.tscn"
+towerCost = 2
 
 [node name="DragReceiver" type="Control" parent="." index="1"]
 
@@ -114,6 +135,90 @@ script = ExtResource( 4 )
 _sections_unfolded = [ "Focus", "Margin", "Material", "Mouse", "Visibility" ]
 dropPos = null
 dropData = null
+
+[node name="BonesContainer" type="Container" parent="." index="2"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -150.0
+margin_bottom = 75.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Anchor", "Margin" ]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="BonesContainer" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -165.0
+margin_top = 15.0
+margin_right = -15.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 150, 75 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 5 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+_sections_unfolded = [ "Anchor", "Margin", "Patch Margin", "Rect" ]
+
+[node name="Label" type="Label" parent="BonesContainer/NinePatchRect" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.25
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "BONES"
+align = 1
+valign = 1
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Theme", "custom_colors", "custom_fonts", "custom_styles" ]
+
+[node name="BoneCount" type="Label" parent="BonesContainer/NinePatchRect" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0000"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "custom_colors", "custom_fonts" ]
 
 [connection signal="gui_input" from="DragReceiver" to="DragReceiver" method="_on_DragReceiver_gui_input"]
 

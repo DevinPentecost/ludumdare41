@@ -29,6 +29,7 @@ var currentLevelIndex = 0
 var suddenDeathMultiplier = 0
 var kDelayBetweenLevelsSeconds = -1 #-30 # Negative to require a count-up to the next spawn
 var timeSinceLastSpawnSeconds = 0
+var playerBones = 10
 
 # Debug stuff
 var baddiePath2D = []
@@ -39,7 +40,9 @@ func _ready():
 	gameGrid.connect("new_paths_ready", self, "_handleNewPaths")
 	gameGrid.connect("tileClicked", self, "__handleTileClick")
 	uiOverlay.connect("TowerPicked", self, "__handleUiPick")
-	pass
+	
+	#Update them bones
+	uiOverlay.update_bone_count(playerBones)
 
 func _process(deltaSeconds):
 	# Called every frame. Delta is time since last frame.
@@ -125,8 +128,19 @@ func _baddieDied(theBaddie):
 		#theBaddie.queue_free()
 		var killDown = load("res://SCENES/GameController/DelayKill.tscn").instance()
 		theBaddie.add_child(killDown)
+		
+		#Give the player bone(s)
+		addBones(1)
+		
 	# Emit an event?
 	pass
+	
+func addBones(bones):
+	#Give the bones
+	playerBones += bones
+	
+	#Update the UI as well
+	uiOverlay.update_bone_count(playerBones)
 
 func _baddieEscaped(theBaddie):
 	# Remove from the list
@@ -217,6 +231,10 @@ func __handleTileClick(pos):
 	# Re-do pathing
 	gameGrid.clear_paths()
 	gameGrid.refresh_pathfinding()
+	
+	#Spend some bones
+	var bone_cost = 2 #TODO: Get this from the tower?
+	addBones(-bone_cost)
 
 func __createTower(towerPath, pos):
 	#var towerFolder = "res://SCENES/Towers/*"
