@@ -6,7 +6,7 @@
 
 script = ExtResource( 1 )
 towerType = "abstract"
-bulletPath = NodePath("res://SCENES/Bullets/Bullet.tscn")
+bulletPath = "res://SCENES/Bullets/Bullet.tscn"
 towerIcon = "res://UISPRITES/cursorBronze.png"
 
 
