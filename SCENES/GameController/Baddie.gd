@@ -51,7 +51,7 @@ func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx
 	pass # replace with function body
 
 func checkIfDead():
-	if currentHealth <= 0:
+	if currentHealth == 0:
 		# Dead!
 		emit_signal("just_died")
 		return true

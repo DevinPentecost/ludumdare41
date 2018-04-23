@@ -488,15 +488,6 @@ _sections_unfolded = [ "Transform" ]
 editor/display_folded = true
 transform = Transform( 0.298281, 0, -0.032065, 0, 0.3, 0, 0.032065, 0, 0.298281, -5.77115, 1.12903, -2.15864 )
 
-[node name="Skeleton" parent="shooter/00skeleton" index="0"]
-
-bones/1/bound_children = [  ]
-bones/3/bound_children = [  ]
-bones/6/bound_children = [  ]
-bones/9/bound_children = [  ]
-bones/12/bound_children = [  ]
-bones/15/bound_children = [  ]
-
 [node name="bone_chest" parent="shooter/00skeleton/Skeleton" index="2"]
 
 transform = Transform( 1, 0, 0, 0, 0.0838186, -0.996481, 0, 0.996481, 0.0838186, 0.229778, 0.94975, -0.430358 )
