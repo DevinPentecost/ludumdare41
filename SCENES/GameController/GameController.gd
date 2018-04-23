@@ -254,7 +254,7 @@ func __handleTileClick(pos):
 	gameGrid.refresh_pathfinding()
 	
 	#Spend some bones
-	var bone_cost = 2 #TODO: Get this from the tower?
+	var bone_cost = new_tower.get_node("Tower").boneCost
 	addBones(-bone_cost)
 
 func __createTower(towerPath, pos):

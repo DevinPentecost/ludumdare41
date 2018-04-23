@@ -1,15 +1,16 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://SCENES/Overlay/PanelOverlay.tres.gd" type="Script" id=1]
 [ext_resource path="res://UISPRITES/panel_brown.png" type="Texture" id=2]
 [ext_resource path="res://SCENES/Overlay/TowerButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=4]
-[ext_resource path="res://UISPRITES/gameover.png" type="Texture" id=5]
-[ext_resource path="res://UISPRITES/buttonSquare_grey_pressed.png" type="Texture" id=6]
-[ext_resource path="res://FONTS/KenPixel Blocks.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://FONTS/KenPixel Future Square.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://UISPRITES/panelInset_blue.png" type="Texture" id=9]
-[ext_resource path="res://FONTS/KenPixel High.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://UISPRITES/cursorSword_gold.png" type="Texture" id=4]
+[ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=5]
+[ext_resource path="res://UISPRITES/gameover.png" type="Texture" id=6]
+[ext_resource path="res://UISPRITES/buttonSquare_grey_pressed.png" type="Texture" id=7]
+[ext_resource path="res://FONTS/KenPixel Blocks.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://FONTS/KenPixel Future Square.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://UISPRITES/panelInset_blue.png" type="Texture" id=10]
+[ext_resource path="res://FONTS/KenPixel High.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="AtlasTexture" id=1]
 
@@ -24,7 +25,7 @@ filter_clip = false
 size = 25
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 7 )
+font_data = ExtResource( 8 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=3]
@@ -32,7 +33,7 @@ _sections_unfolded = [ "Font", "Settings" ]
 size = 25
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=4]
@@ -40,7 +41,7 @@ _sections_unfolded = [ "Font", "Settings" ]
 size = 25
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=5]
@@ -48,7 +49,7 @@ _sections_unfolded = [ "Font", "Settings" ]
 size = 25
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 _sections_unfolded = [ "Font", "Settings" ]
 
 [node name="UiOverlay" type="Node"]
@@ -64,7 +65,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 100.0
-margin_bottom = 500.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 100, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -79,10 +80,10 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
-anchor_bottom = 0.0
+anchor_bottom = 1.0
 margin_left = 15.0
 margin_top = 15.0
-margin_bottom = 500.0
+margin_bottom = -15.0
 rect_min_size = Vector2( 100, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -106,7 +107,7 @@ anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 15.0
 margin_right = 90.0
-margin_bottom = 485.0
+margin_bottom = 585.0
 grow_horizontal = 0
 rect_min_size = Vector2( 50, 470 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -118,24 +119,41 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Grow Direction", "Margin", "Rect", "Size Flags" ]
 
-[node name="TowerButton" parent="Container/NinePatchRect/HBoxContainer" index="0" instance=ExtResource( 3 )]
+[node name="TowerButton4" parent="Container/NinePatchRect/HBoxContainer" index="0" instance=ExtResource( 3 )]
 
 margin_right = 80.0
 grow_horizontal = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "custom_styles" ]
-towerText = "Kisser"
-towerCost = 2
+towerInstancePath = "res://SCENES/Towers/BoneTower.tscn"
 
-[node name="TowerButton2" parent="Container/NinePatchRect/HBoxContainer" index="1" instance=ExtResource( 3 )]
+[node name="TowerButton" parent="Container/NinePatchRect/HBoxContainer" index="1" instance=ExtResource( 3 )]
 
 margin_top = 104.0
 margin_right = 80.0
 margin_bottom = 204.0
+grow_horizontal = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "custom_styles" ]
+towerText = "Kisser"
+
+[node name="TowerButton2" parent="Container/NinePatchRect/HBoxContainer" index="2" instance=ExtResource( 3 )]
+
+margin_top = 208.0
+margin_right = 80.0
+margin_bottom = 308.0
 _sections_unfolded = [ "Material", "Mouse", "Rect", "Size Flags", "custom_styles" ]
 towerText = "Poncho"
-towerIcon = "res://UISPRITES/cursorSword.png"
+towerIcon = ExtResource( 4 )
 towerInstancePath = "res://SCENES/Towers/PonchoTower.tscn"
-towerCost = 2
+
+[node name="TowerButton3" parent="Container/NinePatchRect/HBoxContainer" index="3" instance=ExtResource( 3 )]
+
+margin_top = 312.0
+margin_right = 80.0
+margin_bottom = 412.0
+_sections_unfolded = [ "Material", "Mouse", "Rect", "Size Flags", "custom_styles" ]
+towerText = "Barkeep"
+towerIcon = "res://UISPRITES/cursorSword.png"
+towerInstancePath = "res://SCENES/Towers/BarkeepTower.tscn"
 
 [node name="DragReceiver" type="Control" parent="." index="1"]
 
@@ -150,7 +168,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 _sections_unfolded = [ "Focus", "Margin", "Material", "Mouse", "Visibility" ]
 dropPos = null
 dropData = null
@@ -177,7 +195,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-texture_normal = ExtResource( 5 )
+texture_normal = ExtResource( 6 )
 stretch_mode = 3
 _sections_unfolded = [ "Anchor", "Margin", "Textures", "Visibility" ]
 
@@ -224,7 +242,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
@@ -304,7 +322,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10

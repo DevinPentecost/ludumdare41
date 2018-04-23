@@ -5,10 +5,14 @@
 [node name="Tower" type="Spatial"]
 
 script = ExtResource( 1 )
-towerType = "abstract"
+towerType = "BonePile"
 bulletPath = "res://SCENES/Bullets/Bullet.tscn"
 towerIcon = "res://UISPRITES/cursorBronze.png"
 autoAttackDelayMs = 5000
 manualAttackDelayMs = 1000
+boneCost = 2
+damage = 1
+attackRange = 25
+canAttack = true
 
 

@@ -11,14 +11,16 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[node name="KisserTower" type="Spatial"]
+[node name="KisserTower" type="Spatial" index="0"]
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
 towerType = "Kisser"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
-autoAttackDelayMs = 5000
-manualAttackDelayMs = 1000
+autoAttackDelayMs = 1000
+boneCost = 12
+damage = 5
+attackRange = 25
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 

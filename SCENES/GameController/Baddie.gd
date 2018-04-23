@@ -15,6 +15,7 @@ signal escaped
 
 var currentHealth = 1
 var nextCheckpointIndex = 0 # Which checkpoint is this guy trying to walk to?
+var _alreadyDead = false
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -39,7 +40,7 @@ func _ready():
 func takeDamage(amount):
 	currentHealth = currentHealth - amount
 	print("Life Left " + String(currentHealth))
-	checkIfDead()
+	checkIfJustDied()
 
 func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx):
 	var type = event.get_class()
@@ -50,10 +51,16 @@ func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx
 			pass
 	pass # replace with function body
 
-func checkIfDead():
-	if currentHealth == 0:
-		# Dead!
+func checkIfJustDied():
+	if checkIfDead() and not _alreadyDead:
 		emit_signal("just_died")
+		_alreadyDead = true
+		return true
+	return false
+
+func checkIfDead():
+	if currentHealth <= 0:
+		# Dead!
 		return true
 	else:
 		return false

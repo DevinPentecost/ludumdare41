@@ -11,14 +11,14 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[node name="KisserTower" type="Spatial"]
+[node name="KisserTower" type="Spatial" index="0"]
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
-towerType = "Kisser"
+towerType = "Barkeep"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
-autoAttackDelayMs = 5000
-manualAttackDelayMs = 1000
+boneCost = 7
+attackRange = 55
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
@@ -44,15 +44,6 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.84441, 0 )
 [node name="00skeleton" parent="Model" index="0"]
 
 editor/display_folded = true
-
-[node name="Skeleton" parent="Model/00skeleton" index="0"]
-
-bones/1/bound_children = [  ]
-bones/3/bound_children = [  ]
-bones/6/bound_children = [  ]
-bones/9/bound_children = [  ]
-bones/12/bound_children = [  ]
-bones/15/bound_children = [  ]
 
 [node name="bone_chest" parent="Model/00skeleton/Skeleton" index="2"]
 
