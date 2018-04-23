@@ -1,12 +1,11 @@
 extends Spatial
 
 ### THIS IS WHERE TOWER INFO GOES! ###
-export(NodePath) var gameController = null
 export(String) var towerType = "abstract"
 export(String) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
 export(String) var towerIcon = "res://UISPRITES/cursorBronze.png"
-export(int) var autoAttackDelayMs = 1000 # One attack, wait a second
-export(int) var manualAttackDelayMs = 500 # One attack, wait half a second
+export(int) var autoAttackDelayMs = 5000 # One attack, wait this many millisecond
+export(int) var manualAttackDelayMs = 1000 # One attack, wait this many second
 
 
 var timeSinceAutoAttackS = 0.0
@@ -14,11 +13,13 @@ var autoAttackReady = false
 var timeSinceManualAttackS = 0.0
 var manualAttackReady = false
 
+var gameController = null
+
 func _process(delta):
 	incrementAttackTimers(delta)
 	# If we are ready to attack lets ask the controller for a baddie?
 	if (manualAttackReady):
-		var baddieList = baddieList
+		var baddieList = gameController.baddieList
 		var closestBaddie = null
 		var myLocation = global_transform.origin
 		var clostestDistanceSquared = null

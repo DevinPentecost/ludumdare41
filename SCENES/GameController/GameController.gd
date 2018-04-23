@@ -187,6 +187,7 @@ func __createTower(towerPath, pos):
 	
 	var towerScene = load(towerPath)
 	var nTower = towerScene.instance()
+	nTower.get_node("Tower").gameController = self
 	self.add_child(nTower)
 	# todo: this should be global position based on grid pos
 	nTower.transform.origin = pos.transform.origin
