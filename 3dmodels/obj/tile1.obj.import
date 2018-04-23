@@ -9,11 +9,12 @@ path="res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh"
 files=[ "res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh" ]
 
 source_file="res://3dmodels/obj/tile1.obj"
-source_md5="5b97cada9ab98840675eecb7fe64cd3a"
+source_md5="a7fa27f6c6a76f77471056723906cbfb"
 
 dest_files=[ "res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh", "res://.import/tile1.obj-f8f4b4cff2f5690c4b8b7d15e6e5e9ee.mesh" ]
-dest_md5="165a5ee6831dfabccc83b0ff1e688867"
+dest_md5="86f7456e39bf3da1d26f0e09b51042a0"
 
 [params]
 
 generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
