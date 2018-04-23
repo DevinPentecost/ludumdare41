@@ -118,10 +118,13 @@ func spawnNext(spawnGridLocation):
 	pass
 	
 func _baddieDied(theBaddie):
-	# Remove from the list
-	baddieList.erase(theBaddie)
-	remove_child(theBaddie)
-	theBaddie.queue_free()
+	if (theBaddie != null):
+		# Remove from the list
+		baddieList.erase(theBaddie)
+		#remove_child(theBaddie)
+		#theBaddie.queue_free()
+		var killDown = load("res://SCENES/GameController/DelayKill.tscn").instance()
+		theBaddie.add_child(killDown)
 	# Emit an event?
 	pass
 
@@ -164,7 +167,7 @@ func __handleTileClick(pos):
 	
 	# put a tower at the location
 	print("please put a "+uiOverlay.currentTower+" tower at grid: " + str(pos.tile_position) + " world: " + str(pos.transform.origin) )
-	var new_tower = __createTower(uiOverlay.currentTower, pos)
+	var new_tower = __createTower(uiOverlay.currentTowerPath, pos)
 	
 	#uiOverlay.unselectAll()
 	
@@ -178,12 +181,13 @@ func __handleTileClick(pos):
 	gameGrid.clear_paths()
 	gameGrid.refresh_pathfinding()
 
-func __createTower(towerType, pos):
+func __createTower(towerPath, pos):
 	#var towerFolder = "res://SCENES/Towers/*"
 	#TODO: create instance of tower based on the string type?
 	
-	var towerScene = load("res://SCENES/Towers/KisserTower.tscn")
+	var towerScene = load(towerPath)
 	var nTower = towerScene.instance()
+	self.add_child(nTower)
 	# todo: this should be global position based on grid pos
 	nTower.transform.origin = pos.transform.origin
 	

@@ -32,16 +32,17 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
+func takeDamage(amount):
+	currentHealth = currentHealth - amount
+	print("Life Left " + String(currentHealth))
+	checkIfDead()
 
 func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx):
 	var type = event.get_class()
 	if type == "InputEventMouseButton":
 		if event.button_index == BUTTON_LEFT and event.pressed:
-			currentHealth = currentHealth - 1
-			print("Life Left " + String(currentHealth))
-			# do something
-			if !checkIfDead():
-				self.emit_signal("baddieClicked",self)
+			#takeDamage(1)
+			self.emit_signal("baddieClicked",self)
 			pass
 	pass # replace with function body
 
