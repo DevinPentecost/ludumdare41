@@ -75,12 +75,21 @@ func setup_map_from_json(jsonFilePath):
 	map_size = Vector2(kSizeWide, kSizeHigh)
 	for row in range (0, jsonObject.size()):
 		for col in range (0, jsonObject[row].size()):
-			set_cell_item(col, 0, row, jsonObject[row][col], 0)
+			set_cell_item_randomOrient(col, row, jsonObject[row][col])
 	
 	# Done!
 	pass
 	
-
+#var orients = range(24)
+var orients = [0, 10, 16, 22, 10, 16, 22, 22, 0, 10 ,16, 0, 16]
+var currOrient = 0
+func set_cell_item_randomOrient(x, z, type):
+	var orient = orients[currOrient]
+	currOrient = currOrient + 1
+	if currOrient >= orients.size():
+		currOrient = 0
+	
+	set_cell_item(x,0,z,type,orient)
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
@@ -103,6 +112,7 @@ func _refresh_grid(enum_value):
 	#_refresh_all()
 
 func _refresh_all():
+	currOrient = 0
 	#We want to make a grid, but leave everything down already
 	clear_paths()
 	_clear_checkpoints()
@@ -125,12 +135,12 @@ func _rebuild_map():
 			#Does this tile already have something?
 			if (Vector3(x, 0, y) in used_cells):
 				var item = get_cell_item(x, 0, y)
-				set_cell_item(x, 0, y, item, 0)
+				set_cell_item_randomOrient(x, y, item)
 				continue
 			
 			if get_cell_item(x, 0, y) == INVALID_CELL_ITEM:
 				#We can set it to the ground
-				set_cell_item(x, 0, y, tile_types.OPEN)
+				set_cell_item_randomOrient(x, y, tile_types.OPEN)
 
 func refresh_selector():
 	#We know our size, so we know where to move it
@@ -470,7 +480,7 @@ func _set_checkpoints(new_checkpoints):
 func _show_checkpoints():
 	#Now set the new checkpoints
 	for checkpoint in checkpoints:
-		set_cell_item(checkpoint[0], 0, checkpoint[1], tile_types.CHECKPOINT)
+		set_cell_item_randomOrient(checkpoint[0], checkpoint[1], tile_types.CHECKPOINT)
 	
 func _clear_checkpoints():
 	#Go through each tile
@@ -478,7 +488,7 @@ func _clear_checkpoints():
 		#Is it a checkpoint?
 		if get_cell_item(tile.x, tile.y, tile.z) == tile_types.CHECKPOINT:
 			#Clear it 
-			set_cell_item(tile.x, tile.y, tile.z, INVALID_CELL_ITEM)
+			set_cell_item_randomOrient(tile.x, tile.z, INVALID_CELL_ITEM)
 
 
 func _on_Selector_input_event(camera, event, click_position, click_normal, shape_idx):
@@ -490,8 +500,10 @@ func _on_Selector_input_event(camera, event, click_position, click_normal, shape
 	elif event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed:
 			var pos = select_tile_at_world_position(click_position)
-			print(str(self) + " emitting " + "tileClicked" +  str(pos.tile_position))
+			var item = get_cell_item_orientation(pos.tile_position.x, pos.tile_position.y, pos.tile_position.z)
+			print(str(self) + " emitting " + "tileClicked" +  str(pos.tile_position) + " dd" + str(item))
 			self.emit_signal("tileClicked", pos)
+			
 	pass
 
 func select_tile_at_world_position(target_position):
