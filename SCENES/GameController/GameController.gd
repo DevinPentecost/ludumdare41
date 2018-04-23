@@ -121,8 +121,10 @@ func _baddieDied(theBaddie):
 	if (theBaddie != null):
 		# Remove from the list
 		baddieList.erase(theBaddie)
-		remove_child(theBaddie)
-		theBaddie.queue_free()
+		#remove_child(theBaddie)
+		#theBaddie.queue_free()
+		var killDown = load("res://SCENES/GameController/DelayKill.tscn").instance()
+		theBaddie.add_child(killDown)
 	# Emit an event?
 	pass
 

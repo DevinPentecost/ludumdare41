@@ -84,6 +84,8 @@ func _process(delta):
 			break
 
 func __closeEnough(vectorA, vectorB):
+	if (vectorA == null || vectorB == null):
+		return true
 	var distance = vectorA.distance_to(vectorB)
 	return (distance <= .05)
 	
