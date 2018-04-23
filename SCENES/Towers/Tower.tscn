@@ -5,7 +5,8 @@
 [node name="Tower" type="Spatial"]
 
 script = ExtResource( 1 )
-towerType = null
+towerType = "abstract"
 bulletPath = "res://SCENES/Bullets/Bullet.tscn"
+towerIcon = "res://UISPRITES/cursorBronze.png"
 
 

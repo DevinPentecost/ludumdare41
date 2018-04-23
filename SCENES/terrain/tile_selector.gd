@@ -5,8 +5,8 @@ extends MeshInstance
 # var b = "textvar"
 
 #Some debug stuff
-export(Material) var visible_material = Color(1, 1, 1, 0.25)
-export(Material) var hidden_material = Color(1, 1, 1, 0)
+export(Material) var valid_material = Color(1, 1, 1, 0.25)
+export(Material) var invalid_material = Color(1, 1, 1, 0)
 
 #Position
 var tile_position = Vector2(0, 0)
@@ -14,15 +14,14 @@ var tile_position = Vector2(0, 0)
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	self.mesh = self.mesh.duplicate()
-	_show(true)
+	set_valid(false)
 	pass
 
-func _show(is_visible):
+func set_valid(valid):
 	#Are we visible?
-	var target_material = hidden_material
-	if is_visible:
-		target_material = visible_material
+	var target_material = invalid_material
+	if valid:
+		target_material = valid_material
 	
 	#Set the material of the mesh
 	self.mesh.material = target_material

@@ -47,7 +47,7 @@ func __move():
 	
 	var distanceToTargetCoord = targetCoord.distance_to(__spatialNode.global_transform.origin)
 	var desiredBearing = Vector3(targetCoord - __spatialNode.global_transform.origin).normalized()
-	var desiredMove = desiredBearing * __availSpeed
+	var desiredMove = desiredBearing * __availSpeed# * 4 #DEBUG
 	
 	var projectedVelocity = (desiredMove * accl) + (__prevVelocity * (1 - accl))
 	var projectedDistanceMoved = projectedVelocity.length()
@@ -75,6 +75,8 @@ func _process(delta):
 		if (waypoints.size() == 0):
 			emit_signal("TranslationFinishedSignal", self)
 			break
+		elif (waypoints[0] == null):
+			waypoints.remove(0)
 		elif (__availSpeed >= 0.0002):
 			__move()
 		else:
@@ -82,6 +84,8 @@ func _process(delta):
 			break
 
 func __closeEnough(vectorA, vectorB):
+	if (vectorA == null || vectorB == null):
+		return true
 	var distance = vectorA.distance_to(vectorB)
 	return (distance <= .05)
 	

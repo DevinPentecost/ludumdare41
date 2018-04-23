@@ -84,7 +84,7 @@ func _on_Area_input_event(camera, event, click_position, click_normal, shape_idx
 radius = 1.0
 height = 1.0
 
-[node name="UITestScene" type="Node" index="0"]
+[node name="UITestScene" type="Node"]
 
 [node name="Camera" type="Camera" parent="." index="0"]
 
@@ -213,8 +213,6 @@ align = 1
 script = SubResource( 2 )
 
 [node name="UiOverlay" parent="CanvasLayer" index="1" instance=ExtResource( 1 )]
-
-currentTower = null
 
 [node name="Baddie" parent="." index="2" instance=ExtResource( 2 )]
 

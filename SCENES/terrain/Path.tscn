@@ -4,7 +4,7 @@
 
 [node name="Checkmark" type="Sprite3D" index="0"]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.331716, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 layers = 1
 material_override = null
 cast_shadow = 1
@@ -32,6 +32,6 @@ hframes = 1
 frame = 0
 region_enabled = false
 region_rect = Rect2( 0, 0, 0, 0 )
-_sections_unfolded = [ "Flags" ]
+_sections_unfolded = [ "Flags", "Transform" ]
 
 
