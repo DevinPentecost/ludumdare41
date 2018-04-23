@@ -100,4 +100,7 @@ func _description():
 	return str(self.towerType) +" tower at " + str(self.global_transform.origin)
 	
 func angle_calc(a,b):
-	return rad2deg(atan(-(b.z-a.z)/(b.x-a.x)))+90
+	var angle = Vector2(a.x, a.y).angle_to(Vector2(b.x, b.z))
+	#var a2 = rad2deg(atan(-(b.z-a.z)/(b.x-a.x)))+90 #This causes divide by 0 errors
+
+	return angle
