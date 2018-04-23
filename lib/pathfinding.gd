@@ -1,4 +1,5 @@
 const ADJACENT_POSITIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+const DEBUG_PATH = "res://lib/pathfinding_debug/"
 
 static func _build_step(g_score, f_score, point, parent):
 	return {
@@ -10,7 +11,7 @@ static func _build_step(g_score, f_score, point, parent):
 	
 static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_attempts=9999):
 
-	if end_position.x == 5:
+	if end_position == Vector2(25, 25):
 		pass
 
 	#Open and closed tiles
@@ -18,11 +19,16 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 	var open = {0: [start_tile]}
 	var open_tiles = {start_position: start_tile}
 	var closed_tiles = {}
+	var prefix = OS.get_ticks_msec()
 	
 	#While we haven't run out of tiles...
 	var previous_tile = null
 	var step_count = 0
 	while open:
+		
+		#DEBUG ONLY!
+		#write_image(walkable_tiles, prefix, step_count, open_tiles, closed_tiles)
+		
 		if step_count > max_attempts:
 			#Error!
 			break
@@ -31,12 +37,17 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 
 		#Find the smallest score and remove it
 		var current_tile = _get_smallest_f_tile(open, previous_tile)
+		
+		#Are we stuck?
+		if current_tile == null:
+			break
+		
 		previous_tile = current_tile
-		var next_position = current_tile.pt
+		var current_position = current_tile.pt
 
 		#No longer consider this tile as we are currently doing so
 		open[current_tile.f].erase(current_tile)
-		open_tiles.erase(current_tile)
+		open_tiles.erase(current_tile.pt)
 		
 		#Mark this X/Y as already used
 		closed_tiles[current_tile.pt] = true
@@ -53,7 +64,8 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 				path.append(current_tile.pt)
 			
 			#Return the path
-			#print("Pathfinding step count: ", step_count)
+			print("Pathfinding step count: ", step_count)
+			path.invert()
 			return path
 		
 		#Check adjacent tiles
@@ -61,6 +73,9 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 		for pos in ADJACENT_POSITIONS:
 			#Get the adjacent tile
 			var adjacent_tile = current_tile.pt + Vector2(pos[0], pos[1])
+			
+			if adjacent_tile == Vector2(25, 16):
+				pass
 			
 			#Calculate some measurements
 			var h = abs(adjacent_tile.x - end_position.x) + abs(adjacent_tile.y - end_position.y) #Distance to destination
@@ -70,6 +85,17 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 			#Did we already close this one?
 			if closed_tiles.has(adjacent_tile):
 				continue
+			
+			#Did we already open this one?
+			if open_tiles.has(adjacent_tile):
+				#Update it with the new score?
+				var old_tile = open_tiles[adjacent_tile]
+				if old_tile.f > new_f:
+					#Update everything
+					open[old_tile.f].erase(old_tile)
+				else:
+					#Don't need to put bad work in
+					continue
 			
 			#Is this a valid tile?
 			if adjacent_tile in walkable_tiles:
@@ -82,13 +108,6 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 				if not open.has(new_f):
 					open[new_f] = []
 					
-				#Did we already try this one
-				if open_tiles.has(adjacent_tile):
-					#Update it with the new score?
-					var old_tile = open_tiles[adjacent_tile]
-					if old_tile.f > new_tile.f:
-						#Update everything
-						open[old_tile.f].erase(old_tile)
 				
 				#Add it
 				open[new_f].insert(0, new_tile)
@@ -104,7 +123,7 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 
 static func _get_smallest_f_tile(scored_tiles, previous_tile):
 	#Max attempts to find it
-	var max_attempts = 500
+	var max_attempts = 9999
 	var current_attempt = 0
 	
 	#The tile we're currently voting for
@@ -148,3 +167,28 @@ static func _get_smallest_f_tile(scored_tiles, previous_tile):
 	#Return the tile that we found
 	#print("TOOK ATTEMPTS :",current_attempt)
 	return best_tile
+	
+static func write_image(tiles, prefix, step, open, closed):
+	var image = Image.new()
+	image.create(30, 30, false, Image.FORMAT_RGBA8)
+	image.lock()
+	
+	#Go over each pixel
+	for position in tiles:
+		var color = Color(1, 1, 1)
+		if position in open:
+			color = Color(0, 1, 0)
+		elif position in closed:
+			color = Color(1, 0, 1)
+		
+		image.set_pixel(position.x, position.y, color)
+		
+	image.unlock()
+	var folder = DEBUG_PATH + str(prefix) + '/'
+	var d = Directory.new()
+	d.open(DEBUG_PATH)
+	d.make_dir(folder)
+	var path = folder + str(step) + '.png'
+	image.save_png(path)
+	
+	pass

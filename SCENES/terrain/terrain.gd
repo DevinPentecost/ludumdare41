@@ -143,7 +143,6 @@ func refresh_selector():
 func refresh_pathfinding():
 	print("Refreshing Pathfinding")
 	#For each checkpoint
-	var prev_checkpoint = null
 	var paths = _get_all_paths()
 
 	#Emit that we have a new path
@@ -156,8 +155,9 @@ func refresh_pathfinding():
 		
 		if path == null:
 			w_path = null
-		for step in path:
-			w_path.append(map_to_world(step.x, 0, step.y))
+		else:
+			for step in path:
+				w_path.append(map_to_world(step.x, 0, step.y))
 		w_paths.append(w_path)
 			
 	show_paths(w_paths)
@@ -220,9 +220,6 @@ func get_path_for_order(order, walkable_tiles):
 	#Could we find one?
 	if not path:
 		print("PATH IS BLOCKED! PANIC!")
-	else:
-		#Invert the order to match source->dest
-		path.invert()
 	
 	#Give away them paths
 	return path
@@ -317,7 +314,7 @@ var _cached_walkable_tiles = null
 func _get_walkable_tiles():
 	#Did we have a cache?
 	if _cached_walkable_tiles != null:
-		return _cached_walkable_tiles
+		return _cached_walkable_tiles.duplicate()
 	
 	#Get a collection of tiles we can walk on
 	var walkable_tiles = {}
@@ -337,7 +334,7 @@ func _get_walkable_tiles():
 				walkable_tiles[tile_position] = true
 				
 	#Return these tiles
-	_cached_walkable_tiles = walkable_tiles
+	_cached_walkable_tiles = walkable_tiles.duplicate()
 	return walkable_tiles
 
 func tile_is_open(x, y):
@@ -360,7 +357,7 @@ func tile_is_open(x, y):
 func tile_on_path(x, y, path):
 	#Is it in there?
 	if path != null:
-		if map_to_world(x, 0, y) in path:
+		if Vector2(x, y) in path:
 			return true
 			
 	#Not on a path
@@ -400,7 +397,7 @@ func tile_is_buildable(x, y):
 			return true
 		
 		#Do the pathfinding, but give it an additional blocking tile
-		var blocked_tiles = [Vector2(x, y)]
+		var blocked_tiles = [position]
 		var new_paths = _get_all_paths(blocked_tiles)
 		var can_build = validate_paths(new_paths)
 		_precalculated_can_build[position] = can_build
@@ -430,6 +427,7 @@ func add_tower(x, y, tower):
 	_towers[x][y] = tower
 	
 	#We can remove this tower's location from the cached walkable locations
+	_precalculated_can_build.erase(Vector2(x, y))
 	_cached_walkable_tiles.erase(Vector2(x, y))
 
 	
