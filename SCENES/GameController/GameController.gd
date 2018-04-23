@@ -169,7 +169,7 @@ func __handleTileClick(pos):
 	print("please put a "+uiOverlay.currentTower+" tower at grid: " + str(pos.tile_position) + " world: " + str(pos.transform.origin) )
 	var new_tower = __createTower(uiOverlay.currentTowerPath, pos)
 	
-	uiOverlay.unselectAll()
+	#uiOverlay.unselectAll()
 	
 	# Finally, tell the game grid that a tower is present -- it doesn't care what flavor
 	var towerTile = {}
@@ -192,6 +192,7 @@ func __createTower(towerPath, pos):
 	nTower.transform.origin = pos.transform.origin
 	
 	towerList.append(nTower)
+	add_child(nTower)
 	return nTower
 
 # End of file
