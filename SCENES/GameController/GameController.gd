@@ -192,7 +192,7 @@ func __createTower(towerPath, pos):
 	nTower.transform.origin = pos.transform.origin
 	
 	towerList.append(nTower)
-	add_child(nTower)
+	#add_child(nTower)
 	return nTower
 
 # End of file
