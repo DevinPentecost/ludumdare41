@@ -7,6 +7,8 @@ export(String) var towerIcon = "res://UISPRITES/cursorBronze.png"
 export(int) var autoAttackDelayMs = 5000 # One attack, wait this many millisecond
 export(int) var manualAttackDelayMs = 1000 # One attack, wait this many second
 
+onready var anim = get_node("../Model/AnimationPlayer")
+onready var model = get_node("../Model")
 
 var timeSinceAutoAttackS = 0.0
 var autoAttackReady = true
@@ -40,7 +42,9 @@ func _process(delta):
 				continue
 			
 		if closestBaddie != null:
-			attemptAutoAttack(closestBaddie)
+			attemptManualAttack(closestBaddie)
+		else:
+			anim.play("idle")
 	pass
 
 func incrementAttackTimers(delayS):
@@ -57,6 +61,10 @@ func incrementAttackTimers(delayS):
 
 func attemptManualAttack(baddie):
 	if manualAttackReady == true:
+		
+		var tower_angle = angle_calc(global_transform.origin,baddie.global_transform.origin)
+		model.rotation_degrees = Vector3(0,tower_angle,0)
+		
 		shootAt(baddie)
 		manualAttackReady = false
 		timeSinceManualAttackS = 0
@@ -73,6 +81,9 @@ func canShoot(baddie):
 func shootAt(baddie):
 	if (!canShoot(baddie)):
 		return
+	elif not anim.is_playing():
+		anim.play("attack.init")
+		anim.play("attack.init")
 	var bullet = __createBullet()
 	#print (_description() + " shooting at " + str(baddie) + " with " + str(bullet))
 	bullet.shootAt(baddie)
@@ -87,3 +98,6 @@ func __createBullet():
 
 func _description():
 	return str(self.towerType) +" tower at " + str(self.global_transform.origin)
+	
+func angle_calc(a,b):
+	return rad2deg(atan(-(b.z-a.z)/(b.x-a.x)))+90
