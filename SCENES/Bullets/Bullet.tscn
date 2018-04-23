@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://SCENES/Bullets/Bullet.gd" type="Script" id=1]
-[ext_resource path="res://SCENES/Bullets/BulletCollision.gd" type="Script" id=2]
-[ext_resource path="res://SCENES/Bullets/WaypointFollower.tscn" type="PackedScene" id=3]
+[ext_resource path="res://SCENES/Bullets/WaypointFollower.tscn" type="PackedScene" id=2]
 
 [sub_resource type="Gradient" id=1]
 
@@ -165,6 +164,8 @@ radius = 1.0
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
+damage = 1
+maxRange = 50.0
 
 [node name="Area" type="Area" parent="." index="0"]
 
@@ -180,15 +181,14 @@ angular_damp = 1.0
 priority = 0.0
 monitoring = true
 monitorable = true
-collision_layer = 2
-collision_mask = 1
+collision_layer = 4
+collision_mask = 4
 audio_bus_override = false
 audio_bus_name = "Master"
 reverb_bus_enable = false
 reverb_bus_name = "Master"
 reverb_bus_amount = 0.0
 reverb_bus_uniformity = 0.0
-script = ExtResource( 2 )
 _sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="Particles" type="Particles" parent="Area" index="0"]
@@ -226,9 +226,11 @@ shape = SubResource( 12 )
 disabled = false
 _sections_unfolded = [ "Transform" ]
 
-[node name="WaypointFollower" parent="." index="1" instance=ExtResource( 3 )]
+[node name="WaypointFollower" parent="." index="1" instance=ExtResource( 2 )]
 
 speed = 20.0
 accl = 0.2
+
+[connection signal="area_shape_entered" from="Area" to="." method="_on_Area_area_shape_entered"]
 
 
