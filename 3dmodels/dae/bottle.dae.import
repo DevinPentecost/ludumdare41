@@ -2,15 +2,15 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/astro.dae-c8106acd084fb260022a73a358ed3375.scn"
+path="res://.import/bottle.dae-d23e4c7c5d2771253a923177e02682f9.scn"
 
 [deps]
 
-source_file="res://3dmodels/dae/astro.dae"
-source_md5="df7d21faadbb743d705cdfb1cd5144c4"
+source_file="res://3dmodels/dae/bottle.dae"
+source_md5="98b0dba60aec13a791ef23a2d7b5d9cc"
 
-dest_files=[ "res://.import/astro.dae-c8106acd084fb260022a73a358ed3375.scn" ]
-dest_md5="f8f7c4d67309b289a73828e0535fb644"
+dest_files=[ "res://.import/bottle.dae-d23e4c7c5d2771253a923177e02682f9.scn" ]
+dest_md5="e9ababf2190d963083f50a7a0407eed6"
 
 [params]
 

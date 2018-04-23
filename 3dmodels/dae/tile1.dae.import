@@ -7,10 +7,10 @@ path="res://.import/tile1.dae-28fb2aeb2614efb33f7c593fdc7b5f2f.scn"
 [deps]
 
 source_file="res://3dmodels/dae/tile1.dae"
-source_md5="d76f0ce84aac2e310160a0fb5b04bcf7"
+source_md5="4488fb9ab230c1d6d464d3f6c62db21f"
 
 dest_files=[ "res://.import/tile1.dae-28fb2aeb2614efb33f7c593fdc7b5f2f.scn" ]
-dest_md5="337af861b878393ebdce993a23521ed2"
+dest_md5="9f16496fbb52624a64da2af9ee4909ef"
 
 [params]
 
