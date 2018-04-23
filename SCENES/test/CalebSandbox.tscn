@@ -19,7 +19,7 @@ primaryCameraPath = NodePath("../Camera")
 
 [node name="Camera" type="Camera" parent="." index="1"]
 
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 50, 70, 75 )
+transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 158.724, 70, 135.497 )
 keep_aspect = 1
 cull_mask = 1048575
 environment = null

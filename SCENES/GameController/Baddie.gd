@@ -25,6 +25,10 @@ func _ready():
 	# Make sure the mover is the right speed!
 	var mover = get_node("WaypointFollower")
 	mover.speed = baddieSpeed
+	
+	var ap = $astro_axe/AnimationPlayer
+	ap.get_animation("10.walk").loop = true
+	ap.play("10.walk")
 	pass
 
 #func _process(delta):

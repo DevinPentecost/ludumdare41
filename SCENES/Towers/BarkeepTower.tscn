@@ -11,12 +11,14 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[node name="KisserTower" type="Spatial" index="0"]
+[node name="KisserTower" type="Spatial"]
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
 towerType = "Kisser"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+autoAttackDelayMs = 5000
+manualAttackDelayMs = 1000
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
@@ -37,11 +39,20 @@ material/0 = null
 
 [node name="Model" parent="." index="2" instance=ExtResource( 2 )]
 
-transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.866994, 0 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.84441, 0 )
 
 [node name="00skeleton" parent="Model" index="0"]
 
 editor/display_folded = true
+
+[node name="Skeleton" parent="Model/00skeleton" index="0"]
+
+bones/1/bound_children = [  ]
+bones/3/bound_children = [  ]
+bones/6/bound_children = [  ]
+bones/9/bound_children = [  ]
+bones/12/bound_children = [  ]
+bones/15/bound_children = [  ]
 
 [node name="bone_chest" parent="Model/00skeleton/Skeleton" index="2"]
 
@@ -53,11 +64,11 @@ transform = Transform( 1, 2.38419e-07, -3.74438e-09, 1.06814e-07, -0.461937, -0.
 
 [node name="bone_handL" parent="Model/00skeleton/Skeleton" index="4"]
 
-transform = Transform( 7.22329e-07, -0.929934, 0.367728, 4.06611e-08, 0.367728, 0.929934, -1, 7.68116e-07, -2.92123e-07, -7.85069, -1.33145, 0.01108 )
+transform = Transform( 7.22329e-07, -0.929934, 0.367728, 4.06611e-08, 0.367728, 0.929934, -1, 7.68116e-07, -2.92123e-07, -7.85069, -1.33145, 0.0110799 )
 
 [node name="bone_handR" parent="Model/00skeleton/Skeleton" index="5"]
 
-transform = Transform( -2.18813e-07, 0.929933, -0.367727, 5.38696e-07, 0.367728, 0.929934, 1, 1.37471e-07, -3.16986e-07, 8.40215, -1.33145, 0.01108 )
+transform = Transform( -2.18813e-07, 0.929933, -0.367727, 5.38696e-07, 0.367728, 0.929934, 1, 1.37471e-07, -3.16986e-07, 8.40215, -1.33145, 0.0110799 )
 
 [node name="bone_footR" parent="Model/00skeleton/Skeleton" index="6"]
 

@@ -11,16 +11,18 @@ height = 2.0
 radial_segments = 64
 rings = 4
 
-[node name="PonchoTower" type="Spatial" index="0"]
+[node name="PonchoTower" type="Spatial"]
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
 towerType = "Poncho"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+autoAttackDelayMs = 5000
+manualAttackDelayMs = 1000
 
 [node name="Model" parent="." index="1" instance=ExtResource( 2 )]
 
-transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 1.11236, 0 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.69015, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="2"]
 
