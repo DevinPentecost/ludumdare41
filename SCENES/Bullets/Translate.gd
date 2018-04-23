@@ -25,9 +25,10 @@ func AppendWaypoint(vector3):
 	#print("going to " + str(vector3))
 	waypoints.append(vector3)
 
-func ClearWaypoints():
+func ClearWaypoints(emitDone):
 	waypoints.clear()
-	emit_signal("TranslationFinishedSignal", self)
+	if (emitDone == true):
+		emit_signal("TranslationFinishedSignal", self)
 
 func _ready():
 	self.__spatialNode = self.get_node(spatialToMove)

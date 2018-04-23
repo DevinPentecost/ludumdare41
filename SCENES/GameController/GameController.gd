@@ -143,6 +143,43 @@ func _handleNewPaths(pathList):
 	
 	for path in pathList:
 		baddiePath2D.append(path)
+		
+	# Existing baddies need this new path!
+	# Just have them find the closest one...
+	# for each baddie
+	for baddie in baddieList:
+		# Get the follower and clear the waypoints
+		var follower = baddie.get_node("WaypointFollower")
+		follower.ClearWaypoints(false)
+		
+		# find the index of the closest waypoint
+		
+		var closestPathIndex = null
+		var closestWaypointIndex = null
+		var closestWaypointDistance = null
+		# number of paths
+		for pathIndex in range(0, baddiePath2D.size()):
+		# for each path
+			for pointIndex in range(0, baddiePath2D[pathIndex].size()):
+				#var pathPosition = Vector3(baddiePath2D[pathIndex][pointIndex].x, baddiePath2D[pathIndex][pointIndex].y, baddiePath2D[pathIndex][pointIndex].z)
+				var pathPosition = baddiePath2D[pathIndex][pointIndex]
+				var distance = baddie.global_transform.origin.distance_squared_to(pathPosition)
+				if closestWaypointIndex == null:
+					closestPathIndex = pathIndex
+					closestWaypointIndex = pointIndex
+					closestWaypointDistance = distance
+					continue
+					
+				if distance < closestWaypointDistance:
+					closestPathIndex = pathIndex
+					closestWaypointIndex = pointIndex
+					closestWaypointDistance = distance
+					continue
+		
+		if closestWaypointIndex != null:
+			for pathIndex in range(closestPathIndex, baddiePath2D.size()):
+				for pointIndex in range(closestWaypointIndex, baddiePath2D[pathIndex].size()):
+					follower.AppendWaypoint(baddiePath2D[pathIndex][pointIndex])
 	pass
 	
 func _input(event):
@@ -159,7 +196,7 @@ func __handleUiPick(towerString):
 
 func __handleBaddieClick(baddie):
 	for T in self.towerList:
-		T.find_node("Tower", true, true).shootAt(baddie)
+		T.find_node("Tower", true, true).attemptManualAttack(baddie)
 
 func __handleTileClick(pos):
 	if (uiOverlay.currentTower == null):
@@ -187,12 +224,13 @@ func __createTower(towerPath, pos):
 	
 	var towerScene = load(towerPath)
 	var nTower = towerScene.instance()
+	nTower.get_node("Tower").gameController = self
 	self.add_child(nTower)
 	# todo: this should be global position based on grid pos
 	nTower.transform.origin = pos.transform.origin
 	
 	towerList.append(nTower)
-	add_child(nTower)
+	#add_child(nTower)
 	return nTower
 
 # End of file
