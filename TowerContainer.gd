@@ -7,8 +7,6 @@ export(String) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
 export(String) var towerIcon = "res://UISPRITES/cursorBronze.png"
 
 
-
-
 func canShoot(baddie):
 	return true
 
