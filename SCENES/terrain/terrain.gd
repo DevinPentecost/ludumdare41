@@ -1,6 +1,8 @@
 extends GridMap
 tool
 
+const pathfinding = preload("res://lib/pathfinding.gd")
+
 var checkmark_scene = preload("res://SCENES/terrain/Checkmark.tscn")
 var path_scene = preload("res://SCENES/terrain/Path.tscn")
 var selector_scene = preload("res://SCENES/terrain/TileSelector.tscn")
@@ -14,8 +16,8 @@ enum tile_types {
 var walkable_cells = [tile_types.CHECKPOINT, tile_types.OPEN]
 var buildable_cells = [tile_types.OPEN]
 
-var kSizeWide = 50
-var kSizeHigh = 50
+var kSizeWide = 30
+var kSizeHigh = 30
 var tile_size = 7.2
 
 var kNumTiles = kSizeWide * kSizeHigh
@@ -27,6 +29,7 @@ signal tileClicked(coord)
 
 var _towers = {}
 var _checkmarks = null
+var _path_nodes = []
 var _paths = []
 var _precalculated_can_build = {}
 
@@ -44,19 +47,14 @@ export(String, FILE) var initialMapStateJSONFile = null
 
 #A list of checkpoints by X and Y. First is spawn, last is end
 var checkpoints = [
-							#Vector2(0,0),
-							#Vector2(1,1),
-							
-							Vector2(10, 10),
-							
-							Vector2(40, 40),
-							Vector2(15, 40),
+
+							Vector2(29, 15),
+							Vector2(25, 15),
 							Vector2(25, 25),
-							Vector2(35, 20),
-							Vector2(20, 35),
-							Vector2(40, 15),
-							
+							Vector2(5, 25),
 							Vector2(5, 5),
+							Vector2(15, 5),
+							Vector2(15, 15),
 						] setget _set_checkpoints
 
 func setup_map_from_json(jsonFilePath):
@@ -149,39 +147,85 @@ func refresh_pathfinding():
 	var paths = _get_all_paths()
 
 	#Emit that we have a new path
-	show_paths(paths)
-	emit_signal("new_paths_ready", paths)
+	_paths = paths
+	
+	#Convert the paths to world space
+	var w_paths = []
+	for path in paths:
+		var w_path = []
+		
+		if path == null:
+			w_path = null
+		for step in path:
+			w_path.append(map_to_world(step.x, 0, step.y))
+		w_paths.append(w_path)
+			
+	show_paths(w_paths)
+	emit_signal("new_paths_ready", w_paths)
+	
 	
 	#We need to recalculate invalid build spots
 	_precalculated_can_build = {}
 
+func _get_all_orders():
+	#Get the orders from checkpoint to checkpoint
+	var orders = []
+	var prev_checkpoint = null
+	
+	for checkpoint in checkpoints:
+		
+		#Do we have a from?
+		if prev_checkpoint != null:
+			orders.append([prev_checkpoint, checkpoint])
+		
+		#Move forward
+		prev_checkpoint = checkpoint
+	
+	#And that's all of them
+	return orders
+		
+
 func _get_all_paths(blocked_tiles=null):
 	#Go through each checkpoint
 	var paths = []
-	var prev_checkpoint = null
-	for checkpoint in checkpoints:
+	
+	#Exclude any blocked tiles
+	var walkable_tiles = _get_walkable_tiles()
+	if blocked_tiles:
+		for blocked_tile in blocked_tiles:
+			if walkable_tiles.has(blocked_tile):
+				walkable_tiles.erase(blocked_tile)
+	
+	#Get all of the unit's orders
+	var orders = _get_all_orders()
+	
+	#Get the orders
+	for order in orders:
 		
-		#Did we have a previous?
-		if prev_checkpoint != null:
-			#We can make a path
-			#print("Pathing: " + String(prev_checkpoint) + " to :" + String(checkpoint))
-			var path = find_path(prev_checkpoint, checkpoint, blocked_tiles)
-			
-			#Could we find one?
-			if not path:
-				print("PATH IS BLOCKED! PANIC!")
-			else:
-				#Invert the order to match source->dest
-				path.invert()
-				
-			#Add it to our collection
-			paths.append(path)
-				
-		#Set this spot as the previous
-		prev_checkpoint = checkpoint
+		var path = get_path_for_order(order, walkable_tiles)
+		paths.append(path)
+		
+	#Return the paths
+	return paths
+	
+func get_path_for_order(order, walkable_tiles):
+	
+	#Get a path
+	#Get the start time
+	var start_time = OS.get_ticks_msec()
+	var path = pathfinding.FindPathTiles(order[0], order[1], walkable_tiles)
+	print("PATHFINDING TOOK THIS MANY MS ", OS.get_ticks_msec() - start_time)
+	
+	
+	#Could we find one?
+	if not path:
+		print("PATH IS BLOCKED! PANIC!")
+	else:
+		#Invert the order to match source->dest
+		path.invert()
 	
 	#Give away them paths
-	return paths
+	return path
 
 func validate_paths(paths):
 	#Are any of them null?
@@ -198,8 +242,10 @@ func show_paths(paths, clear=true):
 		clear_paths()
 		
 	for path in paths:
-		#Show the path
-		show_path(path)
+		#Was there a path?
+		if path:
+			#Show the path
+			show_path(path)
 
 func show_path(steps):
 	#Go through each step in the path
@@ -212,18 +258,18 @@ func show_path(steps):
 		add_child(path)
 	
 	#We've gotten them all
-	_paths.append(new_path)
+	_path_nodes.append(new_path)
 	
 func clear_paths():
 	#Get them all
-	for path in _paths:
+	for path in _path_nodes:
 		#For each node
 		for path_node in path:
 			#Kill it
 			path_node.queue_free()
 	
 	#Clear the list
-	_paths = []
+	_path_nodes = []
 
 #Shouldn't ever need this function, remove it if so
 func __show_buildable_tiles():
@@ -267,6 +313,33 @@ func __get_buildable_tiles():
 	#Return the list
 	return open_tiles
 
+var _cached_walkable_tiles = null
+func _get_walkable_tiles():
+	#Did we have a cache?
+	if _cached_walkable_tiles != null:
+		return _cached_walkable_tiles
+	
+	#Get a collection of tiles we can walk on
+	var walkable_tiles = {}
+	for x in range(map_size.x):
+		for y in range(map_size.y):
+			#Can we walk on this tile?
+			var tile_position = Vector2(x, y)
+			
+			#Can we walk on it terrain-wise?
+			var can_walk = get_cell_item(x, 0, y) in walkable_cells
+			
+			#Is there another tower there?
+			can_walk = can_walk and _get_tower_at_location(x, y) == null
+			
+			#Can we walk here?
+			if can_walk:
+				walkable_tiles[tile_position] = true
+				
+	#Return these tiles
+	_cached_walkable_tiles = walkable_tiles
+	return walkable_tiles
+
 func tile_is_open(x, y):
 	#Return if a tower can be added at a particular location
 	
@@ -283,7 +356,26 @@ func tile_is_open(x, y):
 		
 	#We are not on a good tile
 	return false
+
+func tile_on_path(x, y, path):
+	#Is it in there?
+	if path != null:
+		if map_to_world(x, 0, y) in path:
+			return true
+			
+	#Not on a path
+	return false
+
+func tile_on_paths(x, y, paths):
+	#Just check them all
+	for path in paths:
+		if tile_on_path(x, y, path):
+			return true
 	
+	#Nope
+	return false
+
+
 var CHECK_PATHFINDING = true
 func tile_is_buildable(x, y):
 	#Check to see if we can build on it
@@ -295,15 +387,25 @@ func tile_is_buildable(x, y):
 	
 	#Test if it breaks pathfinding too
 	if CHECK_PATHFINDING and empty_tile:
+		var st = OS.get_ticks_msec()
+		
 		#Did we already have an answer?
 		if _precalculated_can_build.has(position):
 			return _precalculated_can_build[position]
+		
+		#Are we even on an existing path?
+		if not tile_on_paths(x, y, _paths):
+			#We don't need to worry about this one
+			_precalculated_can_build[position] = true
+			return true
 		
 		#Do the pathfinding, but give it an additional blocking tile
 		var blocked_tiles = [Vector2(x, y)]
 		var new_paths = _get_all_paths(blocked_tiles)
 		var can_build = validate_paths(new_paths)
 		_precalculated_can_build[position] = can_build
+		
+		#Return the result
 		return can_build
 		
 		
@@ -326,6 +428,9 @@ func add_tower(x, y, tower):
 	if not _towers.has(x):
 		_towers[x] = {}
 	_towers[x][y] = tower
+	
+	#We can remove this tower's location from the cached walkable locations
+	_cached_walkable_tiles.erase(Vector2(x, y))
 
 	
 func remove_tower(x, y):
@@ -335,6 +440,10 @@ func remove_tower(x, y):
 	if _towers.has(x) and _towers[x].has(y):
 		var tower = _towers[x][y]
 		_towers[x].erase(y)
+		
+		#We can add this spot back to the walkable towers
+		_cached_walkable_tiles[Vector2(x, y)] = true
+		
 		return tower
 
 	#Did not find the tower
@@ -371,118 +480,6 @@ func _clear_checkpoints():
 			#Clear it 
 			set_cell_item(tile.x, tile.y, tile.z, INVALID_CELL_ITEM)
 
-
-func _build_step(g_score, f_score, point, parent):
-	return {
-		'g': g_score,
-		'f': f_score,
-		'pt': point,
-		'parent': parent,
-	}
-
-func find_path(start_position, end_position, blocked_tiles=null):
-	
-	#Open and closed tiles
-	var open = [_build_step(0, 0, start_position, null)]
-	var closed = {}
-
-	#Were there any blocked tiles?
-	if blocked_tiles != null:
-		for blocked_tile in blocked_tiles:
-			closed[blocked_tile] = true
-	
-	#While we haven't run out of tiles...
-	var previous_tile = null
-	var step_count = 0
-	while open:
-		if step_count > kNumTiles:
-			#Error!
-			return null
-		
-		step_count = step_count+1
-
-		#Find the smallest score and remove it
-		var index = _smallest_f(open, previous_tile)
-		var next_step = open[index]
-		previous_tile = next_step
-
-		#No longer consider this tile as we are currently doing so
-		open.remove(index)
-		
-		#Mark this X/Y as already used
-		closed[next_step.pt] = true
-		
-		#Did we reach the end?
-		if next_step.pt == end_position:
-			#We did it
-			var path = []
-			while next_step.parent:
-				#Move to the next parent
-				next_step = next_step.parent
-				
-				#Get the world position to move to
-				path.append(map_to_world(next_step.pt.x, 0, next_step.pt.y))
-			
-			#Return the path
-			print("Pathfinding step count: ", step_count)
-			return path
-		
-		#Check adjacent tiles
-		#for pos in __crappyPathRandom():
-		for pos in posList:
-			#Are we ignoring this tile?
-			var adjacent_tile = next_step.pt + Vector2(pos[0], pos[1])
-			
-			#Did we already close this one?
-			if closed.has(adjacent_tile):
-				continue
-			
-			#Is this a valid tile?
-			if tile_is_open(adjacent_tile.x, adjacent_tile.y):
-				#Add it
-				
-				#Get the distance to the end
-				var h = abs(adjacent_tile.x - end_position.x) + abs(adjacent_tile.y - end_position.y)
-
-				#Build the new tile and add it to the front of the list
-				var new_tile = _build_step(next_step.g + 1, h + next_step.g + 1, adjacent_tile, next_step)
-				open.insert(0, new_tile)
-
-			else:
-				#Close the tile, we can't use it anyways
-				closed[adjacent_tile] = true
-	
-	#Couldn't find a path
-	print("Failed to find a path after steps: ", step_count)
-	return null
-
-var posList = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-func __crappyPathRandom():
-	var popped = posList.pop_front()
-	posList.append(popped)
-	return posList
-
-func _search_in_cells(position):
-	#Check all cells
-	for cell in get_used_cells():
-		#Position used in cells?
-		if cell == position:
-			return get_cell_item(cell.x, cell.y)
-
-func _smallest_f(tiles, previous_tile):
-	#Find the shortest index
-	var max_attempts = 10
-	var index = 0
-	for i in range(tiles.size()):
-		#Is it shorter?
-		if tiles[i].f < tiles[index].f or (tiles[i].f <= tiles[index].f and tiles[i].parent == previous_tile):
-			#Use this one
-			index = i
-		
-		#Give up after a bit, see if this speeds things up
-		if i > max_attempts:
-			break
-	return index
 
 func _on_Selector_input_event(camera, event, click_position, click_normal, shape_idx):
 
