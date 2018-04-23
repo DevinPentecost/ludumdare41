@@ -215,6 +215,13 @@ func __handleBaddieClick(baddie):
 func __handleTileClick(pos):
 	if (uiOverlay.currentTower == null):
 		return
+		
+	#Can we put a tower down?
+	if not gameGrid._tile_selector.is_valid:
+		print("Can't build the tower here!")
+		return
+	else:
+		gameGrid._tile_selector.set_valid(false)
 	
 	# put a tower at the location
 	print("please put a "+uiOverlay.currentTower+" tower at grid: " + str(pos.tile_position) + " world: " + str(pos.transform.origin) )
