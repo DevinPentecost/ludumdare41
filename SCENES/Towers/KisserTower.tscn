@@ -15,8 +15,11 @@ rings = 4
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
+gameController = null
 towerType = "Kisser"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+autoAttackDelayMs = 1000
+manualAttackDelayMs = 500
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
