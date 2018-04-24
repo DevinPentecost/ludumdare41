@@ -224,7 +224,7 @@ func get_path_for_order(order, walkable_tiles):
 	#Get the start time
 	var start_time = OS.get_ticks_msec()
 	var path = pathfinding.FindPathTiles(order[0], order[1], walkable_tiles)
-	print("PATHFINDING TOOK THIS MANY MS ", OS.get_ticks_msec() - start_time)
+	#print("PATHFINDING TOOK THIS MANY MS ", OS.get_ticks_msec() - start_time)
 	
 	
 	#Could we find one?

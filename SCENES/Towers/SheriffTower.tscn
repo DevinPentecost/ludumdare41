@@ -15,8 +15,12 @@ rings = 4
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
-towerType = "Kisser"
+towerType = "Sheriff"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+autoAttackDelayMs = 1000
+boneCost = 5
+damage = 2
+attackRange = 50
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 
@@ -37,7 +41,7 @@ material/0 = null
 
 [node name="Model" parent="." index="2" instance=ExtResource( 2 )]
 
-transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.846874, 0 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.65578, 0 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 

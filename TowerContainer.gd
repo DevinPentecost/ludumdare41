@@ -3,9 +3,15 @@ extends Spatial
 ### THIS IS WHERE TOWER INFO GOES! ###
 export(String) var towerType = "abstract"
 export(String) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
-export(String) var towerIcon = "res://UISPRITES/cursorBronze.png"
+export(String, FILE) var towerIcon = "res://UISPRITES/cursorBronze.png"
 export(int) var autoAttackDelayMs = 5000 # One attack, wait this many millisecond
 export(int) var manualAttackDelayMs = 1000 # One attack, wait this many second
+export(int) var boneCost = 2 #How many bones to build
+export(int) var damage = 1 #How much owie
+export(int) var attackRange = 25 #How far to attack 
+export(bool) var canAttack = true #Most of them can attack
+
+var _attackRangeSquared = attackRange * attackRange #For math
 
 onready var anim = get_node("../Model/AnimationPlayer")
 onready var model = get_node("../Model")
@@ -19,6 +25,12 @@ var gameController = null
 
 func _process(delta):
 	incrementAttackTimers(delta)
+	
+	#Can this attack
+	if not canAttack:
+		anim.play("idle")
+		return
+	
 	# If we are ready to attack lets ask the controller for a baddie?
 	if (manualAttackReady):
 		var baddieList = gameController.baddieList
@@ -31,6 +43,8 @@ func _process(delta):
 				continue
 			
 			var distance = myLocation.distance_squared_to(baddie.global_transform.origin)
+			if distance > _attackRangeSquared:
+				continue
 			if clostestDistanceSquared == null:
 				clostestDistanceSquared = distance
 				closestBaddie = baddie
@@ -90,6 +104,9 @@ func shootAt(baddie):
 
 func __createBullet():
 	var nBullet = (load(bulletPath)).instance()
+	nBullet.maxRange = attackRange
+	nBullet.damage = damage
+	
 	self.add_child(nBullet)
 	#todo: orient to this spatial's facing
 	nBullet.global_transform.origin = self.global_transform.origin
@@ -100,4 +117,7 @@ func _description():
 	return str(self.towerType) +" tower at " + str(self.global_transform.origin)
 	
 func angle_calc(a,b):
-	return rad2deg(atan(-(b.z-a.z)/(b.x-a.x)))+90
+	var angle = Vector2(a.x, a.y).angle_to(Vector2(b.x, b.z))
+	#var a2 = rad2deg(atan(-(b.z-a.z)/(b.x-a.x)))+90 #This causes divide by 0 errors
+
+	return angle

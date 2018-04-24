@@ -64,7 +64,7 @@ static func FindPathTiles(start_position, end_position, walkable_tiles={}, max_a
 				path.append(current_tile.pt)
 			
 			#Return the path
-			print("Pathfinding step count: ", step_count)
+			#print("Pathfinding step count: ", step_count)
 			path.invert()
 			return path
 		

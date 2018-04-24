@@ -25,3 +25,10 @@ func _on_GameController_damage_taken():
 func _on_Button_pressed():
 	get_node("lifeLost").visible = false
 	pass # replace with function body
+
+
+func _on_AudioStreamPlayer_finished():
+	
+	#Play it again, sam
+	$AudioStreamPlayer.playing = true
+	pass # replace with function body

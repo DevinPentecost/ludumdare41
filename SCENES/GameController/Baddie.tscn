@@ -1,132 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://SCENES/GameController/Baddie.gd" type="Script" id=1]
 [ext_resource path="res://SCENES/Bullets/WaypointFollower.tscn" type="PackedScene" id=2]
-
-[sub_resource type="SpatialMaterial" id=1]
-
-render_priority = 0
-flags_transparent = false
-flags_unshaded = false
-flags_vertex_lighting = false
-flags_no_depth_test = false
-flags_use_point_size = false
-flags_world_triplanar = false
-flags_fixed_size = false
-flags_albedo_tex_force_srgb = false
-vertex_color_use_as_albedo = false
-vertex_color_is_srgb = false
-params_diffuse_mode = 0
-params_specular_mode = 0
-params_blend_mode = 0
-params_cull_mode = 0
-params_depth_draw_mode = 0
-params_line_width = 1.0
-params_point_size = 1.0
-params_billboard_mode = 0
-params_grow = false
-params_use_alpha_scissor = false
-albedo_color = Color( 1, 0, 0, 1 )
-metallic = 0.0
-metallic_specular = 0.5
-metallic_texture_channel = 0
-roughness = 0.0
-roughness_texture_channel = 0
-emission_enabled = false
-normal_enabled = false
-rim_enabled = false
-clearcoat_enabled = false
-anisotropy_enabled = false
-ao_enabled = false
-depth_enabled = false
-subsurf_scatter_enabled = false
-transmission_enabled = false
-refraction_enabled = false
-detail_enabled = false
-uv1_scale = Vector3( 1, 1, 1 )
-uv1_offset = Vector3( 0, 0, 0 )
-uv1_triplanar = false
-uv1_triplanar_sharpness = 1.0
-uv2_scale = Vector3( 1, 1, 1 )
-uv2_offset = Vector3( 0, 0, 0 )
-uv2_triplanar = false
-uv2_triplanar_sharpness = 1.0
-proximity_fade_enable = false
-distance_fade_enable = false
-_sections_unfolded = [ "Albedo" ]
-
-[sub_resource type="CapsuleMesh" id=2]
-
-material = SubResource( 1 )
-radius = 1.0
-mid_height = 1.0
-radial_segments = 64
-rings = 8
+[ext_resource path="res://3dmodels/astro_axe.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape" id=3]
 
 radius = 1.0
 height = 1.0
-
-[sub_resource type="SpatialMaterial" id=4]
-
-render_priority = 0
-flags_transparent = false
-flags_unshaded = false
-flags_vertex_lighting = false
-flags_no_depth_test = false
-flags_use_point_size = false
-flags_world_triplanar = false
-flags_fixed_size = false
-flags_albedo_tex_force_srgb = false
-vertex_color_use_as_albedo = false
-vertex_color_is_srgb = false
-params_diffuse_mode = 0
-params_specular_mode = 0
-params_blend_mode = 0
-params_cull_mode = 0
-params_depth_draw_mode = 0
-params_line_width = 1.0
-params_point_size = 1.0
-params_billboard_mode = 0
-params_grow = false
-params_use_alpha_scissor = false
-albedo_color = Color( 0, 0, 0, 1 )
-metallic = 0.0
-metallic_specular = 0.5
-metallic_texture_channel = 0
-roughness = 0.0
-roughness_texture_channel = 0
-emission_enabled = false
-normal_enabled = false
-rim_enabled = false
-clearcoat_enabled = false
-anisotropy_enabled = false
-ao_enabled = false
-depth_enabled = false
-subsurf_scatter_enabled = false
-transmission_enabled = false
-refraction_enabled = false
-detail_enabled = false
-uv1_scale = Vector3( 1, 1, 1 )
-uv1_offset = Vector3( 0, 0, 0 )
-uv1_triplanar = false
-uv1_triplanar_sharpness = 1.0
-uv2_scale = Vector3( 1, 1, 1 )
-uv2_offset = Vector3( 0, 0, 0 )
-uv2_triplanar = false
-uv2_triplanar_sharpness = 1.0
-proximity_fade_enable = false
-distance_fade_enable = false
-_sections_unfolded = [ "Albedo", "Metallic" ]
-
-[sub_resource type="CubeMesh" id=5]
-
-material = SubResource( 4 )
-size = Vector3( 2, 2, 2 )
-subdivide_width = 0
-subdivide_height = 0
-subdivide_depth = 0
 
 [node name="Baddie" type="Spatial"]
 
@@ -140,25 +21,36 @@ powerDrain = 0
 
 accl = 0.9
 
-[node name="VisibleMesh" type="MeshInstance" parent="." index="1"]
+[node name="astro_axe" parent="." index="1" instance=ExtResource( 3 )]
 
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.5, 0 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 2 )
-skeleton = NodePath("..")
-material/0 = null
+transform = Transform( -5, 0, -4.37114e-07, 0, 5, 0, 4.37114e-07, 0, -5, 0, 0, 0 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Area" type="Area" parent="VisibleMesh" index="0"]
+[node name="Skeleton" parent="astro_axe/10base" index="0"]
 
+bones/0/bound_children = [  ]
+bones/2/bound_children = [  ]
+bones/10/bound_children = [  ]
+
+[node name="bone_chest" parent="astro_axe/10base/Skeleton" index="1"]
+
+transform = Transform( 0.997104, 0.0749348, -0.0130154, -0.0247508, 0.157884, -0.987148, -0.0719168, 0.98461, 0.159281, 1.41676e-09, 0.0355166, 0.00581407 )
+
+[node name="bone_head" parent="astro_axe/10base/Skeleton" index="2"]
+
+transform = Transform( -0.999616, 0.0268462, -0.00682182, 0.0194809, 0.50629, -0.862143, -0.0196914, -0.861945, -0.506619, 0.0167474, 0.720134, -0.0801814 )
+
+[node name="bone_handR" parent="astro_axe/10base/Skeleton" index="3"]
+
+transform = Transform( -0.974038, -0.220064, 0.0531255, -0.00154373, 0.241119, 0.970494, -0.22638, 0.945216, -0.235198, -0.406823, -0.220335, 0.0471707 )
+
+[node name="AnimationPlayer" parent="astro_axe" index="3"]
+
+autoplay = "10.idle"
+
+[node name="Area" type="Area" parent="astro_axe" index="4"]
+
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.5, 0 )
 input_ray_pickable = false
 input_capture_on_drag = false
 space_override = 0
@@ -181,48 +73,15 @@ reverb_bus_amount = 0.0
 reverb_bus_uniformity = 0.0
 _sections_unfolded = [ "Audio Bus", "Collision", "Reverb Bus", "Transform" ]
 
-[node name="CollisionShape" type="CollisionShape" parent="VisibleMesh/Area" index="0"]
+[node name="CollisionShape" type="CollisionShape" parent="astro_axe/Area" index="0"]
 
 shape = SubResource( 3 )
 disabled = false
 _sections_unfolded = [ "Transform" ]
 
-[node name="MeshInstance" type="MeshInstance" parent="." index="2"]
-
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 5 )
-skeleton = NodePath("..")
-material/0 = null
-_sections_unfolded = [ "Transform" ]
-
-[node name="MeshInstance2" type="MeshInstance" parent="." index="3"]
-
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 1, 2, 0 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 5 )
-skeleton = NodePath("..")
-material/0 = null
-_sections_unfolded = [ "Transform" ]
-
 [connection signal="TranslationFinishedSignal" from="WaypointFollower" to="." method="_on_WaypointFollower_TranslationFinishedSignal"]
 
-[connection signal="input_event" from="VisibleMesh/Area" to="." method="_on_Area_input_event"]
+[connection signal="input_event" from="astro_axe/Area" to="." method="_on_Area_input_event"]
 
 
+[editable path="astro_axe"]

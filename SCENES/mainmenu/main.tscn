@@ -411,7 +411,7 @@ surfaces/0 = {
 }
 _sections_unfolded = [ "surface_1" ]
 
-[node name="Node" type="Node" index="0"]
+[node name="Node" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -500,7 +500,7 @@ transform = Transform( 1, 2.38419e-07, -3.74438e-09, 1.06814e-07, -0.461937, -0.
 
 [node name="bone_handL" parent="shooter/00skeleton/Skeleton" index="4"]
 
-transform = Transform( 7.22329e-07, -0.929934, 0.367728, 4.06611e-08, 0.367728, 0.929934, -1, 7.68116e-07, -2.92123e-07, -7.85069, -1.33145, 0.01108 )
+transform = Transform( 7.22329e-07, -0.929934, 0.367728, 4.06611e-08, 0.367728, 0.929934, -1, 7.68116e-07, -2.92123e-07, -7.85069, -1.33145, 0.0110799 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="03pistolL" parent="shooter/00skeleton/Skeleton/bone_handL" index="0"]
@@ -509,7 +509,7 @@ transform = Transform( 0.688922, -1.82539e-07, 0.181577, -0.168854, -0.261987, 0
 
 [node name="bone_handR" parent="shooter/00skeleton/Skeleton" index="5"]
 
-transform = Transform( -2.18813e-07, 0.929933, -0.367727, 5.38696e-07, 0.367728, 0.929934, 1, 1.37471e-07, -3.16986e-07, 8.40215, -1.33145, 0.01108 )
+transform = Transform( -2.18813e-07, 0.929933, -0.367727, 5.38696e-07, 0.367728, 0.929934, 1, 1.37471e-07, -3.16986e-07, 8.40215, -1.33145, 0.0110799 )
 
 [node name="01shotgun" parent="shooter/00skeleton/Skeleton/bone_handR" index="0"]
 

@@ -29,6 +29,8 @@ var currentLevelIndex = 0
 var suddenDeathMultiplier = 0
 var kDelayBetweenLevelsSeconds = -1 #-30 # Negative to require a count-up to the next spawn
 var timeSinceLastSpawnSeconds = 0
+var playerBones = 10
+var playerHealth = 50
 
 # Debug stuff
 var baddiePath2D = []
@@ -39,7 +41,10 @@ func _ready():
 	gameGrid.connect("new_paths_ready", self, "_handleNewPaths")
 	gameGrid.connect("tileClicked", self, "__handleTileClick")
 	uiOverlay.connect("TowerPicked", self, "__handleUiPick")
-	pass
+	
+	#Update them bones
+	uiOverlay.update_bone_count(playerBones)
+	uiOverlay.update_status(currentLevelIndex, playerHealth)
 
 func _process(deltaSeconds):
 	# Called every frame. Delta is time since last frame.
@@ -50,6 +55,7 @@ func _process(deltaSeconds):
 	if levelFinished == true:
 		# Increment and start the level
 		currentLevelIndex = currentLevelIndex + 1
+		uiOverlay.update_status(currentLevelIndex, playerHealth)
 		startLevel(currentLevelIndex)
 		# TODO: Add special effects to the levels?
 		timeSinceLastSpawnSeconds = kDelayBetweenLevelsSeconds
@@ -125,8 +131,19 @@ func _baddieDied(theBaddie):
 		#theBaddie.queue_free()
 		var killDown = load("res://SCENES/GameController/DelayKill.tscn").instance()
 		theBaddie.add_child(killDown)
+		
+		#Give the player bone(s)
+		addBones(1)
+		
 	# Emit an event?
 	pass
+	
+func addBones(bones):
+	#Give the bones
+	playerBones += bones
+	
+	#Update the UI as well
+	uiOverlay.update_bone_count(playerBones)
 
 func _baddieEscaped(theBaddie):
 	# Remove from the list
@@ -135,7 +152,18 @@ func _baddieEscaped(theBaddie):
 	baddieList.erase(theBaddie)
 	remove_child(theBaddie)
 	theBaddie.queue_free()
-	pass
+	
+	#Take some damage
+	_take_damage(1)
+	
+	
+func _take_damage(damage):
+	#Lose the health
+	playerHealth -= damage
+
+	#Update the status ui
+	uiOverlay.update_status(currentLevelIndex, playerHealth)
+	
 
 func _handleNewPaths(pathList):
 	if baddiePath2D != null:
@@ -201,6 +229,13 @@ func __handleBaddieClick(baddie):
 func __handleTileClick(pos):
 	if (uiOverlay.currentTower == null):
 		return
+		
+	#Can we put a tower down?
+	if not gameGrid._tile_selector.is_valid:
+		print("Can't build the tower here!")
+		return
+	else:
+		gameGrid._tile_selector.set_valid(false)
 	
 	# put a tower at the location
 	print("please put a "+uiOverlay.currentTower+" tower at grid: " + str(pos.tile_position) + " world: " + str(pos.transform.origin) )
@@ -217,6 +252,10 @@ func __handleTileClick(pos):
 	# Re-do pathing
 	gameGrid.clear_paths()
 	gameGrid.refresh_pathfinding()
+	
+	#Spend some bones
+	var bone_cost = new_tower.get_node("Tower").boneCost
+	addBones(-bone_cost)
 
 func __createTower(towerPath, pos):
 	#var towerFolder = "res://SCENES/Towers/*"

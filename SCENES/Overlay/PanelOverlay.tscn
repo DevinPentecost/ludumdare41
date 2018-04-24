@@ -1,9 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://SCENES/Overlay/PanelOverlay.tres.gd" type="Script" id=1]
 [ext_resource path="res://UISPRITES/panel_brown.png" type="Texture" id=2]
 [ext_resource path="res://SCENES/Overlay/TowerButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=4]
+[ext_resource path="res://UISPRITES/cursorSword_gold.png" type="Texture" id=4]
+[ext_resource path="res://SCENES/Overlay/DragReceiver.gd" type="Script" id=5]
+[ext_resource path="res://UISPRITES/gameover.png" type="Texture" id=6]
+[ext_resource path="res://UISPRITES/buttonSquare_grey_pressed.png" type="Texture" id=7]
+[ext_resource path="res://FONTS/KenPixel Blocks.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://FONTS/KenPixel Future Square.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://UISPRITES/panelInset_blue.png" type="Texture" id=10]
+[ext_resource path="res://FONTS/KenPixel High.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="AtlasTexture" id=1]
 
@@ -13,10 +20,43 @@ region = Rect2( 0, 0, 0, 0 )
 margin = Rect2( 0, 0, 0, 0 )
 filter_clip = false
 
+[sub_resource type="DynamicFont" id=2]
+
+size = 25
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 8 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 25
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 9 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=4]
+
+size = 25
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 11 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=5]
+
+size = 25
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 11 )
+_sections_unfolded = [ "Font", "Settings" ]
+
 [node name="UiOverlay" type="Node"]
 
 script = ExtResource( 1 )
 currentTower = null
+currentTowerPath = null
 
 [node name="Container" type="Container" parent="." index="0"]
 
@@ -25,7 +65,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 100.0
-margin_bottom = 500.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 100, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -33,18 +73,17 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-_sections_unfolded = [ "Grow Direction", "Rect", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags" ]
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
-anchor_bottom = 0.0
+anchor_bottom = 1.0
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 11.0
-margin_bottom = 515.0
+margin_bottom = -15.0
 rect_min_size = Vector2( 100, 500 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -68,7 +107,7 @@ anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 15.0
 margin_right = 90.0
-margin_bottom = 484.0
+margin_bottom = 585.0
 grow_horizontal = 0
 rect_min_size = Vector2( 50, 470 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -80,22 +119,41 @@ size_flags_vertical = 3
 alignment = 0
 _sections_unfolded = [ "Grow Direction", "Margin", "Rect", "Size Flags" ]
 
-[node name="TowerButton" parent="Container/NinePatchRect/HBoxContainer" index="0" instance=ExtResource( 3 )]
+[node name="TowerButton4" parent="Container/NinePatchRect/HBoxContainer" index="0" instance=ExtResource( 3 )]
 
 margin_right = 80.0
 grow_horizontal = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "custom_styles" ]
-towerText = "Kisser"
+towerInstancePath = "res://SCENES/Towers/BoneTower.tscn"
 
-[node name="TowerButton2" parent="Container/NinePatchRect/HBoxContainer" index="1" instance=ExtResource( 3 )]
+[node name="TowerButton" parent="Container/NinePatchRect/HBoxContainer" index="1" instance=ExtResource( 3 )]
 
 margin_top = 104.0
 margin_right = 80.0
 margin_bottom = 204.0
+grow_horizontal = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Material", "Mouse", "Rect", "custom_styles" ]
+towerText = "Kisser"
+
+[node name="TowerButton2" parent="Container/NinePatchRect/HBoxContainer" index="2" instance=ExtResource( 3 )]
+
+margin_top = 208.0
+margin_right = 80.0
+margin_bottom = 308.0
 _sections_unfolded = [ "Material", "Mouse", "Rect", "Size Flags", "custom_styles" ]
 towerText = "Poncho"
-towerIcon = "res://UISPRITES/cursorSword.png"
+towerIcon = ExtResource( 4 )
 towerInstancePath = "res://SCENES/Towers/PonchoTower.tscn"
+
+[node name="TowerButton3" parent="Container/NinePatchRect/HBoxContainer" index="3" instance=ExtResource( 3 )]
+
+margin_top = 312.0
+margin_right = 80.0
+margin_bottom = 412.0
+_sections_unfolded = [ "Material", "Mouse", "Rect", "Size Flags", "custom_styles" ]
+towerText = "Barkeep"
+towerIcon = "res://UISPRITES/cursorSword.png"
+towerInstancePath = "res://SCENES/Towers/BarkeepTower.tscn"
 
 [node name="DragReceiver" type="Control" parent="." index="1"]
 
@@ -110,11 +168,335 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 _sections_unfolded = [ "Focus", "Margin", "Material", "Mouse", "Visibility" ]
 dropPos = null
 dropData = null
 
+[node name="RestartButton" type="TextureButton" parent="." index="2"]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -100.0
+margin_right = 100.0
+margin_bottom = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 6 )
+stretch_mode = 3
+_sections_unfolded = [ "Anchor", "Margin", "Textures", "Visibility" ]
+
+[node name="Tween" type="Tween" parent="RestartButton" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
+[node name="BonesContainer" type="Container" parent="." index="3"]
+
+editor/display_folded = true
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -150.0
+margin_bottom = 75.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Anchor", "Margin" ]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="BonesContainer" index="0"]
+
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -165.0
+margin_top = 15.0
+margin_right = -15.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 150, 75 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 7 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+_sections_unfolded = [ "Anchor", "Margin", "Patch Margin", "Rect" ]
+
+[node name="Label" type="Label" parent="BonesContainer/NinePatchRect" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.25
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "BONES"
+align = 1
+valign = 1
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Theme", "custom_colors", "custom_fonts", "custom_styles" ]
+
+[node name="BoneCount" type="Label" parent="BonesContainer/NinePatchRect" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0000"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "custom_colors", "custom_fonts" ]
+
+[node name="StatusContainer" type="Container" parent="." index="4"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -75.0
+margin_right = 75.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin" ]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="StatusContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 10 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+_sections_unfolded = [ "Anchor", "Margin", "Patch Margin" ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatusContainer/NinePatchRect" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_right = -5.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 1
+alignment = 1
+_sections_unfolded = [ "Margin", "Size Flags" ]
+
+[node name="WaveContainer" type="VBoxContainer" parent="StatusContainer/NinePatchRect/HBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 12.0
+margin_right = 55.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Anchor", "Margin" ]
+
+[node name="Label" type="Label" parent="StatusContainer/NinePatchRect/HBoxContainer/WaveContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 43.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "WAVE"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "custom_fonts" ]
+
+[node name="WaveCount" type="Label" parent="StatusContainer/NinePatchRect/HBoxContainer/WaveContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 27.0
+margin_right = 43.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+hint_tooltip = "How many waves you have survived"
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "00"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect" ]
+
+[node name="ColorRect" type="ColorRect" parent="StatusContainer/NinePatchRect/HBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 59.0
+margin_right = 63.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 4, 0 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0.28125, 0.274658, 0.274658, 1 )
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
+
+[node name="HealthContainer" type="VBoxContainer" parent="StatusContainer/NinePatchRect/HBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 67.0
+margin_right = 127.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin" ]
+
+[node name="Label" type="Label" parent="StatusContainer/NinePatchRect/HBoxContainer/HealthContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 60.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 4 )
+text = "HEALTH"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "custom_fonts" ]
+
+[node name="HealthCount" type="Label" parent="StatusContainer/NinePatchRect/HBoxContainer/HealthContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 27.0
+margin_right = 60.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+hint_tooltip = "How much health is remaining"
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 5 )
+text = "00"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Hint", "Margin", "Rect" ]
+
 [connection signal="gui_input" from="DragReceiver" to="DragReceiver" method="_on_DragReceiver_gui_input"]
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_RestartButton_pressed"]
 
 

@@ -10,6 +10,7 @@ export(Material) var invalid_material = Color(1, 1, 1, 0)
 
 #Position
 var tile_position = Vector2(0, 0)
+var is_valid = true
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -25,3 +26,6 @@ func set_valid(valid):
 	
 	#Set the material of the mesh
 	self.mesh.material = target_material
+	
+	#Set the var
+	is_valid = valid

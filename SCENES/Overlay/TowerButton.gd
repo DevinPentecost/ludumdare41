@@ -13,7 +13,10 @@ export(String) var towerText = "hello"
 #don't set this
 export(StreamTexture) var towerIcon = str("res://UISPRITES/cursorSword.png")
 #set this
-export(String) var towerInstancePath = String("res://SCENES/Towers/KisserTower.tscn")
+export(String, FILE) var towerInstancePath = String("res://SCENES/Towers/KisserTower.tscn")
+
+#Get this somehow
+var towerCost = 10
 
 var bgUp = str("res://UISPRITES/buttonSquare_beige.png")
 var bgDown = str("res://UISPRITES/buttonSquare_grey_pressed.png")
@@ -79,6 +82,9 @@ func _ready():
 	self.get_node("./NinePatchRect/VBoxContainer/TowerLabel").text = self.towerText
 	self.get_node("./NinePatchRect").texture = bgDisabled
 	
+	#Set the tooltip
+	towerCost = tempInstance.boneCost
+	hint_tooltip = "Makes a bone dude. Costs " + str(towerCost) + " bone(s)" #TODO: Get better descriptions
 	
 	ready = true
 

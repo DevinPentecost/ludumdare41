@@ -15,12 +15,16 @@ rings = 4
 
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
-towerType = "Poncho"
+towerType = "Sniper"
 towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+autoAttackDelayMs = 50000
+boneCost = 10
+damage = 10
+attackRange = 25
 
 [node name="Model" parent="." index="1" instance=ExtResource( 2 )]
 
-transform = Transform( 0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 1.11236, 0 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.69015, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="." index="2"]
 
