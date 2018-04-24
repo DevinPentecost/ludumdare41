@@ -8,7 +8,7 @@
 script = ExtResource( 1 )
 towerType = "BonePile"
 bulletPath = "res://SCENES/Bullets/Bullet.tscn"
-towerIcon = "res://UISPRITES/cursorBronze.png"
+towerIcon = null
 autoAttackDelayMs = 5000
 manualAttackDelayMs = 1000
 boneCost = 2

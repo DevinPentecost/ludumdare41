@@ -3,7 +3,7 @@ extends Spatial
 ### THIS IS WHERE TOWER INFO GOES! ###
 export(String) var towerType = "abstract"
 export(String) var bulletPath = "res://SCENES/Bullets/Bullet.tscn"
-export(String, FILE) var towerIcon = "res://UISPRITES/cursorBronze.png"
+export(Texture) var towerIcon
 export(int) var autoAttackDelayMs = 5000 # One attack, wait this many millisecond
 export(int) var manualAttackDelayMs = 1000 # One attack, wait this many second
 export(int) var boneCost = 2 #How many bones to build

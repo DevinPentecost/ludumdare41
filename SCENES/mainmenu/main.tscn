@@ -8,8 +8,8 @@
 [ext_resource path="res://3dmodels/dae/bottle1.png" type="Texture" id=6]
 [ext_resource path="res://3dmodels/dae/bottle2.material" type="Material" id=7]
 [ext_resource path="res://SCENES/mainmenu/title.png" type="Texture" id=8]
-[ext_resource path="res://sfx/song.ogg" type="AudioStream" id=9]
-[ext_resource path="res://sfx/wind.ogg" type="AudioStream" id=10]
+[ext_resource path="res://SFX/song.ogg" type="AudioStream" id=9]
+[ext_resource path="res://SFX/wind.ogg" type="AudioStream" id=10]
 [ext_resource path="res://SFX/dogey.wav" type="AudioStream" id=11]
 
 [sub_resource type="ArrayMesh" id=1]

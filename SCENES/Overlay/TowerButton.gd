@@ -11,17 +11,17 @@ signal TowerButtonUnpressed(towerName, towerInstancePath)
 #don't set this
 export(String) var towerText = "hello"
 #don't set this
-export(StreamTexture) var towerIcon = str("res://UISPRITES/cursorSword.png")
+export(Texture) var towerIcon
 #set this
 export(String, FILE) var towerInstancePath = String("res://SCENES/Towers/KisserTower.tscn")
 
 #Get this somehow
 var towerCost = 10
 
-var bgUp = str("res://UISPRITES/buttonSquare_beige.png")
-var bgDown = str("res://UISPRITES/buttonSquare_grey_pressed.png")
-var bgHover = str("res://UISPRITES/buttonSquare_grey.png")
-var bgDisabled = str("res://UISPRITES/buttonSquare_blue.png")
+export (Texture) var bgUp = preload("res://UISPRITES/buttonSquare_beige.png")
+export (Texture) var bgDown = preload("res://UISPRITES/buttonSquare_grey_pressed.png")
+export (Texture) var bgHover = preload("res://UISPRITES/buttonSquare_grey.png")
+export (Texture) var bgDisabled = preload("res://UISPRITES/buttonSquare_blue.png")
 
 var ready = false
 
@@ -66,10 +66,6 @@ func toggledOn_get():
 	return toggledOn && !disabled # getter must return a value
 
 func _ready():
-	bgUp = __loadTexture(bgUp)
-	bgDown = __loadTexture(bgDown)
-	bgHover = __loadTexture(bgHover)
-	bgDisabled = __loadTexture(bgDisabled)
 	
 	var tempInstance = (load(towerInstancePath)).instance().find_node("Tower")
 	self.towerText = tempInstance.towerType
@@ -78,7 +74,8 @@ func _ready():
 	
 	
 	self.disabled = true
-	self.get_node("./NinePatchRect/VBoxContainer/TowerIcon").texture = __loadTexture(self.towerIcon)
+	
+	self.get_node("./NinePatchRect/VBoxContainer/TowerIcon").texture = self.towerIcon
 	self.get_node("./NinePatchRect/VBoxContainer/TowerLabel").text = self.towerText
 	self.get_node("./NinePatchRect").texture = bgDisabled
 	

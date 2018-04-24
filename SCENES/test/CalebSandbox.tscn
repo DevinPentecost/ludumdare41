@@ -10,7 +10,7 @@
 [ext_resource path="res://SCENES/terrain/terrain.tscn" type="PackedScene" id=8]
 [ext_resource path="res://SFX/LDJ41.wav" type="AudioStream" id=9]
 
-[node name="CalebSandbox" type="Node"]
+[node name="CalebSandbox" type="Node" index="0"]
 
 script = ExtResource( 1 )
 

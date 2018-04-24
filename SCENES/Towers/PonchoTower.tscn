@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://SCENES/Towers/Tower.tscn" type="PackedScene" id=1]
-[ext_resource path="res://3dmodels/skel_poncho.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UISPRITES/cursorSword_gold.png" type="Texture" id=2]
+[ext_resource path="res://3dmodels/skel_poncho.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CylinderMesh" id=1]
 
@@ -16,13 +17,12 @@ rings = 4
 [node name="Tower" parent="." index="0" instance=ExtResource( 1 )]
 
 towerType = "Sniper"
-towerIcon = "res://UISPRITES/cursorSword_bronze.png"
+towerIcon = ExtResource( 2 )
 autoAttackDelayMs = 50000
 boneCost = 10
 damage = 10
-attackRange = 25
 
-[node name="Model" parent="." index="1" instance=ExtResource( 2 )]
+[node name="Model" parent="." index="1" instance=ExtResource( 3 )]
 
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.69015, 0 )
 
