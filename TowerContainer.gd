@@ -97,7 +97,7 @@ func shootAt(baddie):
 	if (!canShoot(baddie)):
 		return
 	elif not anim.is_playing():
-		anim.play("attack.init")
+		anim.play("attack.loop")
 		
 	$AudioStreamPlayer.play()
 	var bullet = __createBullet()
@@ -119,7 +119,7 @@ func _description():
 	return str(self.towerType) +" tower at " + str(self.global_transform.origin)
 	
 func angle_calc(a,b):
-	var angle = Vector2(a.x, a.y).angle_to(Vector2(b.x, b.z))
+	var angle = -Vector2(a.x, a.z).angle_to_point(Vector2(b.x, b.z))
 	#var a2 = rad2deg(atan(-(b.z-a.z)/(b.x-a.x)))+90 #This causes divide by 0 errors
 
-	return angle
+	return rad2deg(angle)
