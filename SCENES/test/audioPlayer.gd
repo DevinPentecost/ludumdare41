@@ -21,6 +21,8 @@ func play_lose_life():
 	play_sound(loseLifeSFX)
 
 func play_sound(sound):
+	if playing:
+		return
 	stream = sound
 	play()
 
