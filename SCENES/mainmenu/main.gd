@@ -50,7 +50,7 @@ func bcheck(vx,vy):
 			tween.interpolate_property(bottle1,"rotation_degrees",Vector3(0,0,0),Vector3(1000,200,0),tweentime/2,Tween.TRANS_LINEAR,Tween.EASE_IN,tweendelay)
 			
 			#change scene
-			$AudioStreamPlayer.play()
+			$sfx/click.play()
 			tween.interpolate_callback(self,tweentime/2,"startgame")
 			tween.start()
 			
