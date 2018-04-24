@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/bop.wav-695ee1bc06fafb943fd66c044c8d1640.sample"
+
+[deps]
+
+source_file="res://SFX/bop.wav"
+source_md5="7928d65b2fa551f8608e76efa2294695"
+
+dest_files=[ "res://.import/bop.wav-695ee1bc06fafb943fd66c044c8d1640.sample" ]
+dest_md5="855becf1dffb0490d3a3f9a37bdf2697"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

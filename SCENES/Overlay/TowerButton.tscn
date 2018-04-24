@@ -3,20 +3,13 @@
 [ext_resource path="res://SCENES/Overlay/TowerButton.gd" type="Script" id=1]
 [ext_resource path="res://UISPRITES/cursorSword_silver.png" type="Texture" id=2]
 [ext_resource path="res://UISPRITES/buttonSquare_beige.png" type="Texture" id=3]
+[ext_resource path="res://UISPRITES/iconCross_beige.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 45, 45 )
-margin = Rect2( 0, 0, 0, 0 )
-filter_clip = false
-
-[sub_resource type="AtlasTexture" id=2]
-
-flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 35, 35 )
 margin = Rect2( 0, 0, 0, 0 )
 filter_clip = false
 
@@ -101,7 +94,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture = SubResource( 2 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin", "Mouse", "Rect", "Size Flags", "Visibility" ]

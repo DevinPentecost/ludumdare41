@@ -76,8 +76,9 @@ func incrementAttackTimers(delayS):
 func attemptManualAttack(baddie):
 	if manualAttackReady == true:
 		
+		#This aint working
 		var tower_angle = angle_calc(global_transform.origin,baddie.global_transform.origin)
-		model.rotation_degrees = Vector3(0,tower_angle,0)
+		model.rotation.y = rad2deg(tower_angle)
 		
 		shootAt(baddie)
 		manualAttackReady = false
@@ -97,7 +98,8 @@ func shootAt(baddie):
 		return
 	elif not anim.is_playing():
 		anim.play("attack.init")
-		anim.play("attack.init")
+		
+	$AudioStreamPlayer.play()
 	var bullet = __createBullet()
 	#print (_description() + " shooting at " + str(baddie) + " with " + str(bullet))
 	bullet.shootAt(baddie)

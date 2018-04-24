@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://SCENES/mainmenu/main.gd" type="Script" id=1]
 [ext_resource path="res://3dmodels/dae/tex.material" type="Material" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://3dmodels/dae/bottle1.png" type="Texture" id=6]
 [ext_resource path="res://3dmodels/dae/bottle2.material" type="Material" id=7]
 [ext_resource path="res://SCENES/mainmenu/title.png" type="Texture" id=8]
+[ext_resource path="res://SFX/dogey.wav" type="AudioStream" id=9]
 
 [sub_resource type="ArrayMesh" id=1]
 
@@ -409,7 +410,7 @@ surfaces/0 = {
 }
 _sections_unfolded = [ "surface_1" ]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -487,6 +488,15 @@ _sections_unfolded = [ "Transform" ]
 
 editor/display_folded = true
 transform = Transform( 0.298281, 0, -0.032065, 0, 0.3, 0, 0.032065, 0, 0.298281, -5.77115, 1.12903, -2.15864 )
+
+[node name="Skeleton" parent="shooter/00skeleton" index="0"]
+
+bones/1/bound_children = [ NodePath("bone_chest") ]
+bones/3/bound_children = [ NodePath("bone_head") ]
+bones/6/bound_children = [ NodePath("bone_handR") ]
+bones/9/bound_children = [ NodePath("bone_handL") ]
+bones/12/bound_children = [ NodePath("bone_footR") ]
+bones/15/bound_children = [ NodePath("bone_footL") ]
 
 [node name="bone_chest" parent="shooter/00skeleton/Skeleton" index="2"]
 
@@ -604,6 +614,14 @@ playback/active = false
 playback/repeat = false
 playback/speed = 1.0
 _sections_unfolded = [ "playback" ]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="7"]
+
+stream = ExtResource( 9 )
+volume_db = -15.0
+autoplay = false
+mix_target = 0
+bus = "Master"
 
 
 [editable path="shooter"]

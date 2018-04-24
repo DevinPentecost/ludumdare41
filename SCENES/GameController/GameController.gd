@@ -59,6 +59,9 @@ func _process(deltaSeconds):
 		startLevel(currentLevelIndex)
 		# TODO: Add special effects to the levels?
 		timeSinceLastSpawnSeconds = kDelayBetweenLevelsSeconds
+		
+		#Play a sound
+		$SFXPlayer.play_next_wave()
 		return
 	
 	# Is it time to spawn a unit?
@@ -163,6 +166,9 @@ func _take_damage(damage):
 
 	#Update the status ui
 	uiOverlay.update_status(currentLevelIndex, playerHealth)
+	
+	#Play a sound
+	$SFXPlayer.play_lose_life()
 	
 
 func _handleNewPaths(pathList):

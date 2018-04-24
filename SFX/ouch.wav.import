@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ouch.wav-1fd39dbeaa9580cb3c02b1429e4a38aa.sample"
+
+[deps]
+
+source_file="res://SFX/ouch.wav"
+source_md5="6233d490e13eae4ad5c1b64513f90752"
+
+dest_files=[ "res://.import/ouch.wav-1fd39dbeaa9580cb3c02b1429e4a38aa.sample" ]
+dest_md5="b0d699c69d1e02fcb7779baa66094fa2"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

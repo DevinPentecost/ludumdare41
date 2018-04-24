@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/dogey.wav-ba7199f2e6a587ca114555b558d245ad.sample"
+
+[deps]
+
+source_file="res://SFX/dogey.wav"
+source_md5="2e355805f25a635525f984208751bd10"
+
+dest_files=[ "res://.import/dogey.wav-ba7199f2e6a587ca114555b558d245ad.sample" ]
+dest_md5="672c23e65beab30d8f4f7a2f01d04701"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

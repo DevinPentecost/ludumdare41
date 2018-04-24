@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/yeehaw.wav-b5e83040b9f96d1bf7b2efd790d7c6e4.sample"
+
+[deps]
+
+source_file="res://SFX/yeehaw.wav"
+source_md5="95296dffe6fefcab23e2dc9ee054d77b"
+
+dest_files=[ "res://.import/yeehaw.wav-b5e83040b9f96d1bf7b2efd790d7c6e4.sample" ]
+dest_md5="4656e2e6d7ef310f932a5f7a2339e7f1"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
